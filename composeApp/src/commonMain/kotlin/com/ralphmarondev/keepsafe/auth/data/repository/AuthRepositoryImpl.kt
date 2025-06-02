@@ -6,11 +6,7 @@ import com.ralphmarondev.keepsafe.core.dependencies.DbClient
 class AuthRepositoryImpl(
     private val dbClient: DbClient
 ) : AuthRepository {
-    override suspend fun login(username: String, password: String) {
-        if (username == "ralphmaron" && password == "iscute") {
-            println("Login successful.")
-        } else {
-            println("Login failed.")
-        }
+    override suspend fun login(username: String, password: String): Boolean {
+        return username == "ralphmaron" && password == "iscute"
     }
 }
