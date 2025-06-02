@@ -3,6 +3,7 @@ package com.ralphmarondev.keepsafe.auth.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.auth.domain.usecase.LoginUseCase
+import com.ralphmarondev.keepsafe.core.model.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -16,6 +17,9 @@ class LoginViewModel(
 
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
+
+    private val _response = MutableStateFlow<Result?>(null)
+    val response = _response.asStateFlow()
 
 
     fun onUsernameValueChange(value: String) {
@@ -32,8 +36,12 @@ class LoginViewModel(
                 username = _username.value.trim(),
                 password = _password.value.trim()
             )
-
+            _response.value = result
             println(result.message)
         }
+    }
+
+    fun resetResponse() {
+        _response.value = null
     }
 }

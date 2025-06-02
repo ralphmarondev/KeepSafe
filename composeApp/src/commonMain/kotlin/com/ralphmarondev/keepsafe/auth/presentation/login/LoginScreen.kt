@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,10 +28,22 @@ import org.koin.core.annotation.KoinExperimentalAPI
 
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navigateToHome: () -> Unit
+) {
     val viewModel = koinViewModel<LoginViewModel>()
     val username = viewModel.username.collectAsState().value
     val password = viewModel.password.collectAsState().value
+    val response = viewModel.response.collectAsState().value
+
+    LaunchedEffect(response) {
+        response?.let {
+            if (it.success) {
+                navigateToHome()
+                viewModel.resetResponse()
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
