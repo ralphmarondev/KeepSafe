@@ -1,4 +1,4 @@
-package com.ralphmarondev.keepsafe.home.presentation
+package com.ralphmarondev.keepsafe
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+class AppSettingsViewModel(
     private val dataStore: DataStore<Preferences>
-) : ViewModel() {
+): ViewModel() {
 
     val darkMode: StateFlow<Boolean> = dataStore.data
         .map { preferences -> preferences[DARK_THEME_KEY] ?: false }
