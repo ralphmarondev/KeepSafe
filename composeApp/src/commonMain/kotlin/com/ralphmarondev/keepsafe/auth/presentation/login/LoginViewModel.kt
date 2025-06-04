@@ -21,6 +21,9 @@ class LoginViewModel(
     private val _response = MutableStateFlow<Result?>(null)
     val response = _response.asStateFlow()
 
+    private val _showSnackbar = MutableStateFlow(false)
+    val showSnackbar = _showSnackbar.asStateFlow()
+
 
     fun onUsernameValueChange(value: String) {
         _username.value = value
@@ -28,6 +31,10 @@ class LoginViewModel(
 
     fun onPasswordValueChange(value: String) {
         _password.value = value
+    }
+
+    fun setShowSnackbar(value: Boolean) {
+        _showSnackbar.value = value
     }
 
     fun login() {

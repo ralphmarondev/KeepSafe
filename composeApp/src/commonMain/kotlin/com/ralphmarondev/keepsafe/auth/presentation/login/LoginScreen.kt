@@ -1,6 +1,7 @@
 package com.ralphmarondev.keepsafe.auth.presentation.login
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ralphmarondev.keepsafe.core.components.GradientSnackBar
+import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -35,11 +38,15 @@ fun LoginScreen(
     val username = viewModel.username.collectAsState().value
     val password = viewModel.password.collectAsState().value
     val response = viewModel.response.collectAsState().value
+    val showSnackbar = viewModel.showSnackbar.collectAsState().value
 
     LaunchedEffect(response) {
         response?.let {
             if (it.success) {
                 navigateToHome()
+                viewModel.resetResponse()
+            } else {
+                viewModel.setShowSnackbar(true)
                 viewModel.resetResponse()
             }
         }
@@ -60,58 +67,81 @@ fun LoginScreen(
             )
         }
     ) { innerPadding ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
         ) {
-            item {
-                OutlinedCard(
-                    modifier = Modifier
-                        .padding(16.dp)
-                ) {
-                    Column(
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                item {
+                    OutlinedCard(
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(16.dp)
                     ) {
-                        OutlinedTextField(
-                            value = username,
-                            onValueChange = viewModel::onUsernameValueChange,
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 4.dp),
-                            placeholder = {
-                                Text(
-                                    text = "Username"
-                                )
-                            }
-                        )
-                        OutlinedTextField(
-                            value = password,
-                            onValueChange = viewModel::onPasswordValueChange,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 4.dp),
-                            placeholder = {
-                                Text(
-                                    text = "Password"
-                                )
-                            }
-                        )
-
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Button(
-                            onClick = viewModel::login,
-                            modifier = Modifier
-                                .fillMaxWidth()
+                                .padding(16.dp)
                         ) {
-                            Text(
-                                text = "LOGIN"
+                            OutlinedTextField(
+                                value = username,
+                                onValueChange = viewModel::onUsernameValueChange,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp),
+                                placeholder = {
+                                    Text(
+                                        text = "Username"
+                                    )
+                                }
                             )
+                            OutlinedTextField(
+                                value = password,
+                                onValueChange = viewModel::onPasswordValueChange,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp),
+                                placeholder = {
+                                    Text(
+                                        text = "Password"
+                                    )
+                                }
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(
+                                onClick = viewModel::login,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = "LOGIN"
+                                )
+                            }
                         }
+                    }
+                }
+            }
+
+            if (showSnackbar) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 48.dp)
+                ) {
+                    GradientSnackBar(
+                        message = response?.message ?: "Login failed",
+                        actionLabel = "OK",
+                        onAction = { viewModel.setShowSnackbar(false) }
+                    )
+                    LaunchedEffect(Unit) {
+                        delay(3000L)
+                        viewModel.setShowSnackbar(false)
                     }
                 }
             }
