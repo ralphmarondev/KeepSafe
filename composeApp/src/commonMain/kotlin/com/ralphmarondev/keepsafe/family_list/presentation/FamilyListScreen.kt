@@ -1,10 +1,13 @@
 package com.ralphmarondev.keepsafe.family_list.presentation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.LightMode
@@ -20,8 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ralphmarondev.keepsafe.family_list.presentation.components.FamilyMemberCard
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -30,6 +33,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 fun FamilyListScreen() {
     val viewModel: FamilyListViewModel = koinViewModel()
     val darkMode = viewModel.darkMode.collectAsState().value
+    val familyMember = viewModel.familyMember.collectAsState().value
 
     Scaffold(
         topBar = {
@@ -67,23 +71,18 @@ fun FamilyListScreen() {
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            contentPadding = PaddingValues(16.dp)
         ) {
-            item {
-                Column(
+            items(familyMember) {
+                FamilyMemberCard(
                     modifier = Modifier
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "Hello there! Ralph Maron Eda is here",
-                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                        fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
-                        color = MaterialTheme.colorScheme.secondary,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    familyMember = it,
+                    onClick = {}
+                )
             }
+            item { Spacer(modifier = Modifier.height(100.dp)) }
         }
     }
 }
