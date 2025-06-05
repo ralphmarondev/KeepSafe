@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.auth.domain.usecase.LoginUseCase
 import com.ralphmarondev.keepsafe.core.model.Result
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -49,6 +50,9 @@ class LoginViewModel(
     }
 
     fun resetResponse() {
-        _response.value = null
+        viewModelScope.launch {
+            delay(3000)
+            _response.value = null
+        }
     }
 }

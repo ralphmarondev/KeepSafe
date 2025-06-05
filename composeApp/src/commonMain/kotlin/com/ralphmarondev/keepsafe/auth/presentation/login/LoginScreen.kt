@@ -53,11 +53,10 @@ fun LoginScreen(
         response?.let {
             if (it.success) {
                 navigateToHome()
-                viewModel.resetResponse()
             } else {
                 viewModel.setShowSnackbar(true)
-                viewModel.resetResponse()
             }
+            viewModel.resetResponse()
         }
     }
 
@@ -161,7 +160,7 @@ fun LoginScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     GradientSnackBar(
-                        message = response?.message ?: "Login failed",
+                        message = response?.message ?: "Login failed.",
                         actionLabel = "OK",
                         onAction = { viewModel.setShowSnackbar(false) }
                     )
