@@ -1,4 +1,4 @@
-package com.ralphmarondev.keepsafe.core.model
+package com.ralphmarondev.keepsafe.core.domain.model
 
 data class Result(
     val success: Boolean,

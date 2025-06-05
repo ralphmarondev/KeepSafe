@@ -1,7 +1,7 @@
 package com.ralphmarondev.keepsafe.auth.domain.usecase
 
 import com.ralphmarondev.keepsafe.auth.domain.repository.AuthRepository
-import com.ralphmarondev.keepsafe.core.model.Result
+import com.ralphmarondev.keepsafe.core.domain.model.Result
 
 class LoginUseCase(
     private val repository: AuthRepository

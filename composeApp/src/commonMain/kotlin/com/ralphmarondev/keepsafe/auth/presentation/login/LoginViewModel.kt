@@ -3,7 +3,7 @@ package com.ralphmarondev.keepsafe.auth.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.auth.domain.usecase.LoginUseCase
-import com.ralphmarondev.keepsafe.core.model.Result
+import com.ralphmarondev.keepsafe.core.domain.model.Result
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
