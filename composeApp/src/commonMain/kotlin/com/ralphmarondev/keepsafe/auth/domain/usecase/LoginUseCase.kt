@@ -1,10 +1,12 @@
 package com.ralphmarondev.keepsafe.auth.domain.usecase
 
 import com.ralphmarondev.keepsafe.auth.domain.repository.AuthRepository
+import com.ralphmarondev.keepsafe.core.data.local.AppPreferences
 import com.ralphmarondev.keepsafe.core.domain.model.Result
 
 class LoginUseCase(
-    private val repository: AuthRepository
+    private val repository: AuthRepository,
+    private val preferences: AppPreferences
 ) {
     suspend operator fun invoke(
         username: String,
@@ -34,7 +36,12 @@ class LoginUseCase(
         try {
             val tokens = repository.login(username = username, password = password)
             return if (tokens != null) {
-                println("Tokens: $tokens")
+                preferences.saveAuthTokens(
+                    idToken = tokens.idToken,
+                    refreshToken = tokens.refreshToken,
+                    localId = tokens.localId,
+                    email = tokens.email
+                )
                 Result(
                     success = true,
                     message = "Login successful."
