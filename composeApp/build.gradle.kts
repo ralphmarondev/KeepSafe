@@ -41,7 +41,6 @@ kotlin {
 
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
-            
             implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
@@ -63,10 +62,7 @@ kotlin {
             implementation(libs.kotlinx.serialization)
             api(libs.datastore.preferences)
             api(libs.datastore)
-
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.bundles.ktor)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -74,8 +70,10 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
-
-            implementation(libs.ktor.client.cio)
+            implementation(libs.ktor.client.okhttp)
+        }
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
@@ -116,9 +114,10 @@ compose.desktop {
         mainClass = "com.ralphmarondev.keepsafe.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.ralphmarondev.keepsafe"
+            targetFormats(TargetFormat.Msi, TargetFormat.Dmg, TargetFormat.Deb)
+            packageName = "KeepSafe"
             packageVersion = "1.0.0"
+            vendor = "Ralph Maron Eda"
         }
     }
 }

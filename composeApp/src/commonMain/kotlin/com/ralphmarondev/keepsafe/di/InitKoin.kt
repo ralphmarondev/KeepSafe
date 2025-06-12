@@ -1,6 +1,7 @@
 package com.ralphmarondev.keepsafe.di
 
 import com.ralphmarondev.keepsafe.auth.di.authModule
+import com.ralphmarondev.keepsafe.core.di.coreModule
 import com.ralphmarondev.keepsafe.family_list.di.familyListModule
 import com.ralphmarondev.keepsafe.home.di.homeModule
 import org.koin.core.context.startKoin
@@ -11,6 +12,7 @@ fun initKoin(config: KoinAppDeclaration? = null) {
         config?.invoke(this)
         modules(
             platformModule,
+            coreModule,
             appModule,
             authModule,
             homeModule,
