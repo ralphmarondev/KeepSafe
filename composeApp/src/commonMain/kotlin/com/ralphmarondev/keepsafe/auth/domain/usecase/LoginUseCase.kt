@@ -32,8 +32,9 @@ class LoginUseCase(
         }
 
         try {
-            val success = repository.login(username = username, password = password)
-            return if (success) {
+            val tokens = repository.login(username = username, password = password)
+            return if (tokens != null) {
+                println("Tokens: $tokens")
                 Result(
                     success = true,
                     message = "Login successful."
