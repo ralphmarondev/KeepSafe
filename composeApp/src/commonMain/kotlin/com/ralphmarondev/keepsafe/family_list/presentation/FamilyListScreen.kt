@@ -25,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ralphmarondev.keepsafe.core.theme.LocalThemeState
 import com.ralphmarondev.keepsafe.family_list.presentation.components.FamilyMemberCard
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -33,8 +34,9 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @Composable
 fun FamilyListScreen() {
     val viewModel: FamilyListViewModel = koinViewModel()
-    val darkMode = viewModel.darkMode.collectAsState().value
     val familyMember = viewModel.familyMember.collectAsState().value
+
+    val themeState = LocalThemeState.current
 
     Scaffold(
         topBar = {
@@ -45,10 +47,8 @@ fun FamilyListScreen() {
                     )
                 },
                 actions = {
-                    IconButton(
-                        onClick = viewModel::toggleDarkMode
-                    ) {
-                        val imageVector = if (darkMode) {
+                    IconButton(onClick = themeState::toggleTheme) {
+                        val imageVector = if (themeState.darkMode.value) {
                             Icons.Outlined.LightMode
                         } else {
                             Icons.Outlined.DarkMode

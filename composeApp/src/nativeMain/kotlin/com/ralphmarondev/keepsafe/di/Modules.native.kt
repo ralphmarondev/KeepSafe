@@ -1,14 +1,22 @@
 package com.ralphmarondev.keepsafe.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import com.ralphmarondev.keepsafe.core.data.local.createDataStore
+import com.ralphmarondev.keepsafe.core.data.local.AppPreferences
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.darwin.Darwin
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import platform.Foundation.NSDocumentDirectory
+import platform.Foundation.NSSearchPathForDirectoriesInDomains
+import platform.Foundation.NSUserDomainMask
 
 actual val platformModule: Module = module {
-    single<DataStore<Preferences>> { createDataStore() }
+    single {
+        AppPreferences.create {
+            val dir = NSSearchPathForDirectoriesInDomains(
+                NSDocumentDirectory, NSUserDomainMask, true
+            ).first() as String
+            "$dir/${AppPreferences.DATA_STORE_FILE_NAME}"
+        }
+    }
     single<HttpClientEngine> { Darwin.create() }
 }

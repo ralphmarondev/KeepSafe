@@ -1,17 +1,17 @@
 package com.ralphmarondev.keepsafe.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import com.ralphmarondev.keepsafe.core.data.local.createDataStore
+import com.ralphmarondev.keepsafe.core.data.local.AppPreferences
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
 actual val platformModule: Module = module {
-    single<DataStore<Preferences>> {
-        createDataStore(get<Context>())
+    single {
+        AppPreferences.create {
+            get<Context>().filesDir.resolve(AppPreferences.DATA_STORE_FILE_NAME).absolutePath
+        }
     }
     single<HttpClientEngine> { OkHttp.create() }
 }
