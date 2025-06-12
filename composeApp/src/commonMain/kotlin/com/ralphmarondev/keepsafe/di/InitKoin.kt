@@ -13,7 +13,6 @@ fun initKoin(config: KoinAppDeclaration? = null) {
         modules(
             platformModule,
             coreModule,
-            appModule,
             authModule,
             homeModule,
             familyListModule

@@ -12,8 +12,13 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
@@ -32,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.ralphmarondev.keepsafe.auth.presentation.components.PasswordTextField
 import com.ralphmarondev.keepsafe.auth.presentation.components.UsernameTextField
 import com.ralphmarondev.keepsafe.core.components.GradientSnackBar
+import com.ralphmarondev.keepsafe.core.theme.LocalThemeState
 import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -48,6 +54,7 @@ fun LoginScreen(
     val showSnackbar = viewModel.showSnackbar.collectAsState().value
 
     val focusManager = LocalFocusManager.current
+    val themeState = LocalThemeState.current
 
     LaunchedEffect(response) {
         response?.let {
@@ -68,9 +75,23 @@ fun LoginScreen(
                         text = "Login"
                     )
                 },
+                actions = {
+                    IconButton(onClick = themeState::toggleTheme) {
+                        val imageVector = if (themeState.darkMode.value) {
+                            Icons.Outlined.LightMode
+                        } else {
+                            Icons.Outlined.DarkMode
+                        }
+                        Icon(
+                            imageVector = imageVector,
+                            contentDescription = "Toggle theme"
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
