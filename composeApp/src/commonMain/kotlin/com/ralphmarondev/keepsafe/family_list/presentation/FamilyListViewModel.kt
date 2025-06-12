@@ -1,38 +1,31 @@
 package com.ralphmarondev.keepsafe.family_list.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ralphmarondev.keepsafe.core.data.local.AppPreferences
+import com.ralphmarondev.keepsafe.family_list.data.network.FamilyListApiService
 import com.ralphmarondev.keepsafe.family_list.domain.model.FamilyMember
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
-class FamilyListViewModel : ViewModel() {
+class FamilyListViewModel(
+    private val familyListApiService: FamilyListApiService,
+    private val preferences: AppPreferences
+) : ViewModel() {
 
     private val _familyMembers = MutableStateFlow<List<FamilyMember>>(emptyList())
     val familyMember = _familyMembers.asStateFlow()
 
 
     init {
-        _familyMembers.value += FamilyMember(
-            id = 0,
-            firstName = "First Name 1",
-            lastName = "LN 1",
-            middleName = "MN 1",
-            role = "Father",
-            birthDay = "June 5, 2025",
-            birthPlace = "Earth",
-            contactNumber = "09123456789",
-            email = "firstname1@gmail.com"
-        )
-        _familyMembers.value += FamilyMember(
-            id = 1,
-            firstName = "First Name 2",
-            lastName = "LN 2",
-            middleName = "MN 2",
-            role = "Wife",
-            birthDay = "June 4, 2025",
-            birthPlace = "Mars",
-            contactNumber = "09612345678",
-            email = "firstname2@gmail.com"
-        )
+        viewModelScope.launch {
+            val idToken = preferences.idToken().first()
+            if (!idToken.isNullOrEmpty()) {
+                val result = familyListApiService.getFamilyMembers(idToken)
+                _familyMembers.value = result
+            }
+        }
     }
 }
