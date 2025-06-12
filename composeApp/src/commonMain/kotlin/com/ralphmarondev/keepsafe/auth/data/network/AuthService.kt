@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.auth.data.network
 
+import com.ralphmarondev.keepsafe.API_KEY
 import com.ralphmarondev.keepsafe.auth.data.model.SignInRequest
 import com.ralphmarondev.keepsafe.auth.data.model.SignInResponse
 import com.ralphmarondev.keepsafe.core.domain.model.Result
@@ -11,12 +12,10 @@ import io.ktor.client.request.setBody
 class AuthService(
     private val client: HttpClient
 ) {
-    private val apiKey = "secret_bleh_hehehehe"
-
     suspend fun signInWithEmailPassword(email: String, password: String): Result {
         return try {
             val response = client.post(
-                "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=$apiKey"
+                "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=$API_KEY"
             ) {
                 setBody(SignInRequest(email = email, password = password))
             }
