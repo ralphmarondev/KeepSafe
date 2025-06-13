@@ -2,7 +2,7 @@ package com.ralphmarondev.keepsafe.family_list.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ralphmarondev.keepsafe.core.data.local.AppPreferences
+import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.family_list.data.network.FamilyListApiService
 import com.ralphmarondev.keepsafe.family_list.domain.model.FamilyMember
 import kotlinx.coroutines.flow.MutableStateFlow

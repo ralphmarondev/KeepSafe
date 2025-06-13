@@ -1,7 +1,7 @@
 package com.ralphmarondev.keepsafe.di
 
 import android.content.Context
-import com.ralphmarondev.keepsafe.core.data.local.AppPreferences
+import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import org.koin.core.module.Module

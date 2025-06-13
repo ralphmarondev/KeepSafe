@@ -1,4 +1,4 @@
-package com.ralphmarondev.keepsafe.core.data.local
+package com.ralphmarondev.keepsafe.core.data.local.preferences
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory

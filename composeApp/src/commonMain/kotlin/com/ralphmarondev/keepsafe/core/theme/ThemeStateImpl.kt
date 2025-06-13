@@ -1,6 +1,6 @@
 package com.ralphmarondev.keepsafe.core.theme
 
-import com.ralphmarondev.keepsafe.core.data.local.AppPreferences
+import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

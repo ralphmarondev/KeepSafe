@@ -1,7 +1,7 @@
 package com.ralphmarondev.keepsafe.auth.domain.usecase
 
 import com.ralphmarondev.keepsafe.auth.domain.repository.AuthRepository
-import com.ralphmarondev.keepsafe.core.data.local.AppPreferences
+import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.core.domain.model.Result
 
 class LoginUseCase(
