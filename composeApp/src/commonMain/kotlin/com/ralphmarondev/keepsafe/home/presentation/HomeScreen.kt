@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.home.presentation
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,9 +12,11 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -33,7 +36,8 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun HomeScreen(
-    logout: () -> Unit
+    logout: () -> Unit,
+    navigateToNewFamilyMember: () -> Unit
 ) {
     val viewModel: HomeViewModel = koinViewModel()
     val selectedIndex = viewModel.selectedIndex.collectAsState().value
@@ -82,6 +86,16 @@ fun HomeScreen(
                             )
                         },
                         onClick = navItem.onClick
+                    )
+                }
+            }
+        },
+        floatingActionButton = {
+            AnimatedVisibility(selectedIndex == 0) {
+                FloatingActionButton(onClick = navigateToNewFamilyMember) {
+                    Icon(
+                        imageVector = Icons.Outlined.Add,
+                        contentDescription = "New family member"
                     )
                 }
             }
