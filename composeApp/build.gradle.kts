@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -31,6 +33,10 @@ kotlin {
     }
 
     jvm("desktop")
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 
     sourceSets {
         val desktopMain by getting
@@ -63,6 +69,8 @@ kotlin {
             api(libs.datastore.preferences)
             api(libs.datastore)
             implementation(libs.bundles.ktor)
+            implementation(libs.bundles.coil)
+            implementation(libs.sqlite.bundled)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -74,6 +82,9 @@ kotlin {
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
+        }
+        dependencies {
+            ksp(libs.androidx.room.compiler)
         }
     }
 }
