@@ -27,6 +27,7 @@ coil3 = "3.0.0-rc02"
 ksp = "2.1.21-2.0.2"
 sqlite = "2.5.1"
 room = "2.7.1"
+slf4jSimple = "2.0.13"
 
 
 [libraries]
@@ -68,6 +69,7 @@ coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jSimple" }
 
 
 [plugins]
