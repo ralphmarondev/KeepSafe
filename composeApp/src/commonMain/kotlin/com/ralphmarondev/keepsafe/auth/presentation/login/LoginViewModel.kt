@@ -45,7 +45,6 @@ class LoginViewModel(
                 password = _password.value.trim()
             )
             _response.value = result
-            println(result.message)
         }
     }
 

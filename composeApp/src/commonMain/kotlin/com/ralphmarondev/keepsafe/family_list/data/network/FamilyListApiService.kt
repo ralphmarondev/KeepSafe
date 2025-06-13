@@ -1,7 +1,6 @@
 package com.ralphmarondev.keepsafe.family_list.data.network
 
-import com.ralphmarondev.keepsafe.COLLECTION_PATH
-import com.ralphmarondev.keepsafe.PROJECT_ID
+import com.ralphmarondev.keepsafe.core.util.Secrets
 import com.ralphmarondev.keepsafe.family_list.data.mapper.toDomain
 import com.ralphmarondev.keepsafe.family_list.data.model.FirestoreResponse
 import com.ralphmarondev.keepsafe.family_list.domain.model.FamilyMember
@@ -17,9 +16,7 @@ class FamilyListApiService(
     private val client: HttpClient
 ) {
     suspend fun getFamilyMembers(idToken: String): List<FamilyMember> {
-        val url =
-            "https://firestore.googleapis.com/v1/projects/$PROJECT_ID/databases/(default)/documents/$COLLECTION_PATH"
-
+        val url = Secrets.familyListUrl
         val response = client.get(url) {
             headers {
                 append(HttpHeaders.Authorization, "Bearer $idToken")
@@ -28,7 +25,6 @@ class FamilyListApiService(
 
         if (!response.status.isSuccess()) {
             val errorBody = response.bodyAsText()
-            println("Firestore error: $errorBody")
             throw Exception("Firestore access denied: $errorBody")
         }
 

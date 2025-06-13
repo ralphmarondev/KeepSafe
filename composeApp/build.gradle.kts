@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,6 +12,23 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+val iosConfigFile = File(layout.buildDirectory.get().asFile, "generated/secrets.xcconfig").apply {
+    parentFile.mkdirs()
+    writeText(
+        """
+            API_KEY=${localProperties.getProperty("API_KEY")}
+            AUTHENTICATION_URL=${localProperties.getProperty("AUTHENTICATION_URL")}
+            FAMILY_LIST_URL=${localProperties.getProperty("FAMILY_LIST_URL")}
+        """.trimIndent()
+    )
 }
 
 kotlin {
@@ -29,6 +47,11 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+
+            freeCompilerArgs += listOf(
+                "-Xcc", "-F${iosConfigFile.parent}",
+                "-Xcc", "-include", "-Xcc", iosConfigFile.name
+            )
         }
     }
 
@@ -94,12 +117,28 @@ android {
     namespace = "com.ralphmarondev.keepsafe"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.ralphmarondev.keepsafe"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
+        buildConfigField(
+            "String",
+            "AUTHENTICATION_URL",
+            "\"${localProperties.getProperty("AUTHENTICATION_URL")}\""
+        )
+        buildConfigField(
+            "String",
+            "FAMILY_LIST_URL",
+            "\"${localProperties.getProperty("FAMILY_LIST_URL")}\""
+        )
     }
     packaging {
         resources {
