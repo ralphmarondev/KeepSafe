@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.family_list.data.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,13 +16,14 @@ data class FirestoreDocument(
 
 @Serializable
 data class FirestoreFields(
-    val birthday: FirestoreString?,
-    val birthplace: FirestoreString?,
-    val email: FirestoreString?,
-    val first_name: FirestoreString?,
-    val middle_name: FirestoreString?,
-    val last_name: FirestoreString?,
-    val phone_number: FirestoreString?
+    @SerialName("birthday") val birthday: FirestoreString?,
+    @SerialName("birthplace") val birthplace: FirestoreString?,
+    @SerialName("email") val email: FirestoreString?,
+    @SerialName("first_name") val firstName: FirestoreString?,
+    @SerialName("middle_name") val middleName: FirestoreString?,
+    @SerialName("last_name") val lastName: FirestoreString?,
+    @SerialName("phone_number") val phoneNumber: FirestoreString?,
+    @SerialName("role") val role: FirestoreString?
 )
 
 @Serializable
