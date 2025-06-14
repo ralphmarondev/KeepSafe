@@ -2,20 +2,16 @@ package com.ralphmarondev.keepsafe.home.presentation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,8 +24,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
 import com.ralphmarondev.keepsafe.family_list.presentation.FamilyListScreen
+import com.ralphmarondev.keepsafe.settings.presentation.overview.SettingScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -52,15 +48,15 @@ fun HomeScreen(
         ),
         NavItems(
             onClick = { viewModel.setSelectedIndex(1) },
-            selectedIcon = Icons.Filled.Settings,
-            defaultIcon = Icons.Outlined.Settings,
-            label = "Settings"
+            selectedIcon = Icons.Filled.CalendarMonth,
+            defaultIcon = Icons.Outlined.CalendarMonth,
+            label = "Reminders"
         ),
         NavItems(
             onClick = { viewModel.setSelectedIndex(2) },
-            selectedIcon = Icons.Filled.AccountCircle,
-            defaultIcon = Icons.Outlined.AccountCircle,
-            label = "Profile"
+            selectedIcon = Icons.Filled.Settings,
+            defaultIcon = Icons.Outlined.Settings,
+            label = "Settings"
         )
     )
 
@@ -113,36 +109,15 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Settings",
+                        text = "No reminders!",
                         fontSize = MaterialTheme.typography.titleLarge.fontSize,
                         fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
                         color = MaterialTheme.colorScheme.secondary
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = logout
-                    ) {
-                        Text(
-                            text = "LOGOUT"
-                        )
-                    }
                 }
             }
 
-            2 -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Profile",
-                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                        fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                }
-            }
+            2 -> SettingScreen(logout = logout)
         }
     }
 }

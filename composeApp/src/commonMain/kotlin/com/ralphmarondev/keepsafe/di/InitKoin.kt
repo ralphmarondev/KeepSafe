@@ -5,6 +5,7 @@ import com.ralphmarondev.keepsafe.core.di.coreModule
 import com.ralphmarondev.keepsafe.family_list.di.familyListModule
 import com.ralphmarondev.keepsafe.home.di.homeModule
 import com.ralphmarondev.keepsafe.new_family_member.di.newFamilyMemberModule
+import com.ralphmarondev.keepsafe.settings.di.settingModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
@@ -17,7 +18,8 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             authModule,
             homeModule,
             familyListModule,
-            newFamilyMemberModule
+            newFamilyMemberModule,
+            settingModule
         )
     }
 }
