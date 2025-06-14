@@ -6,5 +6,6 @@ data class AuthTokens(
     val localId: String,
     val email: String,
     val fullName: String,
-    val familyId: String
+    val familyId: String,
+    val role: String
 )

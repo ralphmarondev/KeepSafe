@@ -42,7 +42,8 @@ class LoginUseCase(
                     localId = tokens.localId,
                     email = tokens.email,
                     familyId = tokens.familyId,
-                    fullName = tokens.fullName
+                    fullName = tokens.fullName,
+                    role = tokens.role
                 )
                 Result(
                     success = true,

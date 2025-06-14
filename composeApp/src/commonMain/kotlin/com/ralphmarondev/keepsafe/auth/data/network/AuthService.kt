@@ -97,7 +97,8 @@ class AuthService(
                 localId = signInBody.localId,
                 email = signInBody.email,
                 familyId = fields.familyId.stringValue,
-                fullName = fields.fullName.stringValue
+                fullName = fields.fullName.stringValue,
+                role = fields.role.stringValue
             )
         } catch (e: Exception) {
             println("Exception during sign-in: ${e.message}")
