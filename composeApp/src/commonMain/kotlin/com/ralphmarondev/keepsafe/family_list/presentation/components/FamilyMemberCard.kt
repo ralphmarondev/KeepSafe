@@ -31,7 +31,7 @@ fun FamilyMemberCard(
         ) {
             Column {
                 Text(
-                    text = "${familyMember.firstName} ${familyMember.lastName}",
+                    text = familyMember.fullName,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                     color = MaterialTheme.colorScheme.primary

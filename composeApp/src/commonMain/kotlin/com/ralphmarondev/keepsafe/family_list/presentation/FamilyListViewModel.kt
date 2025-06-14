@@ -22,8 +22,12 @@ class FamilyListViewModel(
     init {
         viewModelScope.launch {
             val idToken = preferences.idToken().first()
+            val familyId = preferences.familyId().first() ?: "No familyId provided."
             if (!idToken.isNullOrEmpty()) {
-                val result = familyListApiService.getFamilyMembers(idToken)
+                val result = familyListApiService.getFamilyMembers(
+                    idToken = idToken,
+                    familyId = familyId
+                )
                 _familyMembers.value = result
             }
         }
