@@ -40,7 +40,9 @@ class LoginUseCase(
                     idToken = tokens.idToken,
                     refreshToken = tokens.refreshToken,
                     localId = tokens.localId,
-                    email = tokens.email
+                    email = tokens.email,
+                    familyId = tokens.familyId,
+                    fullName = tokens.fullName
                 )
                 Result(
                     success = true,

@@ -4,5 +4,7 @@ data class AuthTokens(
     val idToken: String,
     val refreshToken: String?,
     val localId: String,
-    val email: String
+    val email: String,
+    val fullName: String,
+    val familyId: String
 )

@@ -20,6 +20,8 @@ class AppPreferences(
         private val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
         private val LOCAL_ID_KEY = stringPreferencesKey("local_id")
         private val EMAIL_KEY = stringPreferencesKey("email")
+        private val FAMILY_ID_KEY = stringPreferencesKey("family_id")
+        private val FULL_NAME_KEY = stringPreferencesKey("full_name")
 
         const val DATA_STORE_FILE_NAME = "prefs.preferences_pb"
 
@@ -47,7 +49,9 @@ class AppPreferences(
         idToken: String,
         refreshToken: String?,
         localId: String,
-        email: String
+        email: String,
+        familyId: String,
+        fullName: String
     ) {
         runBlocking {
             dataStore.edit {
@@ -55,6 +59,8 @@ class AppPreferences(
                 refreshToken?.let { token -> it[REFRESH_TOKEN_KEY] = token }
                 it[LOCAL_ID_KEY] = localId
                 it[EMAIL_KEY] = email
+                it[FAMILY_ID_KEY] = familyId
+                it[FULL_NAME_KEY] = fullName
             }
         }
     }
@@ -66,6 +72,8 @@ class AppPreferences(
                 it.remove(REFRESH_TOKEN_KEY)
                 it.remove(LOCAL_ID_KEY)
                 it.remove(EMAIL_KEY)
+                it.remove(FAMILY_ID_KEY)
+                it.remove(FULL_NAME_KEY)
             }
         }
     }
@@ -74,4 +82,6 @@ class AppPreferences(
     fun refreshToken(): Flow<String?> = dataStore.data.map { it[REFRESH_TOKEN_KEY] }
     fun localId(): Flow<String?> = dataStore.data.map { it[LOCAL_ID_KEY] }
     fun email(): Flow<String?> = dataStore.data.map { it[EMAIL_KEY] }
+    fun familyId(): Flow<String?> = dataStore.data.map { it[FAMILY_ID_KEY] }
+    fun fullName(): Flow<String?> = dataStore.data.map { it[FULL_NAME_KEY] }
 }
