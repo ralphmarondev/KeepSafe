@@ -4,4 +4,5 @@ expect object Secrets{
     val apiKey: String
     val authUrl: String
     val familyListUrl: String
+    val userDetailsUrl: String
 }

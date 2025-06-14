@@ -14,4 +14,5 @@ actual object Secrets {
     actual val apiKey: String = props.getProperty("API_KEY") ?: error("Missing API_KEY")
     actual val authUrl: String = props.getProperty("AUTHENTICATION_URL") ?: error("Missing AUTHENTICATION_URL")
     actual val familyListUrl: String = props.getProperty("FAMILY_LIST_URL") ?: error("Missing FAMILY_LIST_URL")
+    actual val userDetailsUrl: String = props.getProperty("USER_DETAILS_URL") ?: error("Missing USER_DETAILS_URL")
 }

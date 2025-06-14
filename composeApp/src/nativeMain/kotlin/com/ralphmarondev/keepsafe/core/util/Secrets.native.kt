@@ -11,4 +11,5 @@ actual object Secrets {
     actual val apiKey: String = getEnv("API_KEY")
     actual val authUrl: String = getEnv("AUTHENTICATION_URL")
     actual val familyListUrl: String = getEnv("FAMILY_LIST_URL")
+    actual val userDetailsUrl: String = getEnv("USER_DETAILS_URL")
 }

@@ -27,6 +27,7 @@ val iosConfigFile = File(layout.buildDirectory.get().asFile, "generated/secrets.
             API_KEY=${localProperties.getProperty("API_KEY")}
             AUTHENTICATION_URL=${localProperties.getProperty("AUTHENTICATION_URL")}
             FAMILY_LIST_URL=${localProperties.getProperty("FAMILY_LIST_URL")}
+            USER_DETAILS_URL=${localProperties.getProperty("USER_DETAILS_URL")}
         """.trimIndent()
     )
 }
@@ -149,6 +150,11 @@ android {
             "String",
             "FAMILY_LIST_URL",
             "\"${localProperties.getProperty("FAMILY_LIST_URL")}\""
+        )
+        buildConfigField(
+            "String",
+            "USER_DETAILS_URL",
+            "\"${localProperties.getProperty("USER_DETAILS_URL")}\""
         )
     }
     packaging {
