@@ -1,9 +1,6 @@
 package com.ralphmarondev.keepsafe.home.presentation
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
@@ -14,17 +11,15 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ralphmarondev.keepsafe.family_list.presentation.FamilyListScreen
+import com.ralphmarondev.keepsafe.reminder.presentation.ReminderScreen
 import com.ralphmarondev.keepsafe.settings.presentation.overview.SettingScreen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -100,23 +95,7 @@ fun HomeScreen(
     ) {
         when (selectedIndex) {
             0 -> FamilyListScreen()
-
-            1 -> {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "No reminders!",
-                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                        fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                }
-            }
-
+            1 -> ReminderScreen()
             2 -> SettingScreen(logout = logout)
         }
     }
