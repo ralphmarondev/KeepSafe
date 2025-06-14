@@ -46,20 +46,22 @@ class FamilyListApiService(
         val url = Secrets.userDetailsUrl
         val response = client.get(url) {
             headers {
-                append(HttpHeaders.Authorization, "Bearer $idToken")
+                append(HttpHeaders.Accept, "application/json")
             }
         }
 
         if (!response.status.isSuccess()) {
-            val erroBody = response.bodyAsText()
-            throw Exception("Firestore access denied: $erroBody")
+            val errorBody = response.bodyAsText()
+            throw Exception("Firestore access denied: $errorBody")
         }
         val body: FirestoreResponse = response.body()
 
         return body.documents
             .filter { doc ->
-                doc.fields?.familyId?.stringValue == familyId &&
-                        doc.fields.isDeleted?.booleanValue != true
+                val fields = doc.fields
+                fields != null &&
+                        fields.familyId.stringValue == familyId &&
+                        fields.isDeleted?.booleanValue != true
             }
             .mapNotNull {
                 it.toDomain()
