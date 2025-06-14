@@ -15,7 +15,7 @@ import androidx.compose.material.icons.outlined.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Grade
-import androidx.compose.material.icons.outlined.Phone
+import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,14 +41,12 @@ fun NewFamilyMemberScreen(
     navigateBack: () -> Unit
 ) {
     val viewModel: NewFamilyMemberViewModel = koinViewModel()
-    val firstName = viewModel.firstName.collectAsState().value
-    val lastName = viewModel.lastName.collectAsState().value
-    val middleName = viewModel.middleName.collectAsState().value
+    val fullName = viewModel.fullName.collectAsState().value
     val role = viewModel.role.collectAsState().value
     val birthday = viewModel.birthday.collectAsState().value
     val birthplace = viewModel.birthplace.collectAsState().value
     val email = viewModel.email.collectAsState().value
-    val phoneNumber = viewModel.phoneNumber.collectAsState().value
+    val password = viewModel.password.collectAsState().value
 
     Scaffold(
         topBar = {
@@ -88,27 +86,9 @@ fun NewFamilyMemberScreen(
                         .fillMaxWidth()
                 ) {
                     NormalTextField(
-                        value = firstName,
-                        onValueChange = viewModel::onFirstNameValueChange,
-                        placeholder = "First name",
-                        leadingIcon = Icons.Outlined.AccountBox,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp)
-                    )
-                    NormalTextField(
-                        value = middleName,
-                        onValueChange = viewModel::onMiddleNameValueChange,
-                        placeholder = "Middle name",
-                        leadingIcon = Icons.Outlined.AccountBox,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp)
-                    )
-                    NormalTextField(
-                        value = lastName,
-                        onValueChange = viewModel::onLastNameValueChange,
-                        placeholder = "Last name",
+                        value = fullName,
+                        onValueChange = viewModel::onFullNameValueChange,
+                        placeholder = "Full name",
                         leadingIcon = Icons.Outlined.AccountBox,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -142,19 +122,19 @@ fun NewFamilyMemberScreen(
                             .padding(vertical = 4.dp)
                     )
                     NormalTextField(
-                        value = phoneNumber,
-                        onValueChange = viewModel::onPhoneNumberValueChange,
-                        placeholder = "Phone number",
-                        leadingIcon = Icons.Outlined.Phone,
+                        value = email,
+                        onValueChange = viewModel::onEmailValueChange,
+                        placeholder = "Email",
+                        leadingIcon = Icons.Outlined.Email,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 4.dp)
                     )
                     NormalTextField(
-                        value = email,
-                        onValueChange = viewModel::onEmailValueChange,
-                        placeholder = "Email",
-                        leadingIcon = Icons.Outlined.Email,
+                        value = password,
+                        onValueChange = viewModel::onPasswordValueChange,
+                        placeholder = "Password",
+                        leadingIcon = Icons.Outlined.Password,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 4.dp)

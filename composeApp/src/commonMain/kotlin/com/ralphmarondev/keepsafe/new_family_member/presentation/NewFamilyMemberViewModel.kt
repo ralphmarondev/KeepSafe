@@ -1,19 +1,21 @@
 package com.ralphmarondev.keepsafe.new_family_member.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
+import com.ralphmarondev.keepsafe.new_family_member.data.network.NewFamilyMemberApiService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
-class NewFamilyMemberViewModel : ViewModel() {
+class NewFamilyMemberViewModel(
+    private val newFamilyMemberApiService: NewFamilyMemberApiService,
+    private val preferences: AppPreferences
+) : ViewModel() {
 
-    private val _firstName = MutableStateFlow("")
-    val firstName = _firstName.asStateFlow()
-
-    private val _lastName = MutableStateFlow("")
-    val lastName = _lastName.asStateFlow()
-
-    private val _middleName = MutableStateFlow("")
-    val middleName = _middleName.asStateFlow()
+    private val _fullName = MutableStateFlow("")
+    val fullName = _fullName.asStateFlow()
 
     private val _role = MutableStateFlow("")
     val role = _role.asStateFlow()
@@ -27,20 +29,12 @@ class NewFamilyMemberViewModel : ViewModel() {
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
 
-    private val _phoneNumber = MutableStateFlow("")
-    val phoneNumber = _phoneNumber.asStateFlow()
+    private val _password = MutableStateFlow("")
+    val password = _password.asStateFlow()
 
 
-    fun onFirstNameValueChange(value: String) {
-        _firstName.value = value
-    }
-
-    fun onLastNameValueChange(value: String) {
-        _lastName.value = value
-    }
-
-    fun onMiddleNameValueChange(value: String) {
-        _middleName.value = value
+    fun onFullNameValueChange(value: String) {
+        _fullName.value = value
     }
 
     fun onRoleValueChange(value: String) {
@@ -59,11 +53,42 @@ class NewFamilyMemberViewModel : ViewModel() {
         _email.value = value
     }
 
-    fun onPhoneNumberValueChange(value: String) {
-        _phoneNumber.value = value
+    fun onPasswordValueChange(value: String) {
+        _password.value = value
     }
 
     fun register() {
+        if (_fullName.value.isBlank()) {
+            return
+        }
+        if (_email.value.isBlank()) {
+            return
+        }
+        if (_role.value.isBlank()) {
+            return
+        }
+        if (_birthplace.value.isBlank()) {
+            return
+        }
+        if (_birthday.value.isBlank()) {
+            return
+        }
+        if (_password.value.isBlank()) {
+            return
+        }
 
+        viewModelScope.launch {
+            val familyId = preferences.familyId().first()
+
+            newFamilyMemberApiService.registerNewFamilyMember(
+                fullName = _fullName.value.trim(),
+                email = _email.value.trim(),
+                role = _role.value.trim(),
+                birthplace = _birthplace.value.trim(),
+                birthday = _birthday.value.trim(),
+                familyId = familyId ?: "No family id provided.",
+                password = _password.value.trim()
+            )
+        }
     }
 }
