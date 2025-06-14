@@ -41,6 +41,7 @@ fun HomeScreen(
 ) {
     val viewModel: HomeViewModel = koinViewModel()
     val selectedIndex = viewModel.selectedIndex.collectAsState().value
+    val role = viewModel.role.collectAsState().value
 
     val navItems = listOf(
         NavItems(
@@ -91,7 +92,7 @@ fun HomeScreen(
             }
         },
         floatingActionButton = {
-            AnimatedVisibility(selectedIndex == 0) {
+            AnimatedVisibility(selectedIndex == 0 && role == "Admin") {
                 FloatingActionButton(onClick = navigateToNewFamilyMember) {
                     Icon(
                         imageVector = Icons.Outlined.Add,
