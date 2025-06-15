@@ -1,6 +1,7 @@
 package com.ralphmarondev.keepsafe.family.presentation.member_list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,6 +43,7 @@ fun FamilyMemberListScreen(
     val viewModel: FamilyMemberListViewModel = koinViewModel()
     val familyMember = viewModel.familyMember.collectAsState().value
     val isRefreshing = viewModel.isRefreshing.collectAsState().value
+    val response = viewModel.response.collectAsState().value
 
     val themeState = LocalThemeState.current
 
@@ -96,6 +98,11 @@ fun FamilyMemberListScreen(
                 modifier = Modifier
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = if (response?.success == false) {
+                    Arrangement.Center
+                } else {
+                    Arrangement.Top
+                },
                 contentPadding = PaddingValues(16.dp)
             ) {
                 items(familyMember) {
@@ -109,6 +116,18 @@ fun FamilyMemberListScreen(
                             navigateToFamilyMemberDetails(it.uid)
                         }
                     )
+                }
+                item {
+                    AnimatedVisibility(
+                        visible = response?.success == false
+                    ) {
+                        Text(
+                            text = response?.message ?: "An error occurred.",
+                            fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                            fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
                 }
                 item { Spacer(modifier = Modifier.height(100.dp)) }
             }
