@@ -55,13 +55,7 @@ fun FamilyMemberListScreen() {
                     AnimatedVisibility(
                         visible = isDesktop()
                     ) {
-                        IconButton(
-                            onClick = {
-                                viewModel.refresh(
-                                    onDone = {}
-                                )
-                            }
-                        ) {
+                        IconButton(onClick = viewModel::refresh) {
                             Icon(
                                 imageVector = Icons.Outlined.Refresh,
                                 contentDescription = "Refresh"
@@ -91,11 +85,7 @@ fun FamilyMemberListScreen() {
     ) { innerPadding ->
         PullToRefreshBox(
             isRefreshing = isRefreshing,
-            onRefresh = {
-                viewModel.refresh(
-                    onDone = {}
-                )
-            },
+            onRefresh = viewModel::refresh,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)

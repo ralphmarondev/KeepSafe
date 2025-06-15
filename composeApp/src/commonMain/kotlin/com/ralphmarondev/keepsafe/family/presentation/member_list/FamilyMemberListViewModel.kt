@@ -23,26 +23,10 @@ class FamilyMemberListViewModel(
 
 
     init {
-        viewModelScope.launch {
-            val idToken = preferences.idToken().first()
-            val familyId = preferences.familyId().first() ?: "No familyId provided."
-            if (!idToken.isNullOrEmpty()) {
-                val result = familyApiService.getFamilyMembers(
-                    idToken = idToken,
-                    familyId = familyId
-                )
-                _familyMembers.value = result
-            }
-        }
+        refresh()
     }
 
-    fun setIsRefreshingValue(value: Boolean) {
-        _isRefreshing.value = value
-    }
-
-    fun refresh(
-        onDone: () -> Unit
-    ) {
+    fun refresh() {
         if (_isRefreshing.value) {
             return
         }
@@ -57,7 +41,6 @@ class FamilyMemberListViewModel(
                 )
                 _familyMembers.value = result
             }
-            onDone()
             _isRefreshing.value = false
         }
     }
