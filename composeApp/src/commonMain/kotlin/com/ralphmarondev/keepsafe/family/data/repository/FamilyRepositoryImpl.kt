@@ -10,18 +10,10 @@ class FamilyRepositoryImpl(
 ) : FamilyRepository {
 
     override suspend fun addNewFamilyMember(newFamilyMember: NewFamilyMember) {
-        familyApiService.registerNewFamilyMember(
-            email = newFamilyMember.email,
-            fullName = newFamilyMember.fullName,
-            familyId = newFamilyMember.familyId,
-            password = newFamilyMember.password,
-            role = newFamilyMember.role,
-            birthday = newFamilyMember.birthday,
-            birthplace = newFamilyMember.birthplace
-        )
+
     }
 
     override suspend fun getFamilyMembers(idToken: String, familyId: String): List<FamilyMember> {
-        return familyApiService.getFamilyMembers(idToken = idToken, familyId = familyId)
+        return emptyList()
     }
 }
