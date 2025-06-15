@@ -9,6 +9,7 @@ import io.ktor.client.request.headers
 import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -45,6 +46,24 @@ class FamilyApiService(
             .mapNotNull {
                 it.toDomain()
             }
+    }
+
+    suspend fun getDetails(uid: String): FamilyMember? {
+        return try {
+            val userResponse: HttpResponse = client.get("${Secrets.userDetailsUrl}/$uid")
+            val fields = userResponse.body<FirestoreUserFields>()
+
+            FamilyMember(
+                uid = uid,
+                fullName = fields.fullName.stringValue,
+                role = fields.role.stringValue,
+                contactNumber = fields.contactNumber?.stringValue ?: "",
+                birthplace = fields.birthplace?.stringValue ?: "",
+                birthday = fields.birthday?.stringValue ?: ""
+            )
+        } catch (e: Exception) {
+            null
+        }
     }
 
     suspend fun registerNewFamilyMember(

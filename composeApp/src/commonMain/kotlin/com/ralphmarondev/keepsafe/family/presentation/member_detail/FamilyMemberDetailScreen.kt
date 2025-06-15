@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.koin.compose.viewmodel.koinViewModel
@@ -30,6 +31,7 @@ fun FamilyMemberDetailScreen(
     val viewModel: FamilyMemberDetailViewModel = koinViewModel(
         parameters = { parametersOf(memberId) }
     )
+    val details = viewModel.detail.collectAsState().value
 
     Scaffold(
         topBar = {
@@ -65,6 +67,12 @@ fun FamilyMemberDetailScreen(
             item {
                 Text(
                     text = memberId,
+                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                    fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = details?.fullName ?: "No full name provided.",
                     fontSize = MaterialTheme.typography.titleLarge.fontSize,
                     fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
                     color = MaterialTheme.colorScheme.primary
