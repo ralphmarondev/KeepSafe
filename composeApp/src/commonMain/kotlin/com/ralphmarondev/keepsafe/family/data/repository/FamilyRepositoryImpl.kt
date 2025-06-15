@@ -16,4 +16,16 @@ class FamilyRepositoryImpl(
     override suspend fun getFamilyMembers(idToken: String, familyId: String): List<FamilyMember> {
         return emptyList()
     }
+
+    override suspend fun getMemberDetails(uid: String): FamilyMember? {
+        return null
+    }
+
+    override suspend fun updateFamilyMember(familyMember: FamilyMember) {
+
+    }
+
+    override suspend fun deleteFamilyMember(uid: String) {
+
+    }
 }

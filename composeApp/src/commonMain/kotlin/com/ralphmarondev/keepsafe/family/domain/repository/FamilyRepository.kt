@@ -8,4 +8,10 @@ interface FamilyRepository {
     suspend fun addNewFamilyMember(newFamilyMember: NewFamilyMember)
 
     suspend fun getFamilyMembers(idToken: String, familyId: String): List<FamilyMember>
+
+    suspend fun getMemberDetails(uid: String): FamilyMember?
+
+    suspend fun updateFamilyMember(familyMember: FamilyMember)
+
+    suspend fun deleteFamilyMember(uid: String)
 }
