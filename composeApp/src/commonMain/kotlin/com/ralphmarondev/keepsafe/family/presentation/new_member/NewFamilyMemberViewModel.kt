@@ -3,15 +3,17 @@ package com.ralphmarondev.keepsafe.family.presentation.new_member
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
-import com.ralphmarondev.keepsafe.family.data.network.FamilyApiService
+import com.ralphmarondev.keepsafe.core.domain.model.Result
+import com.ralphmarondev.keepsafe.family.domain.model.NewFamilyMember
+import com.ralphmarondev.keepsafe.family.domain.usecase.AddNewFamilyMemberUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class NewFamilyMemberViewModel(
-    private val familyApiService: FamilyApiService,
-    private val preferences: AppPreferences
+    private val preferences: AppPreferences,
+    private val newFamilyMemberUseCase: AddNewFamilyMemberUseCase
 ) : ViewModel() {
 
     private val _fullName = MutableStateFlow("")
@@ -31,6 +33,9 @@ class NewFamilyMemberViewModel(
 
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
+
+    private val _response = MutableStateFlow<Result?>(null)
+    val response = _response.asStateFlow()
 
 
     fun onFullNameValueChange(value: String) {
@@ -57,38 +62,36 @@ class NewFamilyMemberViewModel(
         _password.value = value
     }
 
+    fun clearResponse() {
+        _response.value = null
+    }
+
     fun register() {
-        if (_fullName.value.isBlank()) {
-            return
-        }
-        if (_email.value.isBlank()) {
-            return
-        }
-        if (_role.value.isBlank()) {
-            return
-        }
-        if (_birthplace.value.isBlank()) {
-            return
-        }
-        if (_birthday.value.isBlank()) {
-            return
-        }
-        if (_password.value.isBlank()) {
-            return
-        }
-
         viewModelScope.launch {
-            val familyId = preferences.familyId().first()
+            val familyId = preferences.familyId().first() ?: ""
 
-            familyApiService.registerNewFamilyMember(
-                fullName = _fullName.value.trim(),
-                email = _email.value.trim(),
-                role = _role.value.trim(),
-                birthplace = _birthplace.value.trim(),
-                birthday = _birthday.value.trim(),
-                familyId = familyId ?: "No family id provided.",
-                password = _password.value.trim()
+            val response: Result = newFamilyMemberUseCase(
+                newFamilyMember = NewFamilyMember(
+                    fullName = _fullName.value.trim(),
+                    email = _email.value.trim(),
+                    role = _role.value.trim(),
+                    birthplace = _birthplace.value.trim(),
+                    birthday = _birthday.value.trim(),
+                    password = _password.value.trim(),
+                    familyId = familyId
+                )
             )
+            _response.value = response
+            println("Response: $response")
+
+            if (response.success) {
+                _fullName.value = ""
+                _email.value = ""
+                _role.value = ""
+                _birthplace.value = ""
+                _birthday.value = ""
+                _password.value = ""
+            }
         }
     }
 }
