@@ -18,7 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.ralphmarondev.keepsafe.family_list.presentation.FamilyListScreen
+import com.ralphmarondev.keepsafe.family.presentation.member_list.FamilyMemberListScreen
 import com.ralphmarondev.keepsafe.reminder.presentation.ReminderScreen
 import com.ralphmarondev.keepsafe.settings.presentation.overview.SettingScreen
 import org.koin.compose.viewmodel.koinViewModel
@@ -94,7 +94,7 @@ fun HomeScreen(
         }
     ) {
         when (selectedIndex) {
-            0 -> FamilyListScreen()
+            0 -> FamilyMemberListScreen()
             1 -> ReminderScreen()
             2 -> SettingScreen(logout = logout)
         }

@@ -1,4 +1,4 @@
-package com.ralphmarondev.keepsafe.family_list.presentation
+package com.ralphmarondev.keepsafe.family.presentation.member_list
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -26,14 +26,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ralphmarondev.keepsafe.core.theme.LocalThemeState
-import com.ralphmarondev.keepsafe.family_list.presentation.components.FamilyMemberCard
+import com.ralphmarondev.keepsafe.family.presentation.components.FamilyMemberCard
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
 @OptIn(KoinExperimentalAPI::class, ExperimentalMaterial3Api::class)
 @Composable
-fun FamilyListScreen() {
-    val viewModel: FamilyListViewModel = koinViewModel()
+fun FamilyMemberListScreen() {
+    val viewModel: FamilyMemberListViewModel = koinViewModel()
     val familyMember = viewModel.familyMember.collectAsState().value
 
     val themeState = LocalThemeState.current

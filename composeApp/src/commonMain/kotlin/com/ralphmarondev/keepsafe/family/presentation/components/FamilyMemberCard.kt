@@ -1,4 +1,4 @@
-package com.ralphmarondev.keepsafe.family_list.presentation.components
+package com.ralphmarondev.keepsafe.family.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ralphmarondev.keepsafe.family_list.domain.model.FamilyMember
+import com.ralphmarondev.keepsafe.family.domain.model.FamilyMember
 
 @Composable
 fun FamilyMemberCard(

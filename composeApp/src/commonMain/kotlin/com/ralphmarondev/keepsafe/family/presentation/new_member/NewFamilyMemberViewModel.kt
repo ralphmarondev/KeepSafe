@@ -1,23 +1,23 @@
-package com.ralphmarondev.keepsafe.new_family_member.presentation
+package com.ralphmarondev.keepsafe.family.presentation.new_member
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
-import com.ralphmarondev.keepsafe.new_family_member.data.network.NewFamilyMemberApiService
+import com.ralphmarondev.keepsafe.family.data.network.FamilyApiService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class NewFamilyMemberViewModel(
-    private val newFamilyMemberApiService: NewFamilyMemberApiService,
+    private val familyApiService: FamilyApiService,
     private val preferences: AppPreferences
 ) : ViewModel() {
 
     private val _fullName = MutableStateFlow("")
     val fullName = _fullName.asStateFlow()
 
-    private val _role = MutableStateFlow("")
+    private val _role = MutableStateFlow("Member")
     val role = _role.asStateFlow()
 
     private val _birthday = MutableStateFlow("")
@@ -80,7 +80,7 @@ class NewFamilyMemberViewModel(
         viewModelScope.launch {
             val familyId = preferences.familyId().first()
 
-            newFamilyMemberApiService.registerNewFamilyMember(
+            familyApiService.registerNewFamilyMember(
                 fullName = _fullName.value.trim(),
                 email = _email.value.trim(),
                 role = _role.value.trim(),

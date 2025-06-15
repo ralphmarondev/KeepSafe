@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ralphmarondev.keepsafe.auth.presentation.login.LoginScreen
+import com.ralphmarondev.keepsafe.family.presentation.new_member.NewFamilyMemberScreen
 import com.ralphmarondev.keepsafe.home.presentation.HomeScreen
-import com.ralphmarondev.keepsafe.new_family_member.presentation.NewFamilyMemberScreen
 import kotlinx.serialization.Serializable
 
 @Serializable

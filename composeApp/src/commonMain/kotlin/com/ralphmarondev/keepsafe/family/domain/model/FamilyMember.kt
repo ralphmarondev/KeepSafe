@@ -1,4 +1,4 @@
-package com.ralphmarondev.keepsafe.family_list.domain.model
+package com.ralphmarondev.keepsafe.family.domain.model
 
 data class FamilyMember(
     val uid: String,

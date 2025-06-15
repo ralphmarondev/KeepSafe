@@ -1,4 +1,4 @@
-package com.ralphmarondev.keepsafe.new_family_member.presentation
+package com.ralphmarondev.keepsafe.family.presentation.new_member
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,7 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ralphmarondev.keepsafe.new_family_member.presentation.components.NormalTextField
+import com.ralphmarondev.keepsafe.family.presentation.components.NormalTextField
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 

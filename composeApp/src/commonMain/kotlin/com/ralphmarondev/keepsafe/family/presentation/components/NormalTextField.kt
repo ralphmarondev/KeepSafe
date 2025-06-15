@@ -1,4 +1,4 @@
-package com.ralphmarondev.keepsafe.new_family_member.presentation.components
+package com.ralphmarondev.keepsafe.family.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.text.KeyboardActions

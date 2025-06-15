@@ -1,17 +1,17 @@
-package com.ralphmarondev.keepsafe.family_list.presentation
+package com.ralphmarondev.keepsafe.family.presentation.member_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
-import com.ralphmarondev.keepsafe.family_list.data.network.FamilyListApiService
-import com.ralphmarondev.keepsafe.family_list.domain.model.FamilyMember
+import com.ralphmarondev.keepsafe.family.data.network.FamilyApiService
+import com.ralphmarondev.keepsafe.family.domain.model.FamilyMember
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class FamilyListViewModel(
-    private val familyListApiService: FamilyListApiService,
+class FamilyMemberListViewModel(
+    private val familyApiService: FamilyApiService,
     private val preferences: AppPreferences
 ) : ViewModel() {
 
@@ -24,7 +24,7 @@ class FamilyListViewModel(
             val idToken = preferences.idToken().first()
             val familyId = preferences.familyId().first() ?: "No familyId provided."
             if (!idToken.isNullOrEmpty()) {
-                val result = familyListApiService.getFamilyMembers(
+                val result = familyApiService.getFamilyMembers(
                     idToken = idToken,
                     familyId = familyId
                 )
