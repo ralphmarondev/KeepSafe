@@ -28,7 +28,8 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @Composable
 fun HomeScreen(
     logout: () -> Unit,
-    navigateToNewFamilyMember: () -> Unit
+    navigateToNewFamilyMember: () -> Unit,
+    navigateToFamilyMemberDetails: (String) -> Unit
 ) {
     val viewModel: HomeViewModel = koinViewModel()
     val selectedIndex = viewModel.selectedIndex.collectAsState().value
@@ -94,7 +95,7 @@ fun HomeScreen(
         }
     ) {
         when (selectedIndex) {
-            0 -> FamilyMemberListScreen()
+            0 -> FamilyMemberListScreen(navigateToFamilyMemberDetails)
             1 -> ReminderScreen()
             2 -> SettingScreen(logout = logout)
         }

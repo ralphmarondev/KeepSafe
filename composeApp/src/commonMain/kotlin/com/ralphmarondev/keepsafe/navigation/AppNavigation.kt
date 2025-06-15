@@ -5,7 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.ralphmarondev.keepsafe.auth.presentation.login.LoginScreen
+import com.ralphmarondev.keepsafe.family.presentation.member_detail.FamilyMemberDetailScreen
 import com.ralphmarondev.keepsafe.family.presentation.new_member.NewFamilyMemberScreen
 import com.ralphmarondev.keepsafe.home.presentation.HomeScreen
 import kotlinx.serialization.Serializable
@@ -21,6 +23,9 @@ sealed interface Routes {
 
     @Serializable
     data object NewFamilyMember : Routes
+
+    @Serializable
+    data class FamilyMemberDetail(val id: String) : Routes
 }
 
 @Composable
@@ -53,11 +58,26 @@ fun AppNavigation(
                     navController.navigate(Routes.NewFamilyMember) {
                         launchSingleTop = true
                     }
+                },
+                navigateToFamilyMemberDetails = { id ->
+                    navController.navigate(Routes.FamilyMemberDetail(id)) {
+                        launchSingleTop = true
+                    }
                 }
             )
         }
         composable<Routes.NewFamilyMember> {
             NewFamilyMemberScreen(
+                navigateBack = {
+                    navController.navigateUp()
+                }
+            )
+        }
+        composable<Routes.FamilyMemberDetail> {
+            val id = it.toRoute<Routes.FamilyMemberDetail>().id
+
+            FamilyMemberDetailScreen(
+                memberId = id,
                 navigateBack = {
                     navController.navigateUp()
                 }

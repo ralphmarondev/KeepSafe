@@ -36,7 +36,9 @@ import org.koin.core.annotation.KoinExperimentalAPI
 
 @OptIn(KoinExperimentalAPI::class, ExperimentalMaterial3Api::class)
 @Composable
-fun FamilyMemberListScreen() {
+fun FamilyMemberListScreen(
+    navigateToFamilyMemberDetails: (String) -> Unit
+) {
     val viewModel: FamilyMemberListViewModel = koinViewModel()
     val familyMember = viewModel.familyMember.collectAsState().value
     val isRefreshing = viewModel.isRefreshing.collectAsState().value
@@ -103,7 +105,9 @@ fun FamilyMemberListScreen() {
                             .fillMaxWidth()
                             .padding(vertical = 4.dp),
                         familyMember = it,
-                        onClick = {}
+                        onClick = {
+                            navigateToFamilyMemberDetails(it.uid)
+                        }
                     )
                 }
                 item { Spacer(modifier = Modifier.height(100.dp)) }

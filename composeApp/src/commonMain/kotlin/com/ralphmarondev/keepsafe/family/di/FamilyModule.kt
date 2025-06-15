@@ -5,6 +5,7 @@ import com.ralphmarondev.keepsafe.family.data.repository.FamilyRepositoryImpl
 import com.ralphmarondev.keepsafe.family.domain.repository.FamilyRepository
 import com.ralphmarondev.keepsafe.family.domain.usecase.AddNewFamilyMemberUseCase
 import com.ralphmarondev.keepsafe.family.domain.usecase.GetFamilyMembersUseCase
+import com.ralphmarondev.keepsafe.family.presentation.member_detail.FamilyMemberDetailViewModel
 import com.ralphmarondev.keepsafe.family.presentation.member_list.FamilyMemberListViewModel
 import com.ralphmarondev.keepsafe.family.presentation.new_member.NewFamilyMemberViewModel
 import org.koin.core.module.dsl.factoryOf
@@ -22,4 +23,5 @@ val familyModule = module {
 
     factoryOf(::FamilyMemberListViewModel)
     factoryOf(::NewFamilyMemberViewModel)
+    factoryOf(::FamilyMemberDetailViewModel)
 }
