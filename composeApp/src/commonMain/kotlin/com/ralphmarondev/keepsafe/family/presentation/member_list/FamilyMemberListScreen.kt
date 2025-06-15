@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.family.presentation.member_list
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,12 +22,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ralphmarondev.keepsafe.core.theme.LocalThemeState
+import com.ralphmarondev.keepsafe.core.util.isDesktop
 import com.ralphmarondev.keepsafe.family.presentation.components.FamilyMemberCard
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -35,6 +39,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 fun FamilyMemberListScreen() {
     val viewModel: FamilyMemberListViewModel = koinViewModel()
     val familyMember = viewModel.familyMember.collectAsState().value
+    val isRefreshing = viewModel.isRefreshing.collectAsState().value
 
     val themeState = LocalThemeState.current
 
@@ -47,6 +52,23 @@ fun FamilyMemberListScreen() {
                     )
                 },
                 actions = {
+                    AnimatedVisibility(
+                        visible = isDesktop()
+                    ) {
+                        IconButton(
+                            onClick = {
+                                viewModel.refresh(
+                                    onDone = {}
+                                )
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Refresh,
+                                contentDescription = "Refresh"
+                            )
+                        }
+                    }
+
                     IconButton(onClick = themeState::toggleTheme) {
                         val imageVector = if (themeState.darkMode.value) {
                             Icons.Outlined.LightMode
@@ -67,24 +89,35 @@ fun FamilyMemberListScreen() {
             )
         }
     ) { innerPadding ->
-        LazyColumn(
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                viewModel.refresh(
+                    onDone = {}
+                )
+            },
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            contentPadding = PaddingValues(16.dp)
+                .padding(innerPadding)
         ) {
-            items(familyMember) {
-                FamilyMemberCard(
-                    modifier = Modifier
-                        .widthIn(max = 500.dp)
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    familyMember = it,
-                    onClick = {}
-                )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                items(familyMember) {
+                    FamilyMemberCard(
+                        modifier = Modifier
+                            .widthIn(max = 500.dp)
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        familyMember = it,
+                        onClick = {}
+                    )
+                }
+                item { Spacer(modifier = Modifier.height(100.dp)) }
             }
-            item { Spacer(modifier = Modifier.height(100.dp)) }
         }
     }
 }

@@ -18,6 +18,9 @@ class FamilyMemberListViewModel(
     private val _familyMembers = MutableStateFlow<List<FamilyMember>>(emptyList())
     val familyMember = _familyMembers.asStateFlow()
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing = _isRefreshing.asStateFlow()
+
 
     init {
         viewModelScope.launch {
@@ -30,6 +33,32 @@ class FamilyMemberListViewModel(
                 )
                 _familyMembers.value = result
             }
+        }
+    }
+
+    fun setIsRefreshingValue(value: Boolean) {
+        _isRefreshing.value = value
+    }
+
+    fun refresh(
+        onDone: () -> Unit
+    ) {
+        if (_isRefreshing.value) {
+            return
+        }
+        _isRefreshing.value = true
+        viewModelScope.launch {
+            val idToken = preferences.idToken().first()
+            val familyId = preferences.familyId().first() ?: "No familyId provided."
+            if (!idToken.isNullOrEmpty()) {
+                val result = familyApiService.getFamilyMembers(
+                    idToken = idToken,
+                    familyId = familyId
+                )
+                _familyMembers.value = result
+            }
+            onDone()
+            _isRefreshing.value = false
         }
     }
 }
