@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.core.domain.model.Result
-import com.ralphmarondev.keepsafe.family.data.network.FamilyApiService
 import com.ralphmarondev.keepsafe.family.domain.model.FamilyMember
 import com.ralphmarondev.keepsafe.family.domain.usecase.GetFamilyMembersUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class FamilyMemberListViewModel(
-    private val familyApiService: FamilyApiService,
     private val preferences: AppPreferences,
     private val getFamilyMembersUseCase: GetFamilyMembersUseCase
 ) : ViewModel() {
