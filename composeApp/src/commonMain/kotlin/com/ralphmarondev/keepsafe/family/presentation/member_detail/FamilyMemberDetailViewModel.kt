@@ -3,6 +3,7 @@ package com.ralphmarondev.keepsafe.family.presentation.member_detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
+import com.ralphmarondev.keepsafe.core.domain.model.Result
 import com.ralphmarondev.keepsafe.family.domain.model.FamilyMember
 import com.ralphmarondev.keepsafe.family.domain.usecase.GetDetailsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +23,13 @@ class FamilyMemberDetailViewModel(
     private val _role = MutableStateFlow("")
     val role = _role.asStateFlow()
 
+    private val _showDeleteDialog = MutableStateFlow(false)
+    val showDeleteDialog = _showDeleteDialog.asStateFlow()
+
+    private val _response = MutableStateFlow<Result?>(null)
+    val response = _response.asStateFlow()
+
+
     init {
         viewModelScope.launch {
             _role.value = preferences.role().first() ?: ""
@@ -29,5 +37,17 @@ class FamilyMemberDetailViewModel(
             val result = getDetailsUseCase(memberId)
             _details.value = result
         }
+    }
+
+    fun setOnDeleteDialog(value: Boolean) {
+        _showDeleteDialog.value = value
+    }
+
+    fun delete() {
+        _showDeleteDialog.value = false
+        _response.value = Result(
+            success = true,
+            message = "Deleted successfully."
+        )
     }
 }

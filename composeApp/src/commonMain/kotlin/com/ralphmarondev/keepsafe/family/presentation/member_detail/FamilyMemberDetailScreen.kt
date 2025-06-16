@@ -24,10 +24,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ralphmarondev.keepsafe.family.presentation.components.DeleteFamilyMemberDialog
+import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.parameter.parametersOf
@@ -43,6 +46,17 @@ fun FamilyMemberDetailScreen(
     )
     val details = viewModel.detail.collectAsState().value
     val role = viewModel.role.collectAsState().value
+    val showDeleteDialog = viewModel.showDeleteDialog.collectAsState().value
+    val response = viewModel.response.collectAsState().value
+
+    LaunchedEffect(response) {
+        response?.let {
+            if (it.success) {
+                delay(1500)
+                navigateBack()
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -74,9 +88,7 @@ fun FamilyMemberDetailScreen(
                         }
                     }
                     AnimatedVisibility(visible = isAdmin) {
-                        IconButton(
-                            onClick = {}
-                        ) {
+                        IconButton(onClick = { viewModel.setOnDeleteDialog(true) }) {
                             Icon(
                                 imageVector = Icons.Outlined.DeleteOutline,
                                 contentDescription = "Delete"
@@ -175,5 +187,12 @@ fun FamilyMemberDetailScreen(
             }
             item { Spacer(modifier = Modifier.height(100.dp)) }
         }
+    }
+
+    if (showDeleteDialog) {
+        DeleteFamilyMemberDialog(
+            onDismiss = { viewModel.setOnDeleteDialog(false) },
+            onConfirm = viewModel::delete
+        )
     }
 }
