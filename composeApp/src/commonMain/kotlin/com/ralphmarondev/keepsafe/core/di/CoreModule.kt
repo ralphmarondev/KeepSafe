@@ -9,6 +9,7 @@ import com.ralphmarondev.keepsafe.core.data.network.firebase.auth.RegisterApiSer
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.AddMemberApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetDetailsApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetMembersApiService
+import com.ralphmarondev.keepsafe.core.data.network.firebase.family.UpdateMemberApiService
 import com.ralphmarondev.keepsafe.core.theme.ThemeState
 import com.ralphmarondev.keepsafe.core.theme.ThemeStateImpl
 import org.koin.core.module.dsl.singleOf
@@ -31,4 +32,5 @@ val coreModule = module {
     singleOf(::GetMembersApiService)
     singleOf(::GetDetailsApiService)
     singleOf(::AddMemberApiService)
+    singleOf(::UpdateMemberApiService)
 }
