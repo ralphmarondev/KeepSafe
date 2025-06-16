@@ -7,6 +7,7 @@ import com.ralphmarondev.keepsafe.core.data.network.HttpClientFactory
 import com.ralphmarondev.keepsafe.core.data.network.firebase.auth.LoginApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.auth.RegisterApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.AddMemberApiService
+import com.ralphmarondev.keepsafe.core.data.network.firebase.family.DeleteMemberApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetDetailsApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetMembersApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.UpdateMemberApiService
@@ -33,4 +34,5 @@ val coreModule = module {
     singleOf(::GetDetailsApiService)
     singleOf(::AddMemberApiService)
     singleOf(::UpdateMemberApiService)
+    singleOf(::DeleteMemberApiService)
 }

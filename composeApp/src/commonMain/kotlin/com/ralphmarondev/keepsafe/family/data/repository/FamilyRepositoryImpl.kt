@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.family.data.repository
 
+import com.ralphmarondev.keepsafe.core.data.network.firebase.family.DeleteMemberApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetDetailsApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetMembersApiService
 import com.ralphmarondev.keepsafe.family.domain.model.FamilyMember
@@ -8,7 +9,8 @@ import com.ralphmarondev.keepsafe.family.domain.repository.FamilyRepository
 
 class FamilyRepositoryImpl(
     private val getMembersApiService: GetMembersApiService,
-    private val getDetailsApiService: GetDetailsApiService
+    private val getDetailsApiService: GetDetailsApiService,
+    private val deleteMemberApiService: DeleteMemberApiService
 ) : FamilyRepository {
 
     override suspend fun addNewFamilyMember(newFamilyMember: NewFamilyMember) {
@@ -53,7 +55,7 @@ class FamilyRepositoryImpl(
 
     }
 
-    override suspend fun deleteFamilyMember(uid: String) {
-
+    override suspend fun deleteFamilyMember(uid: String): Boolean {
+        return deleteMemberApiService.delete(uid = uid)
     }
 }
