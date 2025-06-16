@@ -46,6 +46,12 @@ class AppPreferences(
         }
     }
 
+    suspend fun setEmail(email: String) {
+        dataStore.edit { prefs ->
+            prefs[EMAIL_KEY] = email
+        }
+    }
+
     fun saveAuthTokens(
         idToken: String,
         refreshToken: String?,

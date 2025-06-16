@@ -34,17 +34,9 @@ class LoginUseCase(
         }
 
         try {
-            val tokens = repository.login(username = username, password = password)
-            return if (tokens != null) {
-                preferences.saveAuthTokens(
-                    idToken = tokens.idToken,
-                    refreshToken = tokens.refreshToken,
-                    localId = tokens.localId,
-                    email = tokens.email,
-                    familyId = tokens.familyId,
-                    fullName = tokens.fullName,
-                    role = tokens.role
-                )
+            val result = repository.login(username = username, password = password)
+            return if (!result?.email.isNullOrBlank()) {
+                preferences.setEmail(email = result.email)
                 Result(
                     success = true,
                     message = "Login successful."
