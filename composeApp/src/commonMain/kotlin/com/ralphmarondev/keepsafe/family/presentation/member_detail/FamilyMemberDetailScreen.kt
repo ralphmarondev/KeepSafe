@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.family.presentation.member_detail
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
+import androidx.compose.material.icons.outlined.DeleteOutline
+import androidx.compose.material.icons.outlined.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,6 +42,7 @@ fun FamilyMemberDetailScreen(
         parameters = { parametersOf(memberId) }
     )
     val details = viewModel.detail.collectAsState().value
+    val role = viewModel.role.collectAsState().value
 
     Scaffold(
         topBar = {
@@ -56,10 +60,35 @@ fun FamilyMemberDetailScreen(
                         )
                     }
                 },
+                actions = {
+                    val isAdmin = role.isNotBlank() && role == "Admin"
+
+                    AnimatedVisibility(visible = isAdmin) {
+                        IconButton(
+                            onClick = {}
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Update,
+                                contentDescription = "Update"
+                            )
+                        }
+                    }
+                    AnimatedVisibility(visible = isAdmin) {
+                        IconButton(
+                            onClick = {}
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.DeleteOutline,
+                                contentDescription = "Delete"
+                            )
+                        }
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
