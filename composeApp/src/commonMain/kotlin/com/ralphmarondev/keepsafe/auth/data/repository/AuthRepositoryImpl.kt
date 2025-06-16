@@ -18,11 +18,12 @@ class AuthRepositoryImpl(
             )
         )
         val userDetails = getDetailsApiService.getDetailsByEmail(email = response?.email ?: "")
-
+        val isDeleted = userDetails?.member?.fields?.isDeleted?.booleanValue
         return LoginResult(
             email = response?.email ?: "",
             uid = userDetails?.uid ?: "",
-            role = userDetails?.member?.fields?.role?.stringValue ?: ""
+            role = userDetails?.member?.fields?.role?.stringValue ?: "",
+            isDeleted = isDeleted != false
         )
     }
 }
