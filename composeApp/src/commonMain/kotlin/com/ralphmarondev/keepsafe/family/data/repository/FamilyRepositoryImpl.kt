@@ -48,7 +48,7 @@ class FamilyRepositoryImpl(
                 birthplace = fields.birthplace.stringValue,
                 birthday = fields.birthday.stringValue,
                 fullName = fields.fullName.stringValue,
-                email = fields.fullName.stringValue,
+                email = fields.email.stringValue,
                 role = fields.role.stringValue,
                 isDeleted = fields.isDeleted.booleanValue
             )
