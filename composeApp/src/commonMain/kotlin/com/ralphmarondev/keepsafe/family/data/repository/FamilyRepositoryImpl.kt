@@ -35,7 +35,7 @@ class FamilyRepositoryImpl(
     }
 
     override suspend fun getMemberDetails(uid: String): FamilyMember? {
-        val result = getDetailsApiService.getDetails(uid = uid)
+        val result = getDetailsApiService.getDetailsByUid(uid = uid)
         val fields = result?.fields
         return FamilyMember(
             uid = uid,

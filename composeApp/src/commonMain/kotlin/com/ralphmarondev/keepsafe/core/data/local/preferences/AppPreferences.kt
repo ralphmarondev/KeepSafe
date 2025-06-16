@@ -23,6 +23,7 @@ class AppPreferences(
         private val FAMILY_ID_KEY = stringPreferencesKey("family_id")
         private val FULL_NAME_KEY = stringPreferencesKey("full_name")
         private val ROLE_KEY = stringPreferencesKey("role")
+        private val UID_KEY = stringPreferencesKey("uid")
 
         const val DATA_STORE_FILE_NAME = "prefs.preferences_pb"
 
@@ -49,6 +50,18 @@ class AppPreferences(
     suspend fun setEmail(email: String) {
         dataStore.edit { prefs ->
             prefs[EMAIL_KEY] = email
+        }
+    }
+
+    suspend fun setUid(uid: String) {
+        dataStore.edit { prefs ->
+            prefs[UID_KEY] = uid
+        }
+    }
+
+    suspend fun setRole(role: String){
+        dataStore.edit { prefs->
+            prefs[ROLE_KEY] = role
         }
     }
 
@@ -95,4 +108,5 @@ class AppPreferences(
     fun familyId(): Flow<String?> = dataStore.data.map { it[FAMILY_ID_KEY] }
     fun fullName(): Flow<String?> = dataStore.data.map { it[FULL_NAME_KEY] }
     fun role(): Flow<String?> = dataStore.data.map { it[ROLE_KEY] }
+    fun uid(): Flow<String?> = dataStore.data.map { it[UID_KEY] }
 }
