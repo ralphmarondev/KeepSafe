@@ -11,7 +11,7 @@ interface FamilyRepository {
 
     suspend fun getMemberDetails(uid: String): FamilyMember?
 
-    suspend fun updateFamilyMember(familyMember: FamilyMember)
+    suspend fun updateFamilyMember(familyMember: FamilyMember): Boolean
 
     suspend fun deleteFamilyMember(uid: String): Boolean
 }

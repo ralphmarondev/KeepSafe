@@ -8,6 +8,7 @@ import com.ralphmarondev.keepsafe.core.data.network.firebase.family.FieldStringV
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetDetailsApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetMembersApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.MemberFields
+import com.ralphmarondev.keepsafe.core.data.network.firebase.family.UpdateMemberApiService
 import com.ralphmarondev.keepsafe.family.domain.model.FamilyMember
 import com.ralphmarondev.keepsafe.family.domain.model.NewFamilyMember
 import com.ralphmarondev.keepsafe.family.domain.repository.FamilyRepository
@@ -16,7 +17,8 @@ class FamilyRepositoryImpl(
     private val getMembersApiService: GetMembersApiService,
     private val getDetailsApiService: GetDetailsApiService,
     private val deleteMemberApiService: DeleteMemberApiService,
-    private val addMemberApiService: AddMemberApiService
+    private val addMemberApiService: AddMemberApiService,
+    private val updateMemberApiService: UpdateMemberApiService
 ) : FamilyRepository {
 
     override suspend fun addNewFamilyMember(newFamilyMember: NewFamilyMember) {
@@ -71,8 +73,20 @@ class FamilyRepositoryImpl(
         )
     }
 
-    override suspend fun updateFamilyMember(familyMember: FamilyMember) {
-
+    override suspend fun updateFamilyMember(familyMember: FamilyMember): Boolean {
+        val result = updateMemberApiService.update(
+            uid = familyMember.uid ?: "",
+            memberFields = MemberFields(
+                birthplace = FieldStringValue(familyMember.birthplace ?: ""),
+                role = FieldStringValue(familyMember.role ?: ""),
+                familyId = FieldStringValue(familyMember.familyId ?: ""),
+                birthday = FieldStringValue(familyMember.birthday ?: ""),
+                fullName = FieldStringValue(familyMember.fullName ?: ""),
+                email = FieldStringValue(familyMember.email ?: ""),
+                isDeleted = FieldBooleanValue(familyMember.isDeleted == true),
+            )
+        )
+        return result
     }
 
     override suspend fun deleteFamilyMember(uid: String): Boolean {

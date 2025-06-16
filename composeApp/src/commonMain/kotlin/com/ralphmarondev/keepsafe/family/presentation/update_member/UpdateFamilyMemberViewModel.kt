@@ -5,13 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.core.domain.model.Result
 import com.ralphmarondev.keepsafe.family.domain.model.FamilyMember
 import com.ralphmarondev.keepsafe.family.domain.usecase.GetDetailsUseCase
+import com.ralphmarondev.keepsafe.family.domain.usecase.UpdateFamilyMemberUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class UpdateFamilyMemberViewModel(
     private val uid: String,
-    private val getDetailsUseCase: GetDetailsUseCase
+    private val getDetailsUseCase: GetDetailsUseCase,
+    private val updateFamilyMemberUseCase: UpdateFamilyMemberUseCase
 ) : ViewModel() {
 
     private val _fullName = MutableStateFlow("")
@@ -35,6 +37,7 @@ class UpdateFamilyMemberViewModel(
     private val _response = MutableStateFlow<Result?>(null)
     val response = _response.asStateFlow()
 
+    private val _familyId = MutableStateFlow("")
 
     init {
         viewModelScope.launch {
@@ -45,6 +48,7 @@ class UpdateFamilyMemberViewModel(
             _birthday.value = result?.birthday ?: ""
             _birthplace.value = result?.birthplace ?: ""
             _email.value = result?.email ?: ""
+            _familyId.value = result?.familyId ?: ""
         }
     }
 
@@ -77,6 +81,30 @@ class UpdateFamilyMemberViewModel(
     }
 
     fun update() {
+        viewModelScope.launch {
+            val result = updateFamilyMemberUseCase(
+                familyMember = FamilyMember(
+                    uid = uid,
+                    fullName = _fullName.value.trim(),
+                    email = _email.value.trim(),
+                    birthplace = _birthplace.value.trim(),
+                    birthday = _birthday.value.trim(),
+                    role = _role.value.trim(),
+                    familyId = _familyId.value.trim()
+                )
+            )
 
+            _response.value = if (result) {
+                Result(
+                    success = true,
+                    message = "Updated successfully."
+                )
+            } else {
+                Result(
+                    success = false,
+                    message = "Update failed."
+                )
+            }
+        }
     }
 }
