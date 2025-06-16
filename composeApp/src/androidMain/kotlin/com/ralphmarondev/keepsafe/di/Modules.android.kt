@@ -3,6 +3,8 @@ package com.ralphmarondev.keepsafe.di
 import android.content.Context
 import com.ralphmarondev.keepsafe.core.data.local.database.DatabaseFactory
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
+import com.ralphmarondev.keepsafe.core.util.AndroidNotificationService
+import com.ralphmarondev.keepsafe.core.util.NotificationService
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import org.koin.android.ext.koin.androidApplication
@@ -17,4 +19,6 @@ actual val platformModule: Module = module {
     }
     single { DatabaseFactory(androidApplication()) }
     single<HttpClientEngine> { OkHttp.create() }
+
+    single<NotificationService> { AndroidNotificationService(get()) }
 }
