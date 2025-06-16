@@ -44,6 +44,7 @@ fun FamilyMemberListScreen(
     val familyMember = viewModel.familyMember.collectAsState().value
     val isRefreshing = viewModel.isRefreshing.collectAsState().value
     val response = viewModel.response.collectAsState().value
+    val currentUserUid = viewModel.currentUserUid.collectAsState().value
 
     val themeState = LocalThemeState.current
 
@@ -114,7 +115,8 @@ fun FamilyMemberListScreen(
                         familyMember = it,
                         onClick = {
                             navigateToFamilyMemberDetails(it.uid ?: "No uid provided.")
-                        }
+                        },
+                        currentUserUid = currentUserUid
                     )
                 }
                 item {

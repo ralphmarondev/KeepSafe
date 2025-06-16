@@ -25,6 +25,9 @@ class FamilyMemberListViewModel(
     private val _response = MutableStateFlow<Result?>(null)
     val response = _response.asStateFlow()
 
+    private val _currentUserUid = MutableStateFlow("")
+    val currentUserUid = _currentUserUid.asStateFlow()
+
 
     init {
         refresh()
@@ -37,10 +40,9 @@ class FamilyMemberListViewModel(
         _isRefreshing.value = true
         viewModelScope.launch {
             val familyId = preferences.familyId().first() ?: ""
+            _currentUserUid.value = preferences.uid().first() ?: ""
 
-            val response = getFamilyMembersUseCase(
-                familyId = familyId,
-            )
+            val response = getFamilyMembersUseCase(familyId = familyId)
 
             if (response.success) {
                 _familyMembers.value = response.data ?: emptyList()

@@ -18,7 +18,8 @@ import com.ralphmarondev.keepsafe.family.domain.model.FamilyMember
 fun FamilyMemberCard(
     modifier: Modifier = Modifier,
     familyMember: FamilyMember,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    currentUserUid: String
 ) {
     OutlinedCard(
         modifier = modifier,
@@ -30,8 +31,16 @@ fun FamilyMemberCard(
                 .padding(16.dp)
         ) {
             Column {
+                val isCurrentUser = familyMember.uid == currentUserUid
+                val fullName = familyMember.fullName ?: "No fullName provided."
+                val displayName = if (isCurrentUser) {
+                    val firstName = fullName.split(" ").firstOrNull() ?: fullName
+                    "$firstName (YOU)"
+                } else {
+                    fullName
+                }
                 Text(
-                    text = familyMember.fullName ?: "No fullName provided.",
+                    text = displayName,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                     color = MaterialTheme.colorScheme.primary
