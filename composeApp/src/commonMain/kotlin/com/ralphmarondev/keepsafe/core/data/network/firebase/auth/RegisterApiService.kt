@@ -16,6 +16,7 @@ data class RegisterRequest(
     val returnSecureToken: Boolean = true
 )
 
+@Serializable
 data class RegisterResponse(
     val kind: String,
     val idToken: String,

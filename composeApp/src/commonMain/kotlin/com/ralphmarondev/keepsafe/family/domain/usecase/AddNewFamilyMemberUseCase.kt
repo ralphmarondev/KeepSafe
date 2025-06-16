@@ -9,43 +9,43 @@ class AddNewFamilyMemberUseCase(
 ) {
     suspend operator fun invoke(newFamilyMember: NewFamilyMember): Result {
 
-        if (newFamilyMember.familyId.isBlank()) {
+        if (newFamilyMember.familyId?.isBlank() == true) {
             return Result(
                 success = false,
                 message = "Registration failed. Invalid family id."
             )
         }
-        if (newFamilyMember.fullName.isBlank()) {
+        if (newFamilyMember.fullName?.isBlank() == true) {
             return Result(
                 success = false,
                 message = "Full name cannot be empty."
             )
         }
-        if (newFamilyMember.birthday.isBlank()) {
+        if (newFamilyMember.birthday?.isBlank() == true) {
             return Result(
                 success = false,
                 message = "Birthday cannot be empty."
             )
         }
-        if (newFamilyMember.birthplace.isBlank()) {
+        if (newFamilyMember.birthplace?.isBlank() == true) {
             return Result(
                 success = false,
                 message = "Birthplace cannot be empty."
             )
         }
-        if (newFamilyMember.role.isBlank()) {
+        if (newFamilyMember.role?.isBlank() == true) {
             return Result(
                 success = false,
                 message = "Role cannot be empty."
             )
         }
-        if (newFamilyMember.email.isBlank()) {
+        if (newFamilyMember.email?.isBlank() == true) {
             return Result(
                 success = false,
                 message = "Email cannot be empty."
             )
         }
-        if (newFamilyMember.password.isBlank()) {
+        if (newFamilyMember.password?.isBlank() == true) {
             return Result(
                 success = false,
                 message = "Password cannot be empty."

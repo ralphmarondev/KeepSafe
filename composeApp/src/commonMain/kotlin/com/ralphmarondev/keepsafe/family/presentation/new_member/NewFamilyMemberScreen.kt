@@ -64,6 +64,10 @@ fun NewFamilyMemberScreen(
     LaunchedEffect(response) {
         response?.let {
             showSnackbar = !showSnackbar
+            if (it.success) {
+                delay(1500)
+                navigateBack()
+            }
         }
     }
 
