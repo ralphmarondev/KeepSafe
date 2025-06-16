@@ -7,7 +7,7 @@ interface FamilyRepository {
 
     suspend fun addNewFamilyMember(newFamilyMember: NewFamilyMember)
 
-    suspend fun getFamilyMembers(idToken: String, familyId: String): List<FamilyMember>
+    suspend fun getFamilyMembers(familyId: String): List<FamilyMember>
 
     suspend fun getMemberDetails(uid: String): FamilyMember?
 

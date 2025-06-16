@@ -31,14 +31,14 @@ fun FamilyMemberCard(
         ) {
             Column {
                 Text(
-                    text = familyMember.fullName,
+                    text = familyMember.fullName ?: "No fullName provided.",
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = familyMember.role,
+                    text = familyMember.role ?: "No role provided",
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = MaterialTheme.typography.titleSmall.fontWeight,
                     color = MaterialTheme.colorScheme.secondary

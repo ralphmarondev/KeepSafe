@@ -36,11 +36,9 @@ class FamilyMemberListViewModel(
         }
         _isRefreshing.value = true
         viewModelScope.launch {
-            val idToken = preferences.idToken().first() ?: ""
             val familyId = preferences.familyId().first() ?: ""
 
             val response = getFamilyMembersUseCase(
-                idToken = idToken,
                 familyId = familyId,
             )
 

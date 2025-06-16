@@ -113,7 +113,7 @@ fun FamilyMemberListScreen(
                             .padding(vertical = 4.dp),
                         familyMember = it,
                         onClick = {
-                            navigateToFamilyMemberDetails(it.uid)
+                            navigateToFamilyMemberDetails(it.uid ?: "No uid provided.")
                         }
                     )
                 }

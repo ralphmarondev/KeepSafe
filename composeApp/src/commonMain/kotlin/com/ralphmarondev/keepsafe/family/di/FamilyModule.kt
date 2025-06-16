@@ -1,6 +1,5 @@
 package com.ralphmarondev.keepsafe.family.di
 
-import com.ralphmarondev.keepsafe.family.data.network.FamilyApiService
 import com.ralphmarondev.keepsafe.family.data.repository.FamilyRepositoryImpl
 import com.ralphmarondev.keepsafe.family.domain.repository.FamilyRepository
 import com.ralphmarondev.keepsafe.family.domain.usecase.AddNewFamilyMemberUseCase
@@ -14,8 +13,6 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val familyModule = module {
-    singleOf(::FamilyApiService)
-
     singleOf(::FamilyRepositoryImpl).bind<FamilyRepository>()
 
     factoryOf(::AddNewFamilyMemberUseCase)
