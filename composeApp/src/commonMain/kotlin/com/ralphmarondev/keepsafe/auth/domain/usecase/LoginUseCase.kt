@@ -35,10 +35,17 @@ class LoginUseCase(
 
         try {
             val result = repository.login(username = username, password = password)
-            return if (!result?.email.isNullOrBlank() && result.uid.isNotBlank() && result.role.isNotBlank() && !result.isDeleted) {
+            return if (
+                !result?.email.isNullOrBlank() &&
+                result.uid.isNotBlank() &&
+                result.role.isNotBlank() &&
+                result.familyId.isNotBlank() &&
+                !result.isDeleted
+            ) {
                 preferences.setEmail(email = result.email)
                 preferences.setUid(uid = result.uid)
                 preferences.setRole(role = result.role)
+                preferences.setFamilyId(familyId = result.familyId)
 
                 Result(
                     success = true,

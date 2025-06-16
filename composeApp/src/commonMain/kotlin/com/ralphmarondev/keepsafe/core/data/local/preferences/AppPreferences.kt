@@ -59,8 +59,14 @@ class AppPreferences(
         }
     }
 
-    suspend fun setRole(role: String){
-        dataStore.edit { prefs->
+    suspend fun setFamilyId(familyId: String) {
+        dataStore.edit { prefs ->
+            prefs[FAMILY_ID_KEY] = familyId
+        }
+    }
+
+    suspend fun setRole(role: String) {
+        dataStore.edit { prefs ->
             prefs[ROLE_KEY] = role
         }
     }
