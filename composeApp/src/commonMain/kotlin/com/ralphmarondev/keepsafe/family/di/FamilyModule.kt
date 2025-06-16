@@ -3,6 +3,7 @@ package com.ralphmarondev.keepsafe.family.di
 import com.ralphmarondev.keepsafe.family.data.repository.FamilyRepositoryImpl
 import com.ralphmarondev.keepsafe.family.domain.repository.FamilyRepository
 import com.ralphmarondev.keepsafe.family.domain.usecase.AddNewFamilyMemberUseCase
+import com.ralphmarondev.keepsafe.family.domain.usecase.GetDetailsUseCase
 import com.ralphmarondev.keepsafe.family.domain.usecase.GetFamilyMembersUseCase
 import com.ralphmarondev.keepsafe.family.presentation.member_detail.FamilyMemberDetailViewModel
 import com.ralphmarondev.keepsafe.family.presentation.member_list.FamilyMemberListViewModel
@@ -17,6 +18,7 @@ val familyModule = module {
 
     factoryOf(::AddNewFamilyMemberUseCase)
     factoryOf(::GetFamilyMembersUseCase)
+    factoryOf(::GetDetailsUseCase)
 
     factoryOf(::FamilyMemberListViewModel)
     factoryOf(::NewFamilyMemberViewModel)

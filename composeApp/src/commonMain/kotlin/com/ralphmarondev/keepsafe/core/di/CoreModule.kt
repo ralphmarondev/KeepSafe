@@ -6,6 +6,7 @@ import com.ralphmarondev.keepsafe.core.data.local.database.DatabaseFactory
 import com.ralphmarondev.keepsafe.core.data.network.HttpClientFactory
 import com.ralphmarondev.keepsafe.core.data.network.firebase.auth.LoginApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.auth.RegisterApiService
+import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetDetailsApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetMembersApiService
 import com.ralphmarondev.keepsafe.core.theme.ThemeState
 import com.ralphmarondev.keepsafe.core.theme.ThemeStateImpl
@@ -27,4 +28,5 @@ val coreModule = module {
     singleOf(::LoginApiService)
     singleOf(::RegisterApiService)
     singleOf(::GetMembersApiService)
+    singleOf(::GetDetailsApiService)
 }
