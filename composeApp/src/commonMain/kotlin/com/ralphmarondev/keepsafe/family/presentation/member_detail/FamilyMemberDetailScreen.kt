@@ -39,7 +39,8 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun FamilyMemberDetailScreen(
     memberId: String,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToUpdate: (String) -> Unit
 ) {
     val viewModel: FamilyMemberDetailViewModel = koinViewModel(
         parameters = { parametersOf(memberId) }
@@ -79,7 +80,9 @@ fun FamilyMemberDetailScreen(
 
                     AnimatedVisibility(visible = isAdmin) {
                         IconButton(
-                            onClick = {}
+                            onClick = {
+                                navigateToUpdate(memberId)
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Update,

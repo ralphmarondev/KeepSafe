@@ -9,6 +9,7 @@ import androidx.navigation.toRoute
 import com.ralphmarondev.keepsafe.auth.presentation.login.LoginScreen
 import com.ralphmarondev.keepsafe.family.presentation.member_detail.FamilyMemberDetailScreen
 import com.ralphmarondev.keepsafe.family.presentation.new_member.NewFamilyMemberScreen
+import com.ralphmarondev.keepsafe.family.presentation.update_member.UpdateFamilyMemberScreen
 import com.ralphmarondev.keepsafe.home.presentation.HomeScreen
 import kotlinx.serialization.Serializable
 
@@ -26,6 +27,9 @@ sealed interface Routes {
 
     @Serializable
     data class FamilyMemberDetail(val id: String) : Routes
+
+    @Serializable
+    data class UpdateFamilyMember(val uid: String) : Routes
 }
 
 @Composable
@@ -78,6 +82,20 @@ fun AppNavigation(
 
             FamilyMemberDetailScreen(
                 memberId = id,
+                navigateBack = {
+                    navController.navigateUp()
+                },
+                navigateToUpdate = { uid ->
+                    navController.navigate(Routes.UpdateFamilyMember(uid)) {
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+        composable<Routes.UpdateFamilyMember> {
+            val uid = it.toRoute<Routes.UpdateFamilyMember>().uid
+            UpdateFamilyMemberScreen(
+                uid = uid,
                 navigateBack = {
                     navController.navigateUp()
                 }

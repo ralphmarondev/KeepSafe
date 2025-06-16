@@ -9,6 +9,7 @@ import com.ralphmarondev.keepsafe.family.domain.usecase.GetFamilyMembersUseCase
 import com.ralphmarondev.keepsafe.family.presentation.member_detail.FamilyMemberDetailViewModel
 import com.ralphmarondev.keepsafe.family.presentation.member_list.FamilyMemberListViewModel
 import com.ralphmarondev.keepsafe.family.presentation.new_member.NewFamilyMemberViewModel
+import com.ralphmarondev.keepsafe.family.presentation.update_member.UpdateFamilyMemberViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -25,4 +26,5 @@ val familyModule = module {
     factoryOf(::FamilyMemberListViewModel)
     factoryOf(::NewFamilyMemberViewModel)
     factoryOf(::FamilyMemberDetailViewModel)
+    factoryOf(::UpdateFamilyMemberViewModel)
 }
