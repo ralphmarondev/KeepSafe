@@ -1,6 +1,5 @@
 package com.ralphmarondev.keepsafe.auth.presentation.login
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,19 +11,13 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import com.ralphmarondev.keepsafe.auth.presentation.components.PasswordTextField
 import com.ralphmarondev.keepsafe.auth.presentation.components.UsernameTextField
 import com.ralphmarondev.keepsafe.core.components.GradientSnackBar
-import com.ralphmarondev.keepsafe.core.theme.LocalThemeState
 import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -54,7 +46,6 @@ fun LoginScreen(
     val showSnackbar = viewModel.showSnackbar.collectAsState().value
 
     val focusManager = LocalFocusManager.current
-    val themeState = LocalThemeState.current
 
     LaunchedEffect(response) {
         response?.let {
@@ -69,31 +60,22 @@ fun LoginScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Login"
-                    )
-                },
-                actions = {
-                    IconButton(onClick = themeState::toggleTheme) {
-                        val imageVector = if (themeState.darkMode.value) {
-                            Icons.Outlined.LightMode
-                        } else {
-                            Icons.Outlined.DarkMode
-                        }
-                        Icon(
-                            imageVector = imageVector,
-                            contentDescription = "Toggle theme"
+            Column {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "KeepSafe",
+                            color = MaterialTheme.colorScheme.secondary
                         )
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
-            )
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.secondaryContainer
+                )
+            }
         }
     ) { innerPadding ->
         Box(
@@ -104,67 +86,65 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        OutlinedCard(
+                    Box(modifier = Modifier.padding(top = 24.dp)) {
+                        Column(
                             modifier = Modifier
-                                .widthIn(max = 500.dp)
+                                .widthIn(max = 460.dp)
                                 .fillMaxWidth()
                                 .padding(16.dp)
                         ) {
-                            Column(
+                            Text(
+                                text = "Welcome Back",
+                                fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                                fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                            UsernameTextField(
+                                value = username,
+                                onValueChange = viewModel::onUsernameValueChange,
+                                keyboardOptions = KeyboardOptions(
+                                    imeAction = ImeAction.Next
+                                ),
+                                keyboardActions = KeyboardActions(
+                                    onNext = {
+                                        focusManager.moveFocus(FocusDirection.Next)
+                                    }
+                                ),
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(16.dp)
-                            ) {
-                                UsernameTextField(
-                                    value = username,
-                                    onValueChange = viewModel::onUsernameValueChange,
-                                    keyboardOptions = KeyboardOptions(
-                                        imeAction = ImeAction.Next
-                                    ),
-                                    keyboardActions = KeyboardActions(
-                                        onNext = {
-                                            focusManager.moveFocus(FocusDirection.Next)
-                                        }
-                                    ),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 4.dp)
-                                )
-                                PasswordTextField(
-                                    value = password,
-                                    onValueChange = viewModel::onPasswordValueChange,
-                                    keyboardOptions = KeyboardOptions(
-                                        imeAction = ImeAction.Done
-                                    ),
-                                    keyboardActions = KeyboardActions(
-                                        onDone = {
-                                            focusManager.clearFocus()
-                                        }
-                                    ),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 4.dp)
-                                )
+                                    .padding(vertical = 4.dp)
+                            )
+                            PasswordTextField(
+                                value = password,
+                                onValueChange = viewModel::onPasswordValueChange,
+                                keyboardOptions = KeyboardOptions(
+                                    imeAction = ImeAction.Done
+                                ),
+                                keyboardActions = KeyboardActions(
+                                    onDone = {
+                                        focusManager.clearFocus()
+                                    }
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp)
+                            )
 
-                                Spacer(modifier = Modifier.height(16.dp))
-                                Button(
-                                    onClick = viewModel::login,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                ) {
-                                    Text(
-                                        text = "LOGIN"
-                                    )
-                                }
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(
+                                onClick = viewModel::login,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = "LOGIN"
+                                )
                             }
                         }
                     }
