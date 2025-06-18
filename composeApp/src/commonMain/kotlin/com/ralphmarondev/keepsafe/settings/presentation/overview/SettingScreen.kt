@@ -1,43 +1,35 @@
 package com.ralphmarondev.keepsafe.settings.presentation.overview
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Logout
-import androidx.compose.material.icons.outlined.AccountBox
-import androidx.compose.material.icons.outlined.Cake
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.Map
-import androidx.compose.material.icons.outlined.MiscellaneousServices
-import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Password
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.ralphmarondev.keepsafe.settings.presentation.components.SettingCard
-import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
 @OptIn(KoinExperimentalAPI::class, ExperimentalMaterial3Api::class)
@@ -45,71 +37,6 @@ import org.koin.core.annotation.KoinExperimentalAPI
 fun SettingScreen(
     logout: () -> Unit
 ) {
-    val viewModel: SettingViewModel = koinViewModel()
-    val fullName = viewModel.fullName.collectAsState().value
-
-    val personalInformationOptions = listOf(
-        SettingOptions(
-            leadingIcon = Icons.Outlined.AccountBox,
-            label = "Full Name",
-            onClick = {}
-        ),
-        SettingOptions(
-            leadingIcon = Icons.Outlined.Cake,
-            label = "Birthday",
-            onClick = {}
-        ),
-        SettingOptions(
-            leadingIcon = Icons.Outlined.Map,
-            label = "Birthplace",
-            onClick = {}
-        ),
-        SettingOptions(
-            leadingIcon = Icons.Outlined.Email,
-            label = "Email",
-            onClick = {}
-        ),
-        SettingOptions(
-            leadingIcon = Icons.Outlined.Password,
-            label = "Password",
-            onClick = {}
-        )
-    )
-    val appPreferencesOptions = listOf(
-        SettingOptions(
-            leadingIcon = Icons.Outlined.LightMode,
-            label = "Theme",
-            onClick = {}
-        ),
-        SettingOptions(
-            leadingIcon = Icons.Outlined.Notifications,
-            label = "Notifications",
-            onClick = {}
-        ),
-        SettingOptions(
-            leadingIcon = Icons.Outlined.Language,
-            label = "Language",
-            onClick = {}
-        )
-    )
-    val aboutOptions = listOf(
-        SettingOptions(
-            leadingIcon = Icons.Outlined.Info,
-            label = "Version",
-            onClick = {}
-        ),
-        SettingOptions(
-            leadingIcon = Icons.Outlined.MiscellaneousServices,
-            label = "Terms of Service",
-            onClick = {}
-        ),
-        SettingOptions(
-            leadingIcon = Icons.AutoMirrored.Outlined.Logout,
-            label = "Logout",
-            onClick = { logout() }
-        )
-    )
-
     Scaffold(
         topBar = {
             Column {
@@ -142,79 +69,178 @@ fun SettingScreen(
         ) {
             item {
                 Text(
-                    text = "Personal Information",
-                    fontSize = MaterialTheme.typography.labelMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.labelMedium.fontWeight,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .widthIn(max = 500.dp)
-                        .fillMaxWidth()
-                        .padding(vertical = 2.dp)
-                )
-            }
-            items(personalInformationOptions) {
-                SettingCard(
-                    modifier = Modifier
-                        .widthIn(max = 500.dp)
-                        .fillMaxWidth(),
-                    onClick = it.onClick,
-                    label = it.label,
-                    leadingIcon = it.leadingIcon
-                )
-            }
-            item {
-                Text(
                     text = "App Preferences",
-                    fontSize = MaterialTheme.typography.labelMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.labelMedium.fontWeight,
+                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
-                        .widthIn(max = 500.dp)
                         .fillMaxWidth()
-                        .padding(vertical = 2.dp)
+                        .padding(vertical = 2.dp, horizontal = 16.dp)
                 )
-            }
-            items(appPreferencesOptions) {
-                SettingCard(
+                Row(
                     modifier = Modifier
-                        .widthIn(max = 500.dp)
-                        .fillMaxWidth(),
-                    onClick = it.onClick,
-                    label = it.label,
-                    leadingIcon = it.leadingIcon
-                )
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text(
+                            text = "Notifications",
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = "Enable or disable push notifications for reminders and updates.",
+                            fontSize = MaterialTheme.typography.labelMedium.fontSize,
+                            fontWeight = MaterialTheme.typography.labelMedium.fontWeight,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    Switch(
+                        checked = false,
+                        onCheckedChange = {}
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text(
+                            text = "Theme",
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = "Choose between light and dark themes for the app interface.",
+                            fontSize = MaterialTheme.typography.labelMedium.fontSize,
+                            fontWeight = MaterialTheme.typography.labelMedium.fontWeight,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    TextButton(
+                        onClick = {}
+                    ) {
+                        Text(
+                            text = "Light"
+                        )
+                    }
+                }
             }
             item {
                 Text(
-                    text = "About",
-                    fontSize = MaterialTheme.typography.labelMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.labelMedium.fontWeight,
+                    text = "Data Management",
+                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
-                        .widthIn(max = 500.dp)
                         .fillMaxWidth()
-                        .padding(vertical = 2.dp)
+                        .padding(vertical = 2.dp, horizontal = 16.dp)
                 )
-            }
-            items(aboutOptions) {
-                SettingCard(
+                Row(
                     modifier = Modifier
-                        .widthIn(max = 500.dp)
-                        .fillMaxWidth(),
-                    onClick = it.onClick,
-                    label = it.label,
-                    leadingIcon = it.leadingIcon
-                )
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text(
+                            text = "Sync with Firebase",
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = "Sync your family data with Firebase for backup and cross-device access.",
+                            fontSize = MaterialTheme.typography.labelMedium.fontSize,
+                            fontWeight = MaterialTheme.typography.labelMedium.fontWeight,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    TextButton(
+                        onClick = {},
+                        colors = ButtonDefaults.textButtonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        ),
+                        contentPadding = PaddingValues(vertical = 4.dp, horizontal = 16.dp)
+                    ) {
+                        Text(
+                            text = "Sync",
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                }
             }
+
+            item {
+                Text(
+                    text = "Help and Support",
+                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 2.dp, horizontal = 16.dp)
+                )
+                OutlinedCard(
+                    onClick = {},
+                    border = BorderStroke(width = 0.dp, color = Color.Transparent)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp, horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Help Center",
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
+                            contentDescription = null
+                        )
+                    }
+                }
+                OutlinedCard(
+                    onClick = {},
+                    border = BorderStroke(width = 0.dp, color = Color.Transparent)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp, horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Contact Support",
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
+
             item {
                 Spacer(modifier = Modifier.height(200.dp))
             }
         }
     }
 }
-
-private data class SettingOptions(
-    val leadingIcon: ImageVector,
-    val label: String,
-    val onClick: () -> Unit
-)
