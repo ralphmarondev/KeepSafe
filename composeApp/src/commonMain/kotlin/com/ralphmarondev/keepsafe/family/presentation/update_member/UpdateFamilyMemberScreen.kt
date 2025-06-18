@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBox
@@ -21,6 +20,7 @@ import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -75,25 +75,33 @@ fun UpdateFamilyMemberScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Update"
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = navigateBack) {
-                        Icon(
-                            imageVector = Icons.Outlined.ArrowBackIosNew,
-                            contentDescription = "Navigate back"
+            Column {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "Update"
                         )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    titleContentColor = MaterialTheme.colorScheme.secondary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.secondary
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = navigateBack) {
+                            Icon(
+                                imageVector = Icons.Outlined.ArrowBackIosNew,
+                                contentDescription = "Navigate back"
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        titleContentColor = MaterialTheme.colorScheme.secondary,
+                        navigationIconContentColor = MaterialTheme.colorScheme.secondary
+                    )
                 )
-            )
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.secondaryContainer
+                )
+            }
         }
     ) { innerPadding ->
         Box(
@@ -104,8 +112,7 @@ fun UpdateFamilyMemberScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                contentPadding = PaddingValues(16.dp)
             ) {
                 item {
                     Column(
@@ -186,7 +193,6 @@ fun UpdateFamilyMemberScreen(
             AnimatedVisibility(
                 visible = showSnackbar,
                 modifier = Modifier
-                    .widthIn(max = 500.dp)
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
             ) {
