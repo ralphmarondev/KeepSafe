@@ -47,6 +47,9 @@ class LoginUseCase(
                 preferences.setRole(role = result.role)
                 preferences.setFamilyId(familyId = result.familyId)
 
+                preferences.setHasAccountKey(true)
+                preferences.setFirstLaunch(false)
+
                 Result(
                     success = true,
                     message = "Login successful."

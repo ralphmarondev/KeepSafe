@@ -15,7 +15,9 @@ class AppPreferences(
 ) {
     companion object {
         private val DARK_THEME_KEY = booleanPreferencesKey("dark_theme_key")
+        private val FIRST_LAUNCH = booleanPreferencesKey("first_launch")
         private val NOTIFICATION_KEY = booleanPreferencesKey("notification")
+        private val HAS_ACCOUNT_KEY = booleanPreferencesKey("has_account")
 
         private val EMAIL_KEY = stringPreferencesKey("email")
         private val FAMILY_ID_KEY = stringPreferencesKey("family_id")
@@ -45,6 +47,14 @@ class AppPreferences(
         }
     }
 
+    suspend fun setFirstLaunch(value: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[FIRST_LAUNCH] = value
+        }
+    }
+
+    fun firstLaunch(): Flow<Boolean?> = dataStore.data.map { it[FIRST_LAUNCH] }
+
     suspend fun setNotification(enabled: Boolean) {
         dataStore.edit { prefs ->
             prefs[NOTIFICATION_KEY] = enabled
@@ -52,6 +62,14 @@ class AppPreferences(
     }
 
     fun notification(): Flow<Boolean?> = dataStore.data.map { it[NOTIFICATION_KEY] }
+
+    suspend fun setHasAccountKey(value: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[HAS_ACCOUNT_KEY] = value
+        }
+    }
+
+    fun hasAccount(): Flow<Boolean?> = dataStore.data.map { it[HAS_ACCOUNT_KEY] }
 
     suspend fun setEmail(email: String) {
         dataStore.edit { prefs ->

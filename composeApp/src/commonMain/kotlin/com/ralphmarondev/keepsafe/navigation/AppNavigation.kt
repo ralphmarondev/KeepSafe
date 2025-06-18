@@ -1,17 +1,20 @@
 package com.ralphmarondev.keepsafe.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.ralphmarondev.keepsafe.auth.presentation.login.LoginScreen
+import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.family.presentation.member_detail.FamilyMemberDetailScreen
 import com.ralphmarondev.keepsafe.family.presentation.new_member.NewFamilyMemberScreen
 import com.ralphmarondev.keepsafe.family.presentation.update_member.UpdateFamilyMemberScreen
 import com.ralphmarondev.keepsafe.home.presentation.HomeScreen
 import kotlinx.serialization.Serializable
+import org.koin.compose.koinInject
 
 @Serializable
 sealed interface Routes {
@@ -34,11 +37,25 @@ sealed interface Routes {
 
 @Composable
 fun AppNavigation(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ) {
+    val preferences = koinInject<AppPreferences>()
+    val isFirstLaunch = preferences.firstLaunch().collectAsState(initial = true).value
+    val hasAccount = preferences.hasAccount().collectAsState(initial = false).value
+
+    val startDestination: Any = if (isFirstLaunch == true) {
+        Routes.Login // onboarding later :)
+    } else {
+        if (hasAccount == true) {
+            Routes.Home
+        } else {
+            Routes.Login
+        }
+    }
+
     NavHost(
         navController = navController,
-        startDestination = Routes.Login
+        startDestination = startDestination
     ) {
         composable<Routes.Login> {
             LoginScreen(
