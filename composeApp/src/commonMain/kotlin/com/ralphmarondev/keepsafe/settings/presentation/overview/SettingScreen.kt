@@ -298,6 +298,30 @@ fun SettingScreen(
                         )
                     }
                 }
+                OutlinedCard(
+                    onClick = {},
+                    border = BorderStroke(width = 0.dp, color = Color.Transparent)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp, horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Logout",
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
             }
 
             item {
