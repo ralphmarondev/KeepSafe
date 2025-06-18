@@ -1,6 +1,7 @@
 package com.ralphmarondev.keepsafe.settings.presentation.overview
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.outlined.MiscellaneousServices
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -110,17 +112,24 @@ fun SettingScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Settings"
+            Column {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "Settings"
+                        )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        titleContentColor = MaterialTheme.colorScheme.secondary
                     )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
                 )
-            )
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.secondaryContainer
+                )
+            }
         }
     ) { innerPadding ->
         LazyColumn(

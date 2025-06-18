@@ -1,13 +1,16 @@
 package com.ralphmarondev.keepsafe.reminder.presentation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,17 +27,24 @@ import com.ralphmarondev.keepsafe.core.util.getNotificationService
 fun ReminderScreen() {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Reminders"
+            Column {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "Reminders"
+                        )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        titleContentColor = MaterialTheme.colorScheme.secondary
                     )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
                 )
-            )
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.secondaryContainer
+                )
+            }
         }
     ) { innerPadding ->
         LazyColumn(
