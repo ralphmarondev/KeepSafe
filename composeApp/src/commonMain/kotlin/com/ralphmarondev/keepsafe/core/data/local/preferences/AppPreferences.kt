@@ -15,6 +15,8 @@ class AppPreferences(
 ) {
     companion object {
         private val DARK_THEME_KEY = booleanPreferencesKey("dark_theme_key")
+        private val NOTIFICATION_KEY = booleanPreferencesKey("notification")
+
         private val EMAIL_KEY = stringPreferencesKey("email")
         private val FAMILY_ID_KEY = stringPreferencesKey("family_id")
         private val FULL_NAME_KEY = stringPreferencesKey("full_name")
@@ -43,6 +45,14 @@ class AppPreferences(
         }
     }
 
+    suspend fun setNotification(enabled: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[NOTIFICATION_KEY] = enabled
+        }
+    }
+
+    fun notification(): Flow<Boolean?> = dataStore.data.map { it[NOTIFICATION_KEY] }
+
     suspend fun setEmail(email: String) {
         dataStore.edit { prefs ->
             prefs[EMAIL_KEY] = email
@@ -64,6 +74,16 @@ class AppPreferences(
     suspend fun setRole(role: String) {
         dataStore.edit { prefs ->
             prefs[ROLE_KEY] = role
+        }
+    }
+
+    suspend fun clearAccountInfo() {
+        dataStore.edit { prefs ->
+            prefs.remove(EMAIL_KEY)
+            prefs.remove(FAMILY_ID_KEY)
+            prefs.remove(FULL_NAME_KEY)
+            prefs.remove(ROLE_KEY)
+            prefs.remove(UID_KEY)
         }
     }
 

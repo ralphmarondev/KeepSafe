@@ -3,6 +3,7 @@ package com.ralphmarondev.keepsafe.settings.presentation.overview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
+import com.ralphmarondev.keepsafe.core.domain.model.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -12,12 +13,40 @@ class SettingViewModel(
     private val preferences: AppPreferences
 ) : ViewModel() {
 
-    private val _fullName = MutableStateFlow("")
-    val fullName = _fullName.asStateFlow()
+    private val _showNotification = MutableStateFlow(false)
+    val showNotifications = _showNotification.asStateFlow()
+
+    private val _showConfirmLogoutDialog = MutableStateFlow(false)
+    val showConfirmLogoutDialog = _showConfirmLogoutDialog.asStateFlow()
+
+    private val _response = MutableStateFlow<Result?>(null)
+    val response = _response.asStateFlow()
+
 
     init {
         viewModelScope.launch {
-            _fullName.value = preferences.fullName().first() ?: "No Name"
+            _showNotification.value = preferences.notification().first() == true
+        }
+    }
+
+    fun toggleShowNotification() {
+        viewModelScope.launch {
+            _showNotification.value = !_showNotification.value
+            preferences.setNotification(_showNotification.value)
+        }
+    }
+
+    fun setShowConfirmLogoutDialog(value: Boolean) {
+        _showConfirmLogoutDialog.value = value
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            preferences.clearAccountInfo()
+            _response.value = Result(
+                success = true,
+                message = "Account removed successfully."
+            )
         }
     }
 }

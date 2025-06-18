@@ -26,11 +26,15 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ralphmarondev.keepsafe.settings.presentation.components.ConfirmLogoutDialog
+import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
 @OptIn(KoinExperimentalAPI::class, ExperimentalMaterial3Api::class)
@@ -38,6 +42,19 @@ import org.koin.core.annotation.KoinExperimentalAPI
 fun SettingScreen(
     logout: () -> Unit
 ) {
+    val viewModel: SettingViewModel = koinViewModel()
+    val showNotification = viewModel.showNotifications.collectAsState().value
+    val showConfirmLogoutDialog = viewModel.showConfirmLogoutDialog.collectAsState().value
+    val response = viewModel.response.collectAsState().value
+
+    LaunchedEffect(response) {
+        response?.let {
+            if (it.success) {
+                logout()
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             Column {
@@ -99,8 +116,8 @@ fun SettingScreen(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Switch(
-                        checked = false,
-                        onCheckedChange = {}
+                        checked = showNotification,
+                        onCheckedChange = { viewModel.toggleShowNotification() }
                     )
                 }
                 Row(
@@ -299,7 +316,7 @@ fun SettingScreen(
                     }
                 }
                 OutlinedCard(
-                    onClick = {},
+                    onClick = { viewModel.setShowConfirmLogoutDialog(true) },
                     border = BorderStroke(width = 0.dp, color = Color.Transparent)
                 ) {
                     Row(
@@ -328,5 +345,12 @@ fun SettingScreen(
                 Spacer(modifier = Modifier.height(200.dp))
             }
         }
+    }
+
+    if (showConfirmLogoutDialog) {
+        ConfirmLogoutDialog(
+            onDismiss = { viewModel.setShowConfirmLogoutDialog(false) },
+            onConfirm = { viewModel.logout() }
+        )
     }
 }
