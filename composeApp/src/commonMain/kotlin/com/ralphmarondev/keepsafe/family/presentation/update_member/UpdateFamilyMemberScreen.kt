@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -91,9 +90,8 @@ fun UpdateFamilyMemberScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                    titleContentColor = MaterialTheme.colorScheme.secondary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.secondary
                 )
             )
         }
@@ -112,7 +110,6 @@ fun UpdateFamilyMemberScreen(
                 item {
                     Column(
                         modifier = Modifier
-                            .width(500.dp)
                             .fillMaxWidth()
                     ) {
                         NormalTextField(
@@ -177,7 +174,7 @@ fun UpdateFamilyMemberScreen(
                                 .fillMaxWidth()
                         ) {
                             Text(
-                                text = "REGISTER",
+                                text = "UPDATE",
                                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
                                 fontWeight = MaterialTheme.typography.titleMedium.fontWeight
                             )
@@ -196,7 +193,6 @@ fun UpdateFamilyMemberScreen(
                 GradientSnackBar(
                     message = response?.message ?: "",
                     modifier = Modifier
-                        .widthIn(max = 500.dp)
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter),
                     actionLabel = "OK",
