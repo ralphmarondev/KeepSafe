@@ -81,7 +81,7 @@ fun SettingScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            contentPadding = PaddingValues(16.dp)
+            contentPadding = PaddingValues(vertical = 16.dp)
         ) {
             item {
                 Text(
