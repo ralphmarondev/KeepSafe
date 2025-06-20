@@ -16,4 +16,7 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE isDeleted = 0")
     suspend fun getAllUsers(): List<UserEntity>
+
+    @Query("DELETE FROM users")
+    suspend fun deleteAllUsers()
 }
