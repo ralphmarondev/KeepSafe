@@ -1,131 +1,96 @@
-## 🛡️ **App Name:** KeepSafe
+# 🛡️ KeepSafe
 
-A **family member management** app built with **Jetpack Compose Multiplatform**, targeting **Android
-and Desktop** initially. Uses **Firebase** as backend with local database support for offline
-access.
+**KeepSafe** is a role-based family management app built using **Jetpack Compose Multiplatform**,
+targeting both **Android** and **Desktop**. It features **local caching**, **birthday reminders**,
+and a simple **sync system with Firebase**, designed for a seamless, secure user experience.
 
----
-
-## 🧠 **Core Concept**
-
-* **Admin-Managed Family Roster**
-  Only the **admin** can create a family and add members.
-* **Role-Based Access**
-
-    * **Admin**: full control — can manage family, update profiles, and configure app settings.
-    * **Members**: can log in, view family list, view and edit their username/password, and access
-      their profile.
+![License](https://img.shields.io/badge/license-MIT-purple)
+![Platform](https://img.shields.io/badge/platform-Android%20%7C%20Desktop-blueviolet)
+![Architecture](https://img.shields.io/badge/architecture-Clean--Architecture-orange)
+![UI](https://img.shields.io/badge/UI-Compose%20Multiplatform-purple)
+![Kotlin](https://img.shields.io/badge/kotlin-2.0%2B-7f52ff?logo=kotlin)
+![Gradle](https://img.shields.io/badge/gradle-8.0%2B-02303a?logo=gradle)
+![Firebase](https://img.shields.io/badge/backend-Firebase-yellow)
 
 ---
 
-## 📱 **App Flow**
+## 🔗 Repository
 
-### 1. **Splash Screen**
-
-* Logo and version.
-* Auto-navigation based on login status.
-
-### 2. **Onboarding**
-
-* First-time launch only.
-* Short 2–3 screen intro about app purpose and privacy.
-
-### 3. **Login Screen**
-
-* **No self-registration.**
-* Admin is responsible for creating all user accounts.
-
-### 4. **Main App Navigation**
-
-**Adaptive UI:**
-
-* **Mobile** → Bottom Navigation Bar.
-* **Desktop** → Navigation Rail (Gmail-style layout).
+GitHub: [https://github.com/ralphmarondev/KeepSafe](https://github.com/ralphmarondev/KeepSafe)
 
 ---
 
-## 🧭 **Navigation Sections**
+## 📸 Screenshots
 
-### 🏠 Home
+Here’s a sneak peek of **KeepSafe** in action:
 
-* List of family members with:
+<div align="center">
+  <img src="screenshots/home.png" alt="Home Screen" width="200" style="max-width: 100%; height: auto; margin: 8px;" />
+  <img src="screenshots/details.png" alt="Details Screen" width="200" style="max-width: 100%; height: auto; margin: 8px;" />
+  <img src="screenshots/settings.png" alt="Settings Screen" width="200" style="max-width: 100%; height: auto; margin: 8px;" />
+</div>
 
-    * Name
-    * Role
-    * Birthday
-    * Birthplace
-
-* Click/tap to view details.
-
-### 👤 Profile
-
-* View personal information.
-
-* Members can edit:
-
-    * Username
-    * Password
-
-* Admin can edit:
-
-    * Full personal info (including birthday and birthplace)
-
-### ⚙️ Settings
-
-* **Keep me signed in** ✅ (default ON)
-* **Sync on app launch** ✅ (default ON)
-* **Manual sync** 🔄 (sync now button)
-* **Logout** 🔓
+> 📌 *Works seamlessly across Android and Desktop—responsive, fast, and offline-ready.*
 
 ---
 
-## 🔐 **Authentication & Roles**
+## ✨ Features
 
-* Only **one admin** per Firebase instance.
-* Admin adds all members.
-* No public access or sign-up flow.
+* 🔐 Role-based authentication (Admin & Member)
+* 🧠 Local caching of family data after first login
+* 🛜 Auto-login on second launch
+* 👥 View family list with tap-to-navigate to details
+* 🎂 Built-in birthday reminder system
+* ⚙️ Settings panel:
 
----
-
-## 🔄 **Offline Support & Syncing**
-
-### 📥 Local Database
-
-* On login, data is saved locally.
-* App is fully usable offline (read-only).
-
-### 🔁 Sync Options
-
-| Trigger                 | Behavior                                        |
-|-------------------------|-------------------------------------------------|
-| App launch (if enabled) | Syncs with Firebase and updates local database. |
-| Manual sync             | Button-based refresh of family data.            |
-| Offline                 | Shows cached data, disables syncing.            |
+    * Toggle notifications
+    * Dark/light theme
+    * Manual or auto Firebase sync
+    * Logout
 
 ---
 
-## 📝 **Feature Summary**
+## 🛠️ Getting Started
 
-| Feature                    | Admin | Member |
-|----------------------------|-------|--------|
-| Login                      | ✅     | ✅      |
-| View family list           | ✅     | ✅      |
-| Add/edit family members    | ✅     | ❌      |
-| Edit own username/password | ✅     | ✅      |
-| View personal profile      | ✅     | ✅      |
-| Sync (manual/auto)         | ✅     | ✅      |
-| Toggle keep signed in      | ✅     | ✅      |
-| Logout                     | ✅     | ✅      |
+### 1. Clone the Repository
 
----
+```bash
+git clone https://github.com/ralphmarondev/KeepSafe.git
+cd KeepSafe
+```
 
-## 🧑‍💻 Developer Note
+### 2. Open in Android Studio
 
-Made with ❤️ by **Ralph Maron Eda**
-GitHub: [**Ralph Maron Eda**](https://github.com/ralphmarondev)
+* Open the root project folder
+* Let Gradle sync completely
+* Run the app on your Android emulator or a connected device
+
+### 3. Run Desktop App via Terminal
+
+```bash
+./gradlew run
+```
+
+> 💡 Make sure you have JDK 21+ and Kotlin Multiplatform properly set up.
 
 ---
 
 ## 📄 License
 
 This project is licensed under the **MIT License**.
+See the [LICENSE](LICENSE.txt) file for full details.
+
+---
+
+## 👤 Author
+
+**Ralph Maron Eda**
+GitHub: [@ralphmarondev](https://github.com/ralphmarondev)
+
+---
+
+## 🤝 Contributing
+
+Suggestions and contributions are welcome!
+Feel free to fork the project, submit issues, or open a pull request.
+Let’s keep our families safe—digitally. 🛡️💜
