@@ -6,11 +6,16 @@ import com.ralphmarondev.keepsafe.core.util.currentTimeMillis
 
 @Entity(tableName = "users")
 data class UserEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey(autoGenerate = false)
+    val uid: String,
+    val familyId: String,
     val fullName: String,
-    val username: String,
-    val password: String,
+    val email: String,
+    val role: String,
+    val relationship: String,
+    val birthday: String,
+    val birthplace: String,
+    val phoneNumber: String,
     val createDate: Long = currentTimeMillis(),
     val isDeleted: Boolean = false
 )

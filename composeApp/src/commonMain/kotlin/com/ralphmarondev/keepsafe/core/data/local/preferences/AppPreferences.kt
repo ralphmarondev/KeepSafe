@@ -18,6 +18,7 @@ class AppPreferences(
         private val FIRST_LAUNCH = booleanPreferencesKey("first_launch")
         private val NOTIFICATION_KEY = booleanPreferencesKey("notification")
         private val HAS_ACCOUNT_KEY = booleanPreferencesKey("has_account")
+        private val FIRST_TIME_READING_FAMILY_LIST = booleanPreferencesKey("")
 
         private val EMAIL_KEY = stringPreferencesKey("email")
         private val FAMILY_ID_KEY = stringPreferencesKey("family_id")
@@ -70,6 +71,15 @@ class AppPreferences(
     }
 
     fun hasAccount(): Flow<Boolean?> = dataStore.data.map { it[HAS_ACCOUNT_KEY] }
+
+    suspend fun setFirstTimeReadingFamilyList(value: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[FIRST_TIME_READING_FAMILY_LIST] = value
+        }
+    }
+
+    fun isFirstTimeReadingFamilyList(): Flow<Boolean?> =
+        dataStore.data.map { it[FIRST_TIME_READING_FAMILY_LIST] }
 
     suspend fun setEmail(email: String) {
         dataStore.edit { prefs ->

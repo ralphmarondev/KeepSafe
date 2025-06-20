@@ -11,6 +11,9 @@ interface UserDao {
     @Upsert
     suspend fun upsert(userEntity: UserEntity)
 
-    @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
-    suspend fun getDetailById(id: Int): UserEntity?
+    @Query("SELECT * FROM users WHERE uid = :uid AND isDeleted = 0 LIMIT 1")
+    suspend fun getDetailByUId(uid: String): UserEntity?
+
+    @Query("SELECT * FROM users WHERE isDeleted = 0")
+    suspend fun getAllUsers(): List<UserEntity>
 }
