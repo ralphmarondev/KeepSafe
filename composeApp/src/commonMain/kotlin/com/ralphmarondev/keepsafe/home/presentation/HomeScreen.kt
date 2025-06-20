@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
@@ -125,10 +124,10 @@ fun HomeScreen(
                     }
                 }
             }
-        ) { innerPadding ->
+        ) {
             Row(
                 modifier = Modifier
-                    .padding(innerPadding)
+                    .fillMaxSize()
             ) {
                 if (windowSizeClass != WindowSizeClass.Compact) {
                     NavigationRail {
