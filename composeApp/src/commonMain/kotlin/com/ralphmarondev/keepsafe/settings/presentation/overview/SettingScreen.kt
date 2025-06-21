@@ -120,43 +120,6 @@ fun SettingScreen(
                         onCheckedChange = { viewModel.toggleShowNotification() }
                     )
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "Theme",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Text(
-                            text = "Choose between light and dark themes for the app interface.",
-                            fontSize = MaterialTheme.typography.labelMedium.fontSize,
-                            fontWeight = MaterialTheme.typography.labelMedium.fontWeight,
-                            color = MaterialTheme.colorScheme.secondary,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    TextButton(
-                        onClick = {},
-                        modifier = Modifier.height(36.dp),
-                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
-                    ) {
-                        Text(
-                            text = "Light",
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.labelMedium,
-                            modifier = Modifier.padding(horizontal = 4.dp)
-                        )
-                    }
-                }
             }
             item {
                 Text(
