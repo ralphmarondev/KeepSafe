@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -20,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil3.compose.rememberAsyncImagePainter
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.core.theme.KeepSafeTheme
 import com.ralphmarondev.keepsafe.core.theme.LocalThemeState
@@ -31,6 +33,7 @@ import keepsafe.composeapp.generated.resources.Res
 import keepsafe.composeapp.generated.resources.keepsafe_logo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -50,24 +53,32 @@ fun App(
             var hasAccount by remember { mutableStateOf<Boolean?>(null) }
 
             LaunchedEffect(Unit) {
+                delay(1500)
                 isFirstLaunch = preferences.firstLaunch().first()
                 hasAccount = preferences.hasAccount().first()
-                delay(1500)
             }
 
             if (isFirstLaunch == null || hasAccount == null) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .padding(bottom = 100.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
-                        painter = rememberAsyncImagePainter(Res.drawable.keepsafe_logo),
+                        painter = painterResource(Res.drawable.keepsafe_logo),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(140.dp)
+                    )
+                    Text(
+                        text = "v2025.06",
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                        fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(vertical = 4.dp)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     CircularProgressIndicator()
