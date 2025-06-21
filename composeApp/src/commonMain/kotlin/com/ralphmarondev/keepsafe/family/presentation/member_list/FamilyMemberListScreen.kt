@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -28,6 +30,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ralphmarondev.keepsafe.core.theme.LocalThemeState
 import com.ralphmarondev.keepsafe.core.util.isDesktop
 import com.ralphmarondev.keepsafe.family.presentation.components.FamilyMemberCard
 import org.koin.compose.viewmodel.koinViewModel
@@ -43,6 +46,8 @@ fun FamilyMemberListScreen(
     val isRefreshing = viewModel.isRefreshing.collectAsState().value
     val response = viewModel.response.collectAsState().value
     val currentUserUid = viewModel.currentUserUid.collectAsState().value
+
+    val themeState = LocalThemeState.current
 
     Scaffold(
         topBar = {
@@ -63,6 +68,19 @@ fun FamilyMemberListScreen(
                                     contentDescription = "Refresh"
                                 )
                             }
+                        }
+                        IconButton(
+                            onClick = themeState::toggleTheme
+                        ) {
+                            val imageVector = if (themeState.darkMode.value) {
+                                Icons.Outlined.LightMode
+                            } else {
+                                Icons.Outlined.DarkMode
+                            }
+                            Icon(
+                                imageVector = imageVector,
+                                contentDescription = "Switch theme"
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
