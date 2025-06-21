@@ -1,12 +1,10 @@
 package com.ralphmarondev.keepsafe.auth.domain.usecase
 
 import com.ralphmarondev.keepsafe.auth.domain.repository.AuthRepository
-import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.core.domain.model.Result
 
 class LoginUseCase(
-    private val repository: AuthRepository,
-    private val preferences: AppPreferences
+    private val repository: AuthRepository
 ) {
     suspend operator fun invoke(
         username: String,
@@ -42,13 +40,7 @@ class LoginUseCase(
                 result.familyId.isNotBlank() &&
                 !result.isDeleted
             ) {
-                preferences.setEmail(email = result.email)
-                preferences.setUid(uid = result.uid)
-                preferences.setRole(role = result.role)
-                preferences.setFamilyId(familyId = result.familyId)
-
-                preferences.setHasAccountKey(true)
-                preferences.setFirstLaunch(false)
+                repository.saveLoginResult(result = result)
 
                 Result(
                     success = true,

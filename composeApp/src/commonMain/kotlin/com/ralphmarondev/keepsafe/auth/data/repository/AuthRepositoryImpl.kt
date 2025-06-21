@@ -2,13 +2,15 @@ package com.ralphmarondev.keepsafe.auth.data.repository
 
 import com.ralphmarondev.keepsafe.auth.domain.model.LoginResult
 import com.ralphmarondev.keepsafe.auth.domain.repository.AuthRepository
+import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.core.data.network.firebase.auth.LoginApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.auth.LoginRequest
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetDetailsApiService
 
 class AuthRepositoryImpl(
     private val loginApiService: LoginApiService,
-    private val getDetailsApiService: GetDetailsApiService
+    private val getDetailsApiService: GetDetailsApiService,
+    private val preferences: AppPreferences
 ) : AuthRepository {
     override suspend fun login(username: String, password: String): LoginResult? {
         val response = loginApiService.login(
@@ -27,5 +29,15 @@ class AuthRepositoryImpl(
             familyId = familyId ?: "",
             isDeleted = isDeleted != false
         )
+    }
+
+    override suspend fun saveLoginResult(result: LoginResult) {
+        preferences.setEmail(email = result.email)
+        preferences.setUid(uid = result.uid)
+        preferences.setRole(role = result.role)
+        preferences.setFamilyId(familyId = result.familyId)
+
+        preferences.setHasAccountKey(true)
+        preferences.setFirstLaunch(false)
     }
 }
