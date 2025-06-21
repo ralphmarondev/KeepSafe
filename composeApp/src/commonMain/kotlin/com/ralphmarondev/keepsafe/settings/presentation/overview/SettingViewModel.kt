@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.core.data.local.database.dao.UserDao
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.core.domain.model.Result
+import com.ralphmarondev.keepsafe.settings.domain.usecase.LogoutUseCase
 import com.ralphmarondev.keepsafe.settings.domain.usecase.SyncWithFirebaseUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 class SettingViewModel(
     private val preferences: AppPreferences,
     private val userDao: UserDao,
-    private val syncWithFirebaseUseCase: SyncWithFirebaseUseCase
+    private val syncWithFirebaseUseCase: SyncWithFirebaseUseCase,
+    private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
 
     private val _showNotification = MutableStateFlow(false)
@@ -62,20 +64,7 @@ class SettingViewModel(
 
     fun logout() {
         viewModelScope.launch {
-            try {
-                preferences.clearAccountInfo()
-                preferences.setFirstTimeReadingFamilyList(true)
-                userDao.deleteAllUsers()
-                _logoutResponse.value = Result(
-                    success = true,
-                    message = "Account removed successfully."
-                )
-            } catch (e: Exception) {
-                _logoutResponse.value = Result(
-                    success = false,
-                    message = "Error: ${e.message}"
-                )
-            }
+            _logoutResponse.value = logoutUseCase()
         }
     }
 }

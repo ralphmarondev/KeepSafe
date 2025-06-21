@@ -56,4 +56,10 @@ class SettingRepositoryImpl(
             )
         }
     }
+
+    override suspend fun logout() {
+        preferences.clearAccountInfo()
+        preferences.setFirstTimeReadingFamilyList(true)
+        userDao.deleteAllUsers()
+    }
 }
