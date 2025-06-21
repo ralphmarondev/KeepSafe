@@ -11,26 +11,6 @@ import com.ralphmarondev.keepsafe.family.presentation.member_detail.FamilyMember
 import com.ralphmarondev.keepsafe.family.presentation.new_member.NewFamilyMemberScreen
 import com.ralphmarondev.keepsafe.family.presentation.update_member.UpdateFamilyMemberScreen
 import com.ralphmarondev.keepsafe.home.presentation.HomeScreen
-import kotlinx.serialization.Serializable
-
-@Serializable
-sealed interface Routes {
-
-    @Serializable
-    data object Login : Routes
-
-    @Serializable
-    data object Home : Routes
-
-    @Serializable
-    data object NewFamilyMember : Routes
-
-    @Serializable
-    data class FamilyMemberDetail(val id: String) : Routes
-
-    @Serializable
-    data class UpdateFamilyMember(val uid: String) : Routes
-}
 
 @Composable
 fun AppNavigation(
