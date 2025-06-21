@@ -62,4 +62,12 @@ class SettingRepositoryImpl(
         preferences.setFirstTimeReadingFamilyList(true)
         userDao.deleteAllUsers()
     }
+
+    override suspend fun getNotificationState(): Boolean {
+        return preferences.notification().first() == false
+    }
+
+    override suspend fun setNotificationState(value: Boolean) {
+        preferences.setNotification(value)
+    }
 }
