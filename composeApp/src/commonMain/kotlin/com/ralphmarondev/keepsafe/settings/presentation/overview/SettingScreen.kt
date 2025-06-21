@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ralphmarondev.keepsafe.settings.presentation.components.ConfirmLogoutDialog
+import com.ralphmarondev.keepsafe.settings.presentation.components.SyncWithFirebaseDialog
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -44,11 +45,21 @@ fun SettingScreen(
 ) {
     val viewModel: SettingViewModel = koinViewModel()
     val showNotification = viewModel.showNotifications.collectAsState().value
+    val showSyncWithFirebaseDialog = viewModel.showSyncWithFirebaseDialog.collectAsState().value
     val showConfirmLogoutDialog = viewModel.showConfirmLogoutDialog.collectAsState().value
-    val response = viewModel.response.collectAsState().value
+    val syncResponse = viewModel.syncResponse.collectAsState().value
+    val logoutResponse = viewModel.logoutResponse.collectAsState().value
 
-    LaunchedEffect(response) {
-        response?.let {
+    LaunchedEffect(syncResponse) {
+        syncResponse?.let {
+            if (it.success) {
+                viewModel.setShowSyncWithFirebaseDialog(false)
+            }
+        }
+    }
+
+    LaunchedEffect(logoutResponse) {
+        logoutResponse?.let {
             if (it.success) {
                 logout()
             }
@@ -154,7 +165,7 @@ fun SettingScreen(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     TextButton(
-                        onClick = {},
+                        onClick = { viewModel.setShowSyncWithFirebaseDialog(true) },
                         modifier = Modifier.height(36.dp),
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
                         colors = ButtonDefaults.textButtonColors(
@@ -308,6 +319,13 @@ fun SettingScreen(
                 Spacer(modifier = Modifier.height(200.dp))
             }
         }
+    }
+
+    if (showSyncWithFirebaseDialog) {
+        SyncWithFirebaseDialog(
+            onDismiss = { viewModel.setShowSyncWithFirebaseDialog(false) },
+            onConfirm = { viewModel.syncWithFirebase() }
+        )
     }
 
     if (showConfirmLogoutDialog) {

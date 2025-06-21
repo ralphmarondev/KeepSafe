@@ -18,11 +18,17 @@ class SettingViewModel(
     private val _showNotification = MutableStateFlow(false)
     val showNotifications = _showNotification.asStateFlow()
 
+    private val _showSyncWithFirebaseDialog = MutableStateFlow(false)
+    val showSyncWithFirebaseDialog = _showSyncWithFirebaseDialog.asStateFlow()
+
     private val _showConfirmLogoutDialog = MutableStateFlow(false)
     val showConfirmLogoutDialog = _showConfirmLogoutDialog.asStateFlow()
 
-    private val _response = MutableStateFlow<Result?>(null)
-    val response = _response.asStateFlow()
+    private val _syncResponse = MutableStateFlow<Result?>(null)
+    val syncResponse = _syncResponse.asStateFlow()
+
+    private val _logoutResponse = MutableStateFlow<Result?>(null)
+    val logoutResponse = _logoutResponse.asStateFlow()
 
 
     init {
@@ -38,6 +44,26 @@ class SettingViewModel(
         }
     }
 
+    fun setShowSyncWithFirebaseDialog(value: Boolean) {
+        _showSyncWithFirebaseDialog.value = value
+    }
+
+    fun syncWithFirebase() {
+        viewModelScope.launch {
+            try {
+                _syncResponse.value = Result(
+                    success = true,
+                    message = "Synced successfully!"
+                )
+            } catch (e: Exception) {
+                _syncResponse.value = Result(
+                    success = false,
+                    message = "Error: ${e.message}"
+                )
+            }
+        }
+    }
+
     fun setShowConfirmLogoutDialog(value: Boolean) {
         _showConfirmLogoutDialog.value = value
     }
@@ -48,12 +74,12 @@ class SettingViewModel(
                 preferences.clearAccountInfo()
                 preferences.setFirstTimeReadingFamilyList(true)
                 userDao.deleteAllUsers()
-                _response.value = Result(
+                _logoutResponse.value = Result(
                     success = true,
                     message = "Account removed successfully."
                 )
             } catch (e: Exception) {
-                _response.value = Result(
+                _logoutResponse.value = Result(
                     success = false,
                     message = "Error: ${e.message}"
                 )
