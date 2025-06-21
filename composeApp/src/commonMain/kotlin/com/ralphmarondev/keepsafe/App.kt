@@ -54,8 +54,8 @@ fun App(
 
             LaunchedEffect(Unit) {
                 delay(1500)
-                isFirstLaunch = preferences.firstLaunch().first()
-                hasAccount = preferences.hasAccount().first()
+                isFirstLaunch = preferences.firstLaunch().first() != false
+                hasAccount = preferences.hasAccount().first() == true
             }
 
             if (isFirstLaunch == null || hasAccount == null) {
