@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.core.data.local.database.dao.UserDao
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.core.domain.model.Result
+import com.ralphmarondev.keepsafe.settings.domain.usecase.SyncWithFirebaseUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 
 class SettingViewModel(
     private val preferences: AppPreferences,
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    private val syncWithFirebaseUseCase: SyncWithFirebaseUseCase
 ) : ViewModel() {
 
     private val _showNotification = MutableStateFlow(false)
@@ -50,17 +52,7 @@ class SettingViewModel(
 
     fun syncWithFirebase() {
         viewModelScope.launch {
-            try {
-                _syncResponse.value = Result(
-                    success = true,
-                    message = "Synced successfully!"
-                )
-            } catch (e: Exception) {
-                _syncResponse.value = Result(
-                    success = false,
-                    message = "Error: ${e.message}"
-                )
-            }
+            _syncResponse.value = syncWithFirebaseUseCase()
         }
     }
 
