@@ -70,8 +70,10 @@ class FamilyRepositoryImpl(
                     isDeleted = fields.isDeleted.booleanValue
                 )
             }
-
-            memberList.map { member ->
+            val filteredMemberList = memberList.filter { member ->
+                member.role != "Admin"
+            }
+            filteredMemberList.map { member ->
                 userDao.upsert(
                     userEntity = UserEntity(
                         uid = member.uid ?: "",
@@ -89,10 +91,13 @@ class FamilyRepositoryImpl(
                 )
             }
             preferences.setFirstTimeReadingFamilyList(false)
-            memberList
+            filteredMemberList
         } else {
             val familyMemberList = userDao.getAllUsers()
-            familyMemberList.map { member ->
+            val filteredMemberList = familyMemberList.filter { member ->
+                member.role != "Admin"
+            }
+            filteredMemberList.map { member ->
                 FamilyMember(
                     uid = member.uid,
                     familyId = member.familyId,
