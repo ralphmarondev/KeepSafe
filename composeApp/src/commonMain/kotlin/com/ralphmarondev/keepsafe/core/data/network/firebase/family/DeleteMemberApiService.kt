@@ -15,7 +15,7 @@ class DeleteMemberApiService(
         return try {
             val response = httpClient.patch {
                 url {
-                    takeFrom(Secrets.userDetailsUrl)
+                    takeFrom("${Secrets.DATABASE_URL}/users")
                     appendPathSegments(uid)
                     parameters.append("updateMask.fieldPaths", "isDeleted")
                 }

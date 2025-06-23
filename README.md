@@ -25,9 +25,8 @@ GitHub: [https://github.com/ralphmarondev/KeepSafe](https://github.com/ralphmaro
 Here’s a sneak peek of **KeepSafe** in action:
 
 <div align="center">
-  <img src="screenshots/home.png" alt="Home Screen" width="200" style="max-width: 100%; height: auto; margin: 8px;" />
-  <img src="screenshots/details.png" alt="Details Screen" width="200" style="max-width: 100%; height: auto; margin: 8px;" />
-  <img src="screenshots/settings.png" alt="Settings Screen" width="200" style="max-width: 100%; height: auto; margin: 8px;" />
+  <img src="screenshots/login_desktop.png" alt="Login Screen Desktop" width="200" style="max-width: 100%; height: auto; margin: 8px;" />
+  <img src="screenshots/settings_phone.png" alt="Settings Screen Phone" width="200" style="max-width: 100%; height: auto; margin: 8px;" />
 </div>
 
 > 📌 *Works seamlessly across Android and Desktop—responsive, fast, and offline-ready.*

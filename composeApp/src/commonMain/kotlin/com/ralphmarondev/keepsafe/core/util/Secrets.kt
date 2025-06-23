@@ -1,8 +1,7 @@
 package com.ralphmarondev.keepsafe.core.util
 
 expect object Secrets{
-    val apiKey: String
-    val authUrl: String
-    val familyListUrl: String
-    val userDetailsUrl: String
+    val REGISTER_URL: String
+    val LOGIN_URL: String
+    val DATABASE_URL: String
 }

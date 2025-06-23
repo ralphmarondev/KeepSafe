@@ -22,7 +22,7 @@ class UpdateMemberApiService(
         memberFields: MemberFields
     ): Boolean {
         return try {
-            val response = httpClient.patch("${Secrets.userDetailsUrl}/$uid") {
+            val response = httpClient.patch("${Secrets.DATABASE_URL}/users/$uid") {
                 contentType(ContentType.Application.Json)
                 setBody(UpdateMemberRequest(fields = memberFields))
             }

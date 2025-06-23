@@ -19,7 +19,7 @@ class GetDetailsApiService(
 ) {
     suspend fun getDetailsByUid(uid: String): MemberList? {
         return try {
-            val response = httpClient.get("${Secrets.userDetailsUrl}/$uid")
+            val response = httpClient.get("${Secrets.DATABASE_URL}/users/$uid")
 
             if (!response.status.isSuccess()) {
                 println("Getting details failed: ${response.bodyAsText()}")
@@ -34,7 +34,7 @@ class GetDetailsApiService(
 
     suspend fun getDetailsByEmail(email: String): MemberWithUid? {
         return try {
-            val response = httpClient.get(Secrets.userDetailsUrl)
+            val response = httpClient.get("${Secrets.DATABASE_URL}/users")
 
             if (!response.status.isSuccess()) {
                 println("Getting user list failed: ${response.bodyAsText()}")

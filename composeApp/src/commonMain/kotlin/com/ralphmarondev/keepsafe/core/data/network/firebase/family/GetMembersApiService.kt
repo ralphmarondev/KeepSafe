@@ -47,7 +47,7 @@ class GetMembersApiService(
 ) {
     suspend fun getMembers(familyId: String): List<MemberList> {
         return try {
-            val response = httpClient.get(Secrets.userDetailsUrl)
+            val response = httpClient.get("${Secrets.DATABASE_URL}/users")
 
             if (!response.status.isSuccess()) {
                 println("Getting family members failed: ${response.bodyAsText()}")

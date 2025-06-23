@@ -24,10 +24,9 @@ val iosConfigFile = File(layout.buildDirectory.get().asFile, "generated/secrets.
     parentFile.mkdirs()
     writeText(
         """
-            API_KEY=${localProperties.getProperty("API_KEY")}
-            AUTHENTICATION_URL=${localProperties.getProperty("AUTHENTICATION_URL")}
-            FAMILY_LIST_URL=${localProperties.getProperty("FAMILY_LIST_URL")}
-            USER_DETAILS_URL=${localProperties.getProperty("USER_DETAILS_URL")}
+            LOGIN_URL=${localProperties.getProperty("LOGIN_URL")}
+            REGISTER_URL=${localProperties.getProperty("REGISTER_URL")}
+            DATABASE_URL=${localProperties.getProperty("DATABASE_URL")}
         """.trimIndent()
     )
 }
@@ -143,21 +142,16 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("API_KEY")}\"")
+        buildConfigField("String", "LOGIN_URL", "\"${localProperties.getProperty("LOGIN_URL")}\"")
         buildConfigField(
             "String",
-            "AUTHENTICATION_URL",
-            "\"${localProperties.getProperty("AUTHENTICATION_URL")}\""
+            "REGISTER_URL",
+            "\"${localProperties.getProperty("REGISTER_URL")}\""
         )
         buildConfigField(
             "String",
-            "FAMILY_LIST_URL",
-            "\"${localProperties.getProperty("FAMILY_LIST_URL")}\""
-        )
-        buildConfigField(
-            "String",
-            "USER_DETAILS_URL",
-            "\"${localProperties.getProperty("USER_DETAILS_URL")}\""
+            "DATABASE_URL",
+            "\"${localProperties.getProperty("DATABASE_URL")}\""
         )
     }
     packaging {

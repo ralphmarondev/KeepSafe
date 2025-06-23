@@ -3,8 +3,7 @@ package com.ralphmarondev.keepsafe.core.util
 import com.ralphmarondev.keepsafe.BuildConfig
 
 actual object Secrets {
-    actual val apiKey: String = BuildConfig.API_KEY
-    actual val authUrl: String = BuildConfig.AUTHENTICATION_URL
-    actual val familyListUrl: String = BuildConfig.FAMILY_LIST_URL
-    actual val userDetailsUrl: String = BuildConfig.USER_DETAILS_URL
+    actual val LOGIN_URL: String = BuildConfig.LOGIN_URL
+    actual val REGISTER_URL: String = BuildConfig.REGISTER_URL
+    actual val DATABASE_URL: String = BuildConfig.DATABASE_URL
 }

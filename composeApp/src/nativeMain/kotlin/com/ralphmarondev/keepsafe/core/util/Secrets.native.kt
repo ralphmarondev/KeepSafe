@@ -8,8 +8,7 @@ actual object Secrets {
         NSProcessInfo.processInfo.environment?.get(key)?.toString()
             ?: error("Missing environment variable: $key")
 
-    actual val apiKey: String = getEnv("API_KEY")
-    actual val authUrl: String = getEnv("AUTHENTICATION_URL")
-    actual val familyListUrl: String = getEnv("FAMILY_LIST_URL")
-    actual val userDetailsUrl: String = getEnv("USER_DETAILS_URL")
+    actual val LOGIN_URL: String = getEnv("AUTHENTICATION_URL")
+    actual val REGISTER_URL: String = getEnv("FAMILY_LIST_URL")
+    actual val DATABASE_URL: String = getEnv("USER_DETAILS_URL")
 }

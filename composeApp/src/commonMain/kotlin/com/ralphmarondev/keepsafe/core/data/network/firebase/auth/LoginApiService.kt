@@ -32,7 +32,7 @@ class LoginApiService(
         request: LoginRequest
     ): LoginResponse? {
         return try {
-            val response = httpClient.post(Secrets.authUrl) {
+            val response = httpClient.post(Secrets.LOGIN_URL) {
                 setBody(request)
             }
 

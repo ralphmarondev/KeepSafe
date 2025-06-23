@@ -28,10 +28,8 @@ class AddMemberApiService(
             val registerResponse = registerApiService.register(registerRequest)
             val uid = registerResponse?.localId ?: return false
 
-            // 2025-06-16
-            // NOTE: Yeah, we use PUT to create new user lol
-            println("\n\nFirestore url: ${Secrets.userDetailsUrl}/$uid\n\n")
-            val response = httpClient.post("${Secrets.userDetailsUrl}?documentId=$uid") {
+            println("\n\nFirestore url: ${Secrets.DATABASE_URL}/users/$uid\n\n")
+            val response = httpClient.post("${Secrets.DATABASE_URL}/users?documentId=$uid") {
                 contentType(ContentType.Application.Json)
                 setBody(CreateMemberRequest(fields = memberFields))
             }

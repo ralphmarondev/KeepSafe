@@ -34,7 +34,7 @@ class RegisterApiService(
     ): RegisterResponse? {
         return try {
             val response =
-                httpClient.post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${Secrets.apiKey}") {
+                httpClient.post(Secrets.REGISTER_URL) {
                     setBody(request)
                 }
 

@@ -11,8 +11,7 @@ actual object Secrets {
         load(local.inputStream().reader())
     }
 
-    actual val apiKey: String = props.getProperty("API_KEY") ?: error("Missing API_KEY")
-    actual val authUrl: String = props.getProperty("AUTHENTICATION_URL") ?: error("Missing AUTHENTICATION_URL")
-    actual val familyListUrl: String = props.getProperty("FAMILY_LIST_URL") ?: error("Missing FAMILY_LIST_URL")
-    actual val userDetailsUrl: String = props.getProperty("USER_DETAILS_URL") ?: error("Missing USER_DETAILS_URL")
+    actual val LOGIN_URL: String = props.getProperty("LOGIN_URL") ?: error("Missing LOGIN_URL")
+    actual val REGISTER_URL: String = props.getProperty("REGISTER_URL") ?: error("Missing REGISTER_URL")
+    actual val DATABASE_URL: String = props.getProperty("DATABASE_URL") ?: error("Missing DATABASE_URL")
 }
