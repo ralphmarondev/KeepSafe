@@ -34,7 +34,7 @@ class FamilyMemberDetailViewModel(
 
     init {
         viewModelScope.launch {
-            _role.value = preferences.role().first() ?: ""
+            _role.value = preferences.role().first()
 
             val result = getDetailsUseCase(memberId)
             _details.value = result

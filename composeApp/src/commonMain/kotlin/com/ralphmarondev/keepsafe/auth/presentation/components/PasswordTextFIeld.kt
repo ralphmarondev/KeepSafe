@@ -65,6 +65,8 @@ fun PasswordTextField(
             }
         },
         textStyle = TextStyle(
+            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
             color = MaterialTheme.colorScheme.secondary
         ),
         singleLine = true,

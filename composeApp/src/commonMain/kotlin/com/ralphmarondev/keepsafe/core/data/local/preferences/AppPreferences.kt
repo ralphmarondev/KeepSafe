@@ -54,7 +54,7 @@ class AppPreferences(
         }
     }
 
-    fun firstLaunch(): Flow<Boolean?> = dataStore.data.map { it[FIRST_LAUNCH] }
+    fun firstLaunch(): Flow<Boolean> = dataStore.data.map { it[FIRST_LAUNCH] == true }
 
     suspend fun setNotification(enabled: Boolean) {
         dataStore.edit { prefs ->
@@ -62,7 +62,7 @@ class AppPreferences(
         }
     }
 
-    fun notification(): Flow<Boolean?> = dataStore.data.map { it[NOTIFICATION_KEY] }
+    fun notification(): Flow<Boolean> = dataStore.data.map { it[NOTIFICATION_KEY] == true }
 
     suspend fun setHasAccountKey(value: Boolean) {
         dataStore.edit { prefs ->
@@ -70,7 +70,7 @@ class AppPreferences(
         }
     }
 
-    fun hasAccount(): Flow<Boolean?> = dataStore.data.map { it[HAS_ACCOUNT_KEY] }
+    fun hasAccount(): Flow<Boolean> = dataStore.data.map { it[HAS_ACCOUNT_KEY] == true }
 
     suspend fun setFirstTimeReadingFamilyList(value: Boolean) {
         dataStore.edit { prefs ->
@@ -78,8 +78,8 @@ class AppPreferences(
         }
     }
 
-    fun isFirstTimeReadingFamilyList(): Flow<Boolean?> =
-        dataStore.data.map { it[FIRST_TIME_READING_FAMILY_LIST] }
+    fun isFirstTimeReadingFamilyList(): Flow<Boolean> =
+        dataStore.data.map { it[FIRST_TIME_READING_FAMILY_LIST] == true }
 
     suspend fun setEmail(email: String) {
         dataStore.edit { prefs ->
@@ -115,9 +115,9 @@ class AppPreferences(
         }
     }
 
-    fun email(): Flow<String?> = dataStore.data.map { it[EMAIL_KEY] }
-    fun familyId(): Flow<String?> = dataStore.data.map { it[FAMILY_ID_KEY] }
-    fun fullName(): Flow<String?> = dataStore.data.map { it[FULL_NAME_KEY] }
-    fun role(): Flow<String?> = dataStore.data.map { it[ROLE_KEY] }
-    fun uid(): Flow<String?> = dataStore.data.map { it[UID_KEY] }
+    fun email(): Flow<String> = dataStore.data.map { it[EMAIL_KEY] ?: "" }
+    fun familyId(): Flow<String> = dataStore.data.map { it[FAMILY_ID_KEY] ?: "" }
+    fun fullName(): Flow<String> = dataStore.data.map { it[FULL_NAME_KEY] ?: "" }
+    fun role(): Flow<String> = dataStore.data.map { it[ROLE_KEY] ?: "" }
+    fun uid(): Flow<String> = dataStore.data.map { it[UID_KEY] ?: "" }
 }

@@ -56,6 +56,8 @@ fun UsernameTextField(
             }
         },
         textStyle = TextStyle(
+            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
             color = MaterialTheme.colorScheme.secondary
         ),
         keyboardOptions = keyboardOptions,

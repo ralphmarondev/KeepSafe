@@ -16,7 +16,7 @@ class SettingRepositoryImpl(
 ) : SettingRepository {
 
     override suspend fun syncWithFirebase() {
-        val familyId = preferences.familyId().first() ?: ""
+        val familyId = preferences.familyId().first()
         val result = getMembersApiService.getMembers(familyId)
 
         val memberList = result.map { doc ->

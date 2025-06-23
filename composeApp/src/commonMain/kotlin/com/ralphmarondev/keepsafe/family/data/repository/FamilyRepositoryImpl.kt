@@ -29,7 +29,7 @@ class FamilyRepositoryImpl(
 ) : FamilyRepository {
 
     override suspend fun addNewFamilyMember(newFamilyMember: NewFamilyMember) {
-        val familyId = preferences.familyId().first() ?: ""
+        val familyId = preferences.familyId().first()
 
         addMemberApiService.addMember(
             registerRequest = RegisterRequest(

@@ -37,7 +37,7 @@ class ReminderViewModel(
         }
         _isRefreshing.value = true
         viewModelScope.launch {
-            val uid = preferences.uid().first() ?: ""
+            val uid = preferences.uid().first()
 
             val response = getFamilyMembersUseCase()
             if (response.data?.isEmpty() == false && response.success) {
