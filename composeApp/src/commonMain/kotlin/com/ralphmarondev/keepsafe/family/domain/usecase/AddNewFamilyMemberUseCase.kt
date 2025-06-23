@@ -9,12 +9,6 @@ class AddNewFamilyMemberUseCase(
 ) {
     suspend operator fun invoke(newFamilyMember: NewFamilyMember): Result {
 
-        if (newFamilyMember.familyId?.isBlank() == true) {
-            return Result(
-                success = false,
-                message = "Registration failed. Invalid family id."
-            )
-        }
         if (newFamilyMember.fullName?.isBlank() == true) {
             return Result(
                 success = false,

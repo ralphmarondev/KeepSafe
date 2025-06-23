@@ -21,10 +21,9 @@ class BirthdayReminderWorker(
     private val preferences: AppPreferences by inject()
 
     override suspend fun doWork(): Result {
-        val familyId = preferences.familyId().first() ?: return Result.success()
         val uid = preferences.uid().first() ?: return Result.success()
 
-        val response = getFamilyMembersUseCase(familyId = familyId)
+        val response = getFamilyMembersUseCase()
 
         if (response.success && !response.data.isNullOrEmpty()) {
             val filtered = response.data.filter { it.uid != uid }

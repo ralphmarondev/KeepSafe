@@ -2,17 +2,14 @@ package com.ralphmarondev.keepsafe.family.presentation.new_member
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.core.domain.model.Result
 import com.ralphmarondev.keepsafe.family.domain.model.NewFamilyMember
 import com.ralphmarondev.keepsafe.family.domain.usecase.AddNewFamilyMemberUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class NewFamilyMemberViewModel(
-    private val preferences: AppPreferences,
     private val newFamilyMemberUseCase: AddNewFamilyMemberUseCase
 ) : ViewModel() {
 
@@ -68,8 +65,6 @@ class NewFamilyMemberViewModel(
 
     fun register() {
         viewModelScope.launch {
-            val familyId = preferences.familyId().first() ?: ""
-
             val response: Result = newFamilyMemberUseCase(
                 newFamilyMember = NewFamilyMember(
                     fullName = _fullName.value.trim(),
@@ -77,8 +72,7 @@ class NewFamilyMemberViewModel(
                     role = _role.value.trim(),
                     birthplace = _birthplace.value.trim(),
                     birthday = _birthday.value.trim(),
-                    password = _password.value.trim(),
-                    familyId = familyId
+                    password = _password.value.trim()
                 )
             )
             _response.value = response

@@ -39,10 +39,9 @@ class FamilyMemberListViewModel(
         }
         _isRefreshing.value = true
         viewModelScope.launch {
-            val familyId = preferences.familyId().first() ?: ""
             _currentUserUid.value = preferences.uid().first() ?: ""
 
-            val response = getFamilyMembersUseCase(familyId = familyId)
+            val response = getFamilyMembersUseCase()
 
             if (response.success) {
                 _familyMembers.value = response.data ?: emptyList()

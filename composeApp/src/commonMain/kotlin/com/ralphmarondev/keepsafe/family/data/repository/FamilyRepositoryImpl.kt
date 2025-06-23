@@ -29,6 +29,8 @@ class FamilyRepositoryImpl(
 ) : FamilyRepository {
 
     override suspend fun addNewFamilyMember(newFamilyMember: NewFamilyMember) {
+        val familyId = preferences.familyId().first() ?: ""
+
         addMemberApiService.addMember(
             registerRequest = RegisterRequest(
                 email = newFamilyMember.email ?: "",
@@ -37,7 +39,7 @@ class FamilyRepositoryImpl(
             memberFields = MemberFields(
                 birthplace = FieldStringValue(newFamilyMember.birthplace ?: ""),
                 role = FieldStringValue(newFamilyMember.role ?: ""),
-                familyId = FieldStringValue(newFamilyMember.familyId ?: ""),
+                familyId = FieldStringValue(familyId),
                 birthday = FieldStringValue(newFamilyMember.birthday ?: ""),
                 fullName = FieldStringValue(newFamilyMember.fullName ?: ""),
                 email = FieldStringValue(newFamilyMember.email ?: ""),
