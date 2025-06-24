@@ -182,8 +182,7 @@ fun UpdateFamilyMemberScreen(
                         ) {
                             Text(
                                 text = "UPDATE",
-                                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                                fontWeight = MaterialTheme.typography.titleMedium.fontWeight
+                                style = MaterialTheme.typography.titleMedium
                             )
                         }
                     }

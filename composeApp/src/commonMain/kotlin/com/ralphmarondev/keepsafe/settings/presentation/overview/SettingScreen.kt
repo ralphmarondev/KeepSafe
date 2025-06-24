@@ -97,8 +97,7 @@ fun SettingScreen(
             item {
                 Text(
                     text = "App Preferences",
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .padding(vertical = 2.dp, horizontal = 16.dp)
@@ -112,14 +111,12 @@ fun SettingScreen(
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = "Notifications",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.primary
                         )
                         Text(
                             text = "Enable or disable push notifications for reminders and updates.",
-                            fontSize = MaterialTheme.typography.labelMedium.fontSize,
-                            fontWeight = MaterialTheme.typography.labelMedium.fontWeight,
+                            style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.secondary,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
@@ -135,8 +132,7 @@ fun SettingScreen(
             item {
                 Text(
                     text = "Data Management",
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .padding(vertical = 2.dp, horizontal = 16.dp)
@@ -150,14 +146,12 @@ fun SettingScreen(
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = "Sync with Firebase",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.primary
                         )
                         Text(
                             text = "Sync your family data with Firebase for backup and cross-device access.",
-                            fontSize = MaterialTheme.typography.labelMedium.fontSize,
-                            fontWeight = MaterialTheme.typography.labelMedium.fontWeight,
+                            style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.secondary,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
@@ -187,8 +181,7 @@ fun SettingScreen(
             item {
                 Text(
                     text = "Help and Support",
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .padding(vertical = 2.dp, horizontal = 16.dp)
@@ -205,8 +198,7 @@ fun SettingScreen(
                     ) {
                         Text(
                             text = "Logout",
-                            fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                            fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                            style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.weight(1f))
@@ -237,105 +229,5 @@ fun SettingScreen(
             onDismiss = { viewModel.setShowConfirmLogoutDialog(false) },
             onConfirm = { viewModel.logout() }
         )
-    }
-}
-
-@Composable
-private fun OtherHelpAndSupport() {
-    OutlinedCard(
-        onClick = {},
-        border = BorderStroke(width = 0.dp, color = Color.Transparent)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp, horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Help Center",
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
-    OutlinedCard(
-        onClick = {},
-        border = BorderStroke(width = 0.dp, color = Color.Transparent)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp, horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Contact Support",
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
-    OutlinedCard(
-        onClick = {},
-        border = BorderStroke(width = 0.dp, color = Color.Transparent)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp, horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Terms of Service",
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
-    OutlinedCard(
-        onClick = {},
-        border = BorderStroke(width = 0.dp, color = Color.Transparent)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp, horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Privacy Policy",
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        }
     }
 }

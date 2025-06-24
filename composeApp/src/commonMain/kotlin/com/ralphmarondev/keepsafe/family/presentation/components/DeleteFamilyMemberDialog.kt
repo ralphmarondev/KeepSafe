@@ -16,16 +16,14 @@ fun DeleteFamilyMemberDialog(
         title = {
             Text(
                 text = "Delete Family Member?",
-                fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
+                style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.primary
             )
         },
         text = {
             Text(
                 text = "Are you sure you want to delete this family member? This action cannot be undone.",
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.secondary
             )
         },

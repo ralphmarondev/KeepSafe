@@ -91,8 +91,7 @@ fun ReminderScreen() {
                     ) {
                         Text(
                             text = "No reminders yet!",
-                            fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                            fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
+                            style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.primary
                         )
                     }
@@ -104,8 +103,7 @@ fun ReminderScreen() {
                     ) {
                         Text(
                             text = response?.message ?: "An error occurred.",
-                            fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                            fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
+                            style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.primary
                         )
                     }

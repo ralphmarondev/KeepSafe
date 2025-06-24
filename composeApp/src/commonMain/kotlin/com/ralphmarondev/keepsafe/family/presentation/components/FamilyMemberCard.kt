@@ -61,15 +61,13 @@ fun FamilyMemberCard(
                 }
                 Text(
                     text = displayName,
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = familyMember.role ?: "No role provided",
-                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.secondary
                 )
             }

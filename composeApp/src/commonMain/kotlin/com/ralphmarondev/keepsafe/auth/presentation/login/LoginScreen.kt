@@ -98,8 +98,7 @@ fun LoginScreen(
                         ) {
                             Text(
                                 text = "Welcome Back",
-                                fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                                fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
+                                style = MaterialTheme.typography.titleLarge,
                                 modifier = Modifier.align(Alignment.CenterHorizontally),
                                 color = MaterialTheme.colorScheme.secondary
                             )
@@ -143,7 +142,8 @@ fun LoginScreen(
                                     .fillMaxWidth()
                             ) {
                                 Text(
-                                    text = "LOGIN"
+                                    text = "LOGIN",
+                                    style = MaterialTheme.typography.titleMedium
                                 )
                             }
                         }

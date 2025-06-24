@@ -31,16 +31,14 @@ fun SyncWithFirebaseDialog(
         text = {
             Text(
                 text = "Confirming will delete all of the data on this device and replace with the data from the cloud. This action cannot be undone.",
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.secondary
             )
         },
         title = {
             Text(
                 text = "Sync with Firebase",
-                fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.primary
             )
         }

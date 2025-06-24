@@ -30,6 +30,8 @@ fun UsernameTextField(
         placeholder = {
             Text(
                 text = "Username",
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                 color = MaterialTheme.colorScheme.secondary
             )
         },

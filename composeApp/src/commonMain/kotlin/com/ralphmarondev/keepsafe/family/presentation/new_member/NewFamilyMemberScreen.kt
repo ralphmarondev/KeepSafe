@@ -180,8 +180,7 @@ fun NewFamilyMemberScreen(
                         ) {
                             Text(
                                 text = "REGISTER",
-                                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                                fontWeight = MaterialTheme.typography.titleMedium.fontWeight
+                                style = MaterialTheme.typography.titleMedium
                             )
                         }
                     }

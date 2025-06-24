@@ -122,60 +122,52 @@ fun FamilyMemberDetailScreen(
             item {
                 Text(
                     text = "Full Name:",
-                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = details?.fullName ?: "No full name provided",
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.secondary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = "Email:",
-                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = details?.email ?: "No email provided",
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.secondary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = "Birthday:",
-                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = details?.birthday ?: "No birthday provided",
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.secondary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = "Birthplace:",
-                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = details?.birthplace ?: "No birthplace provided",
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.secondary
                 )
                 Spacer(modifier = Modifier.height(8.dp))

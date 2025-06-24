@@ -30,16 +30,14 @@ fun ConfirmLogoutDialog(
         text = {
             Text(
                 text = "Logging out will delete saved data on local database. Are you sure you want to continue?",
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                fontWeight = MaterialTheme.typography.bodyMedium.fontWeight,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.secondary
             )
         },
         title = {
             Text(
                 text = "Logout",
-                fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.primary
             )
         }

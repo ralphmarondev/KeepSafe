@@ -38,6 +38,8 @@ fun PasswordTextField(
         placeholder = {
             Text(
                 text = "Password",
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                 color = MaterialTheme.colorScheme.secondary
             )
         },

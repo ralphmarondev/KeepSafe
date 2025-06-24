@@ -4,11 +4,11 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import keepsafe.composeapp.generated.resources.Res
 import keepsafe.composeapp.generated.resources.roboto_mono_bold
 import keepsafe.composeapp.generated.resources.roboto_mono_regular
+import keepsafe.composeapp.generated.resources.roboto_mono_thin
 import org.jetbrains.compose.resources.Font
 
 // 2025-06-04
@@ -30,36 +30,49 @@ val RobotoMonoRegular
         )
     )
 
+val RobotoMonoThin
+    @Composable get() = FontFamily(
+        Font(
+            resource = Res.font.roboto_mono_thin
+        )
+    )
+
 val Typography: Typography
     @Composable get() = Typography(
-        bodyLarge = TextStyle(
-            fontFamily = RobotoMonoBold,
-            fontWeight = FontWeight.Normal,
-            fontSize = 17.sp
-        ),
-        bodyMedium = TextStyle(
-            fontFamily = RobotoMonoRegular,
-            fontWeight = FontWeight.Medium,
-            fontSize = 15.sp
-        ),
-        bodySmall = TextStyle(
-            fontFamily = RobotoMonoRegular,
-            fontWeight = FontWeight.Normal,
-            fontSize = 15.sp
-        ),
         titleLarge = TextStyle(
             fontFamily = RobotoMonoBold,
-            fontWeight = FontWeight.Bold,
-            fontSize = 32.sp
+            fontSize = 22.sp
         ),
         titleMedium = TextStyle(
             fontFamily = RobotoMonoRegular,
-            fontWeight = FontWeight.Medium,
-            fontSize = 20.sp
+            fontSize = 18.sp
         ),
         titleSmall = TextStyle(
             fontFamily = RobotoMonoRegular,
-            fontWeight = FontWeight.Normal,
-            fontSize = 17.sp
+            fontSize = 16.sp
+        ),
+        bodyLarge = TextStyle(
+            fontFamily = RobotoMonoRegular,
+            fontSize = 14.sp
+        ),
+        bodyMedium = TextStyle(
+            fontFamily = RobotoMonoRegular,
+            fontSize = 13.sp
+        ),
+        bodySmall = TextStyle(
+            fontFamily = RobotoMonoRegular,
+            fontSize = 12.sp
+        ),
+        labelLarge = TextStyle(
+            fontFamily = RobotoMonoRegular,
+            fontSize = 12.sp
+        ),
+        labelMedium = TextStyle(
+            fontFamily = RobotoMonoRegular,
+            fontSize = 11.sp
+        ),
+        labelSmall = TextStyle(
+            fontFamily = RobotoMonoThin,
+            fontSize = 10.sp
         )
     )
