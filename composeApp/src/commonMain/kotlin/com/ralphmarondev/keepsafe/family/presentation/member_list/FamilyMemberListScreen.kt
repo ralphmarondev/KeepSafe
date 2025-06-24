@@ -108,7 +108,7 @@ fun FamilyMemberListScreen(
                 modifier = Modifier
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = if (response?.success == false) {
+                verticalArrangement = if (response?.success == false || familyMember.isEmpty()) {
                     Arrangement.Center
                 } else {
                     Arrangement.Top
@@ -128,6 +128,15 @@ fun FamilyMemberListScreen(
                     )
                 }
                 item {
+                    AnimatedVisibility(familyMember.isEmpty()) {
+                        Text(
+                            text = "No family members yet!",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+                item {
                     AnimatedVisibility(
                         visible = response?.success == false
                     ) {
@@ -139,7 +148,7 @@ fun FamilyMemberListScreen(
                         )
                     }
                 }
-                item { Spacer(modifier = Modifier.height(100.dp)) }
+                item { Spacer(modifier = Modifier.height(200.dp)) }
             }
         }
     }

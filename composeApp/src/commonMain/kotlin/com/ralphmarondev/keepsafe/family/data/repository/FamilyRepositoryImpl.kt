@@ -8,7 +8,6 @@ import com.ralphmarondev.keepsafe.core.data.network.firebase.family.AddMemberApi
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.DeleteMemberApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.FieldBooleanValue
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.FieldStringValue
-import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetDetailsApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.GetMembersApiService
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.MemberFields
 import com.ralphmarondev.keepsafe.core.data.network.firebase.family.UpdateMemberApiService
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.first
 
 class FamilyRepositoryImpl(
     private val getMembersApiService: GetMembersApiService,
-    private val getDetailsApiService: GetDetailsApiService,
     private val deleteMemberApiService: DeleteMemberApiService,
     private val addMemberApiService: AddMemberApiService,
     private val updateMemberApiService: UpdateMemberApiService,
@@ -54,7 +52,7 @@ class FamilyRepositoryImpl(
         //  - save to local database
         // else:
         //  - read from local database
-        val isFirstTime = preferences.isFirstTimeReadingFamilyList().first() != false
+        val isFirstTime = preferences.isFirstTimeReadingFamilyList().first() == false
 
         return if (isFirstTime) {
             val result = getMembersApiService.getMembers(familyId)
@@ -115,35 +113,18 @@ class FamilyRepositoryImpl(
     }
 
     override suspend fun getMemberDetails(uid: String): FamilyMember? {
-        val isFirstTime = preferences.isFirstTimeReadingFamilyList().first() != false
+        val result = userDao.getDetailByUId(uid)
 
-        if (isFirstTime) {
-            val result = getDetailsApiService.getDetailsByUid(uid = uid)
-            val fields = result?.fields
-            return FamilyMember(
-                uid = uid,
-                familyId = fields?.familyId?.stringValue,
-                birthplace = fields?.birthplace?.stringValue,
-                birthday = fields?.birthday?.stringValue,
-                fullName = fields?.fullName?.stringValue,
-                email = fields?.email?.stringValue,
-                role = fields?.role?.stringValue,
-                isDeleted = fields?.isDeleted?.booleanValue
-            )
-        } else {
-            val result = userDao.getDetailByUId(uid)
-
-            return FamilyMember(
-                uid = result?.uid ?: "",
-                familyId = result?.familyId ?: "",
-                fullName = result?.fullName ?: "",
-                email = result?.email ?: "",
-                role = result?.role ?: "",
-                birthday = result?.birthday ?: "",
-                birthplace = result?.birthplace ?: "",
-                isDeleted = result?.isDeleted == true
-            )
-        }
+        return FamilyMember(
+            uid = result?.uid ?: "",
+            familyId = result?.familyId ?: "",
+            fullName = result?.fullName ?: "",
+            email = result?.email ?: "",
+            role = result?.role ?: "",
+            birthday = result?.birthday ?: "",
+            birthplace = result?.birthplace ?: "",
+            isDeleted = result?.isDeleted == true
+        )
     }
 
     override suspend fun updateFamilyMember(familyMember: FamilyMember): Boolean {
