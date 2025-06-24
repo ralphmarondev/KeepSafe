@@ -11,7 +11,7 @@ class GetFamilyMembersUseCase(
     private val preferences: AppPreferences
 ) {
     suspend operator fun invoke(): ResultWithData<out List<FamilyMember>> {
-        val familyId = preferences.familyId().first() ?: ""
+        val familyId = preferences.familyId().first()
 
         if (familyId.isBlank()) {
             return ResultWithData.error("familyId cannot be blank.")
