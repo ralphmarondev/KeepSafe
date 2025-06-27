@@ -52,7 +52,7 @@ class FamilyRepositoryImpl(
         //  - save to local database
         // else:
         //  - read from local database
-        val isFirstTime = preferences.isFirstTimeReadingFamilyList().first() == false
+        val isFirstTime = preferences.isFirstTimeReadingFamilyList().first()
 
         return if (isFirstTime) {
             val result = getMembersApiService.getMembers(familyId)
