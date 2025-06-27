@@ -14,4 +14,5 @@ actual object Secrets {
     actual val LOGIN_URL: String = props.getProperty("LOGIN_URL") ?: error("Missing LOGIN_URL")
     actual val REGISTER_URL: String = props.getProperty("REGISTER_URL") ?: error("Missing REGISTER_URL")
     actual val DATABASE_URL: String = props.getProperty("DATABASE_URL") ?: error("Missing DATABASE_URL")
+    actual val ENCRYPTION_KEY: String = props.getProperty("ENCRYPTION_KEY") ?: error("Missing ENCRYPTION_KEY")
 }

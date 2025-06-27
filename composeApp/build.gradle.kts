@@ -153,6 +153,11 @@ android {
             "DATABASE_URL",
             "\"${localProperties.getProperty("DATABASE_URL")}\""
         )
+        buildConfigField(
+            "String",
+            "ENCRYPTION_KEY",
+            "\"${localProperties.getProperty("ENCRYPTION_KEY")}\""
+        )
     }
     packaging {
         resources {
