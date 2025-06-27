@@ -38,7 +38,7 @@ class AppPreferences(
 
     fun isDarkTheme(): Flow<Boolean> {
         return dataStore.data.map { prefs ->
-            prefs[DARK_THEME_KEY] == true
+            prefs[DARK_THEME_KEY] ?: false
         }
     }
 
@@ -54,7 +54,7 @@ class AppPreferences(
         }
     }
 
-    fun firstLaunch(): Flow<Boolean> = dataStore.data.map { it[FIRST_LAUNCH] == true }
+    fun firstLaunch(): Flow<Boolean> = dataStore.data.map { it[FIRST_LAUNCH] ?: true }
 
     suspend fun setNotification(enabled: Boolean) {
         dataStore.edit { prefs ->
@@ -62,7 +62,7 @@ class AppPreferences(
         }
     }
 
-    fun notification(): Flow<Boolean> = dataStore.data.map { it[NOTIFICATION_KEY] == true }
+    fun notification(): Flow<Boolean> = dataStore.data.map { it[NOTIFICATION_KEY] ?: false }
 
     suspend fun setHasAccountKey(value: Boolean) {
         dataStore.edit { prefs ->
@@ -70,7 +70,7 @@ class AppPreferences(
         }
     }
 
-    fun hasAccount(): Flow<Boolean> = dataStore.data.map { it[HAS_ACCOUNT_KEY] == true }
+    fun hasAccount(): Flow<Boolean> = dataStore.data.map { it[HAS_ACCOUNT_KEY] ?: false }
 
     suspend fun setFirstTimeReadingFamilyList(value: Boolean) {
         dataStore.edit { prefs ->
@@ -79,7 +79,7 @@ class AppPreferences(
     }
 
     fun isFirstTimeReadingFamilyList(): Flow<Boolean> =
-        dataStore.data.map { it[FIRST_TIME_READING_FAMILY_LIST] == true }
+        dataStore.data.map { it[FIRST_TIME_READING_FAMILY_LIST] ?: true }
 
     suspend fun setEmail(email: String) {
         dataStore.edit { prefs ->
