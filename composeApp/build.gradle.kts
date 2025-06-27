@@ -110,7 +110,7 @@ kotlin {
 
             implementation(libs.slf4j.simple)
         }
-        nativeMain.dependencies {
+        iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
         dependencies {
