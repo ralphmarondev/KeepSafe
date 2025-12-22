@@ -12,10 +12,13 @@ plugins {
     alias(libs.plugins.room)
 }
 
+val firebaseApiKey: String = rootProject.ext.get("firebaseApiKey") as String
+val firebaseProjectId: String = rootProject.ext.get("firebaseProjectId") as String
+
 kotlin {
     androidTarget {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
@@ -99,12 +102,19 @@ android {
     namespace = "com.ralphmarondev.keepsafe"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.ralphmarondev.keepsafe"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "API_KEY", firebaseApiKey)
+        buildConfigField("String", "PROJECT_ID", firebaseProjectId)
     }
     packaging {
         resources {
@@ -117,8 +127,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 
@@ -127,7 +137,7 @@ compose.desktop {
         mainClass = "com.ralphmarondev.keepsafe.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Dmg)
             packageName = "com.ralphmarondev.keepsafe"
             packageVersion = "1.0.0"
         }
@@ -138,7 +148,6 @@ dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
     add("kspCommonMainMetadata", libs.androidx.room.compiler)
     add("kspJvm", libs.androidx.room.compiler)
-//    ksp(libs.androidx.room.compiler)
 
     debugImplementation(compose.uiTooling)
 }

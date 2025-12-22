@@ -10,7 +10,7 @@
 
 # Local configs
 local.properties
-gradle.properties
+config.properties
 
 # OS files
 .DS_Store

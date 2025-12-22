@@ -19,6 +19,6 @@ val coreModule = module {
             .build()
     }
     single { get<AppDatabase>().userDao }
-    single { FirebaseAuth() }
-    single { FirebaseService() }
+    single { FirebaseAuth(get()) }
+    single { FirebaseService(get()) }
 }

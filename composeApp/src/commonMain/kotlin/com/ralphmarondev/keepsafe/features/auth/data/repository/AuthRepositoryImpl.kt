@@ -23,13 +23,13 @@ class AuthRepositoryImpl(
         password: String
     ): Result<User> {
         return try {
-            val result = firebaseAuth.login(email = email, password = password)
-            val firebaseUser = result.uid
+            val authResponse = firebaseAuth.login(email = email, password = password)
 
-            if (firebaseUser.isNotEmpty()) {
+            if (authResponse.localId.isNotEmpty()) {
                 val userEntity = firebaseService.getDetailsByEmail(
                     email = email,
-                    familyId = familyId
+                    familyId = familyId,
+                    idToken = authResponse.idToken
                 )
                 if (userEntity != null && userEntity.familyId == familyId) {
                     userDao.create(userEntity)
@@ -53,11 +53,11 @@ class AuthRepositoryImpl(
 
     override suspend fun register(user: User): Result<User> {
         return try {
-            val authResult = firebaseAuth.register(
+            val authResponse = firebaseAuth.register(
                 email = user.email,
                 password = user.password
             )
-            val firebaseUser = authResult.uid
+            val firebaseUser = authResponse.localId
             if (firebaseUser.isEmpty()) {
                 return Result.Error("Failed to create firebase account.")
             }
@@ -65,12 +65,14 @@ class AuthRepositoryImpl(
             firebaseService.createFamily(
                 familyId = user.familyId,
                 familyName = user.familyName,
-                createdBy = firebaseUser
+                createdBy = firebaseUser,
+                idToken = authResponse.idToken
             )
 
             firebaseService.registerMemberToFamily(
                 user = user,
-                uid = firebaseUser
+                uid = firebaseUser,
+                idToken = authResponse.idToken
             )
 
             userDao.create(user.toEntity())
