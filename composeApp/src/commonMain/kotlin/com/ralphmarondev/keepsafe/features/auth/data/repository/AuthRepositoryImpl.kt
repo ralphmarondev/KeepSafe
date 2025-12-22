@@ -8,6 +8,7 @@ import com.ralphmarondev.keepsafe.core.domain.model.Result
 import com.ralphmarondev.keepsafe.core.domain.model.Role
 import com.ralphmarondev.keepsafe.core.domain.model.User
 import com.ralphmarondev.keepsafe.core.mapper.toDomain
+import com.ralphmarondev.keepsafe.core.mapper.toEntity
 import com.ralphmarondev.keepsafe.features.auth.domain.repository.AuthRepository
 
 class AuthRepositoryImpl(
@@ -23,7 +24,7 @@ class AuthRepositoryImpl(
     ): Result<User> {
         return try {
             val result = firebaseAuth.login(email = email, password = password)
-            val firebaseUser = result.email
+            val firebaseUser = result.uid
 
             if (firebaseUser.isNotEmpty()) {
                 val userEntity = firebaseService.getDetailsByEmail(
@@ -51,10 +52,39 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun register(user: User): Result<User> {
-        return Result.Success(user)
+        return try {
+            val authResult = firebaseAuth.register(
+                email = user.email,
+                password = user.password
+            )
+            val firebaseUser = authResult.uid
+            if (firebaseUser.isEmpty()) {
+                return Result.Error("Failed to create firebase account.")
+            }
+
+            firebaseService.createFamily(
+                familyId = user.familyId,
+                familyName = user.familyName,
+                createdBy = firebaseUser
+            )
+
+            firebaseService.registerMemberToFamily(
+                user = user,
+                uid = firebaseUser
+            )
+
+            userDao.create(user.toEntity())
+            preferences.setFamilyId(user.familyId)
+            preferences.setCurrentUserEmail(user.email)
+            preferences.setCurrentUserRole(user.role == Role.FAMILY_ADMIN)
+
+            Result.Success(user)
+        } catch (e: Exception) {
+            Result.Error(message = e.message ?: "Registration failed", throwable = e)
+        }
     }
 
     override suspend fun isFamilyIdTaken(familyId: String): Boolean {
-        return false
+        return firebaseService.isFamilyIdTaken(familyId)
     }
 }
