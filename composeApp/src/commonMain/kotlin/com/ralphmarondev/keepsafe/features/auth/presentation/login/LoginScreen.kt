@@ -31,6 +31,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,14 +44,15 @@ import com.ralphmarondev.keepsafe.core.presentation.components.EmailField
 import com.ralphmarondev.keepsafe.core.presentation.components.NormalTextField
 import com.ralphmarondev.keepsafe.core.presentation.components.PasswordField
 import com.ralphmarondev.keepsafe.core.presentation.theme.LocalThemeState
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun LoginScreenRoot(
     onLoginSuccess: () -> Unit,
     onRegisterClick: () -> Unit
 ) {
-//    val viewModel: LoginViewModel = koinViewModel()
-    val state = LoginState()
+    val viewModel: LoginViewModel = koinViewModel()
+    val state by viewModel.state.collectAsState()
     val themeState = LocalThemeState.current
 
     LaunchedEffect(state.isLoggedIn) {
@@ -66,7 +69,7 @@ fun LoginScreenRoot(
 
     LoginScreen(
         state = state,
-        action = {},
+        action = viewModel::onAction,
         toggleTheme = themeState::toggleTheme,
         isDarkTheme = themeState.darkTheme.value
     )
@@ -131,10 +134,10 @@ private fun LoginScreen(
             contentPadding = PaddingValues(16.dp)
         ) {
             item {
-                OutlinedCard (
+                OutlinedCard(
                     modifier = Modifier
                         .widthIn(max = 500.dp)
-                ){
+                ) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()

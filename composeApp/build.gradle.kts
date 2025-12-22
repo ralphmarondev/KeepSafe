@@ -18,7 +18,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -28,7 +28,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     jvm()
 
     room {
@@ -44,6 +44,7 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.koin.androidx.workmanager)
+            implementation(libs.androidx.room.ktx)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -67,6 +68,7 @@ kotlin {
             implementation(libs.bundles.coil)
             implementation(libs.sqlite.bundled)
             implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.room.ktx)
             implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
@@ -77,6 +79,7 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.slf4j.simple)
+            implementation(libs.androidx.room.ktx)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -119,10 +122,6 @@ android {
     }
 }
 
-dependencies {
-    debugImplementation(compose.uiTooling)
-}
-
 compose.desktop {
     application {
         mainClass = "com.ralphmarondev.keepsafe.MainKt"
@@ -133,4 +132,13 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+dependencies {
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
+    add("kspJvm", libs.androidx.room.compiler)
+//    ksp(libs.androidx.room.compiler)
+
+    debugImplementation(compose.uiTooling)
 }

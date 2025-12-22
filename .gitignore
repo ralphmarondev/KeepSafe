@@ -1,19 +1,40 @@
+# IntelliJ / Android Studio
 *.iml
+.idea
 .kotlin
 .gradle
+
+# Build outputs
 **/build/
-xcuserdata
 !src/**/build/
+
+# Local configs
 local.properties
-.idea
+gradle.properties
+
+# OS files
 .DS_Store
+*.log
+
+# Android
 captures
 .externalNativeBuild
 .cxx
+
+# iOS / Xcode
+xcuserdata
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
 !*.xcodeproj/project.xcworkspace/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
+
+# Web
 node_modules/
+
+# Room schemas (optional – revisit before prod)
+**/schemas/
+
+# KMP cache (optional)
+.kmp-cache
