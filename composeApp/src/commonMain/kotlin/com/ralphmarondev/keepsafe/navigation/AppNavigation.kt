@@ -11,7 +11,7 @@ import com.ralphmarondev.keepsafe.features.download.presentation.DownloadScreenR
 
 @Composable
 fun AppNavigation(
-    startDestination: Any = Routes.Login,
+    startDestination: Routes = Routes.Login,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(

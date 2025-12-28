@@ -3,14 +3,14 @@ package com.ralphmarondev.keepsafe.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-object Routes {
+sealed interface Routes {
 
     @Serializable
-    data object Login
+    data object Login : Routes
 
     @Serializable
-    data object Register
+    data object Register : Routes
 
     @Serializable
-    data object Download
+    data object Download : Routes
 }
