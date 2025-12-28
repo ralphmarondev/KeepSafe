@@ -32,13 +32,15 @@ kotlin {
         }
     }
 
-    jvm()
+    jvm("desktop")
 
     room {
         schemaDirectory("$projectDir/schemas")
     }
 
     sourceSets {
+        val desktopMain by getting
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -47,7 +49,6 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.koin.androidx.workmanager)
-            implementation(libs.androidx.room.ktx)
             implementation(libs.lottie.android)
         }
         commonMain.dependencies {
@@ -70,15 +71,14 @@ kotlin {
             api(libs.datastore)
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.coil)
+            implementation(libs.kotlinx.datetime)
             implementation(libs.sqlite.bundled)
             implementation(libs.androidx.room.runtime)
-            implementation(libs.androidx.room.ktx)
-            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
-        jvmMain.dependencies {
+        desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.client.okhttp)
@@ -86,14 +86,6 @@ kotlin {
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
-        }
-        all {
-            languageSettings {
-                optIn("kotlin.ExperimentalMultiplatform")
-            }
-            compilerOptions {
-                freeCompilerArgs.add("-Xexpect-actual-classes")
-            }
         }
     }
 }
@@ -146,8 +138,6 @@ compose.desktop {
 
 dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
-    add("kspCommonMainMetadata", libs.androidx.room.compiler)
-    add("kspJvm", libs.androidx.room.compiler)
-
+    add("kspDesktop", libs.androidx.room.compiler)
     debugImplementation(compose.uiTooling)
 }

@@ -1,7 +1,7 @@
 package com.ralphmarondev.keepsafe
 
-class JVMPlatform: Platform {
+class DesktopPlatform: Platform {
     override val name: String = "Java ${System.getProperty("java.version")}"
 }
 
-actual fun getPlatform(): Platform = JVMPlatform()
+actual fun getPlatform(): Platform = DesktopPlatform()
