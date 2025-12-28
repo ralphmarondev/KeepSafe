@@ -20,6 +20,7 @@ class AppPreferences(
         val FAMILY_ID = stringPreferencesKey("family_id")
         val IS_FAMILY_ADMIN = booleanPreferencesKey("is_admin")
         val CURRENT_USER = stringPreferencesKey("current_user_email")
+        val ID_TOKEN = stringPreferencesKey("id_token")
 
         const val DATA_STORE_FILE_NAME = "prefs.preferences_pb"
 
@@ -83,5 +84,13 @@ class AppPreferences(
 
     val isAuthenticated: Flow<Boolean> = dataStore.data.map {
         it[IS_AUTHENTICATED] ?: false
+    }
+
+    suspend fun setIdToken(value: String) {
+        dataStore.edit { it[ID_TOKEN] = value }
+    }
+
+    val idToken: Flow<String> = dataStore.data.map {
+        it[ID_TOKEN] ?: ""
     }
 }

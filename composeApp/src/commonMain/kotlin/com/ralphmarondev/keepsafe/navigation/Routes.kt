@@ -10,4 +10,7 @@ object Routes {
 
     @Serializable
     data object Register
+
+    @Serializable
+    data object Download
 }

@@ -58,6 +58,35 @@ class FirebaseService(
     }
 
     @Suppress("UNCHECKED_CAST")
+    suspend fun getFamilyList(
+        familyId: String,
+        idToken: String
+    ): List<UserEntity> {
+        return try {
+            val response: Map<String, Any?> = client.get(
+                "${FirebaseConfig.FIRESTORE_BASE_URL}/families/$familyId/members"
+            ) {
+                contentType(ContentType.Application.Json)
+                header("Authorization", "Bearer $idToken")
+            }.body()
+
+            val documents = response["documents"] as? List<Map<String, Any?>> ?: emptyList()
+
+            documents.mapNotNull { doc ->
+                try {
+                    firestoreDocToUserEntity(doc)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
     suspend fun getDetailsByEmail(
         email: String,
         familyId: String,

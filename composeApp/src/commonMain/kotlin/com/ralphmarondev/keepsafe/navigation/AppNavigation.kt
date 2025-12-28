@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ralphmarondev.keepsafe.features.auth.presentation.login.LoginScreenRoot
 import com.ralphmarondev.keepsafe.features.auth.presentation.register.RegisterScreenRoot
+import com.ralphmarondev.keepsafe.features.download.presentation.DownloadScreenRoot
 
 @Composable
 fun AppNavigation(
@@ -19,7 +20,12 @@ fun AppNavigation(
     ) {
         composable<Routes.Login> {
             LoginScreenRoot(
-                onLoginSuccess = {},
+                onLoginSuccess = {
+                    navController.navigate(Routes.Download) {
+                        popUpTo(0) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
                 onRegisterClick = {
                     navController.navigate(Routes.Register) {
                         launchSingleTop = true
@@ -35,6 +41,11 @@ fun AppNavigation(
                         launchSingleTop = true
                     }
                 }
+            )
+        }
+        composable<Routes.Download> {
+            DownloadScreenRoot(
+                onDownloadCompleted = {}
             )
         }
     }

@@ -26,6 +26,7 @@ class AuthRepositoryImpl(
             val authResponse = firebaseAuth.login(email = email, password = password)
 
             if (authResponse.localId.isNotEmpty()) {
+                preferences.setIdToken(authResponse.idToken)
                 val userEntity = firebaseService.getDetailsByEmail(
                     email = email,
                     familyId = familyId,
@@ -61,6 +62,7 @@ class AuthRepositoryImpl(
             if (firebaseUser.isEmpty()) {
                 return Result.Error("Failed to create firebase account.")
             }
+            preferences.setIdToken(authResponse.idToken)
 
             firebaseService.createFamily(
                 familyId = user.familyId,

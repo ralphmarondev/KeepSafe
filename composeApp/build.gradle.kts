@@ -48,6 +48,7 @@ kotlin {
             implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.koin.androidx.workmanager)
             implementation(libs.androidx.room.ktx)
+            implementation(libs.lottie.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -82,7 +83,6 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.slf4j.simple)
-            implementation(libs.androidx.room.ktx)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

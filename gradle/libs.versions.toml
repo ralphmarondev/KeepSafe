@@ -29,6 +29,7 @@ slf4jSimple = "2.0.17"
 kotlinxDatetime = "0.7.1"
 workRuntimeKtx = "2.11.0"
 koinAndroidxWorkmanager = "4.1.1"
+lottie = "6.4.0"
 
 
 [libraries]
@@ -73,6 +74,8 @@ slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jSimple" 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koinAndroidxWorkmanager" }
+lottie-android = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
+lottie-desktop = { module = "com.airbnb.android:lottie-compose-multiplatform", version.ref = "lottie" }
 
 
 [plugins]
