@@ -87,6 +87,14 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
+        all {
+            languageSettings {
+                optIn("kotlin.ExperimentalMultiplatform")
+            }
+            compilerOptions {
+                freeCompilerArgs.add("-Xexpect-actual-classes")
+            }
+        }
     }
 }
 
