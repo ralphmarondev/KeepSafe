@@ -94,8 +94,7 @@ private fun RegisterScreen(
     LaunchedEffect(state.isRegistered) {
         if (state.isRegistered) {
             snackbarHostState.showSnackbar(
-                message = "Family Profile Created Successfully!",
-                withDismissAction = true
+                message = "Family Profile Created Successfully!"
             )
         }
     }
