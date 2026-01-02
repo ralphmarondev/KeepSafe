@@ -94,7 +94,13 @@ class LoginViewModel(
                 return@launch
             }
 
-            _state.update { it.copy(isLoggingIn = true, isError = false) }
+            _state.update {
+                it.copy(
+                    isLoggingIn = true,
+                    isError = false,
+                    errorMessage = null
+                )
+            }
             delay(2000)
 
             val result = repository.login(

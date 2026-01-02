@@ -32,7 +32,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,7 +51,7 @@ fun LoginScreenRoot(
     onRegisterClick: () -> Unit
 ) {
     val viewModel: LoginViewModel = koinViewModel()
-    val state by viewModel.state.collectAsState()
+    val state = viewModel.state.collectAsState().value
     val themeState = LocalThemeState.current
 
     LaunchedEffect(state.isLoggedIn) {
@@ -88,10 +87,7 @@ private fun LoginScreen(
 
     LaunchedEffect(state.errorMessage) {
         if (state.isError && !state.errorMessage.isNullOrEmpty()) {
-            snackbarHostState.showSnackbar(
-                message = state.errorMessage,
-                withDismissAction = true
-            )
+            snackbarHostState.showSnackbar(message = state.errorMessage)
         }
     }
 

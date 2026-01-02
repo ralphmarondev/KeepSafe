@@ -226,7 +226,14 @@ class RegisterViewModel(
 
     private fun register() {
         viewModelScope.launch {
-            _state.update { it.copy(isRegistering = true, isRegistered = false) }
+            _state.update {
+                it.copy(
+                    isRegistering = true,
+                    isRegistered = false,
+                    isError = false,
+                    errorMessage = null
+                )
+            }
 
             val user = User(
                 familyId = _state.value.familyId.trim(),

@@ -87,10 +87,7 @@ private fun RegisterScreen(
 
     LaunchedEffect(state.errorMessage) {
         if (state.isError && !state.errorMessage.isNullOrEmpty()) {
-            snackbarHostState.showSnackbar(
-                message = state.errorMessage,
-                withDismissAction = true
-            )
+            snackbarHostState.showSnackbar(message = state.errorMessage)
         }
     }
 
