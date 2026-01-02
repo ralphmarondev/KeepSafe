@@ -10,7 +10,6 @@
 
 # Local configs
 local.properties
-config.properties
 
 # OS files
 .DS_Store

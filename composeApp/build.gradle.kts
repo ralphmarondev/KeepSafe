@@ -1,5 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -12,8 +13,18 @@ plugins {
     alias(libs.plugins.room)
 }
 
-val firebaseApiKey: String = rootProject.ext.get("firebaseApiKey") as String
-val firebaseProjectId: String = rootProject.ext.get("firebaseProjectId") as String
+val localProperties = rootProject.file("local.properties")
+val properties: Properties = Properties().apply {
+    if (localProperties.exists()) {
+        localProperties.inputStream().use { load(it) }
+    }
+}
+
+val firebaseApiKey = properties.getProperty("FIREBASE_API_KEY")
+    ?: error("FIREBASE_API_KEY missing in local.properties")
+
+val firebaseProjectId = properties.getProperty("FIREBASE_PROJECT_ID")
+    ?: error("FIREBASE_PROJECT_ID missing in local.properties")
 
 kotlin {
     androidTarget {
@@ -113,8 +124,16 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "API_KEY", firebaseApiKey)
-        buildConfigField("String", "PROJECT_ID", firebaseProjectId)
+        buildConfigField(
+            type = "String",
+            name = "API_KEY",
+            value = "\"$firebaseApiKey\""
+        )
+        buildConfigField(
+            type = "String",
+            name = "PROJECT_ID",
+            value = "\"$firebaseProjectId\""
+        )
     }
     packaging {
         resources {
@@ -135,6 +154,11 @@ android {
 compose.desktop {
     application {
         mainClass = "com.ralphmarondev.keepsafe.MainKt"
+
+        jvmArgs(
+            "-DFIREBASE_API_KEY=$firebaseApiKey",
+            "-DFIREBASE_PROJECT_ID=$firebaseProjectId"
+        )
 
         nativeDistributions {
             targetFormats(TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Dmg)
