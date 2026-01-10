@@ -23,6 +23,7 @@ fun NormalTextField(
     modifier: Modifier = Modifier,
     placeHolderText: String = "",
     labelText: String = "",
+    suffixText: String = "",
     supportingText: String = "",
     leadingIconImageVector: ImageVector = Icons.Outlined.MonitorHeart,
     isError: Boolean = false,
@@ -45,6 +46,12 @@ fun NormalTextField(
         },
         label = {
             Text(text = labelText)
+        },
+        suffix = {
+            Text(
+                text = suffixText,
+                color = MaterialTheme.colorScheme.secondary
+            )
         },
         singleLine = true,
         leadingIcon = {
