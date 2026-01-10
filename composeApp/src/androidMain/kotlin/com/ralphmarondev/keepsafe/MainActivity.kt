@@ -1,38 +1,33 @@
 package com.ralphmarondev.keepsafe
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
-import com.ralphmarondev.keepsafe.core.presentation.theme.ThemeState
-import org.koin.android.ext.android.get
+import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
+import com.ralphmarondev.keepsafe.core.presentation.theme.KeepSafeTheme
+import com.ralphmarondev.keepsafe.core.presentation.theme.LocalThemeState
+import com.ralphmarondev.keepsafe.core.presentation.theme.ThemeProvider
+import com.ralphmarondev.keepsafe.navigation.AppNavigation
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
+
+    private val preferences: AppPreferences by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge()
         setContent {
-            val themeState: ThemeState = get()
-            val darkMode = themeState.darkTheme.collectAsState().value
-            val view = LocalView.current
+            ThemeProvider(preferences = preferences) {
+                val themeState = LocalThemeState.current
 
-            if (!view.isInEditMode) {
-                SideEffect {
-                    val window = (view.context as Activity).window
-                    val insetsController = window?.let {
-                        WindowCompat.getInsetsController(it, view)
-                    }
-                    insetsController?.isAppearanceLightStatusBars = !darkMode
+                KeepSafeTheme(
+                    darkTheme = themeState.darkTheme.value
+                ) {
+                    AppNavigation()
                 }
             }
-
-            App(themeState = themeState)
         }
     }
 }

@@ -1,6 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,20 +10,8 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.googleGmsGoogleServices)
 }
-
-val localProperties = rootProject.file("local.properties")
-val properties: Properties = Properties().apply {
-    if (localProperties.exists()) {
-        localProperties.inputStream().use { load(it) }
-    }
-}
-
-val firebaseApiKey = properties.getProperty("FIREBASE_API_KEY")
-    ?: error("FIREBASE_API_KEY missing in local.properties")
-
-val firebaseProjectId = properties.getProperty("FIREBASE_PROJECT_ID")
-    ?: error("FIREBASE_PROJECT_ID missing in local.properties")
 
 kotlin {
     androidTarget {
@@ -61,6 +48,13 @@ kotlin {
             implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.koin.androidx.workmanager)
             implementation(libs.lottie.android)
+            implementation(libs.firebase.auth)
+            implementation(libs.androidx.credentials)
+            implementation(libs.androidx.credentials.play.services.auth)
+            implementation(libs.googleid)
+            implementation(libs.firebase.firestore)
+            implementation(libs.firebase.storage)
+            implementation(libs.kotlinx.coroutines.play.services)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -113,27 +107,12 @@ android {
     namespace = "com.ralphmarondev.keepsafe"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
-    buildFeatures {
-        buildConfig = true
-    }
-
     defaultConfig {
         applicationId = "com.ralphmarondev.keepsafe"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-
-        buildConfigField(
-            type = "String",
-            name = "API_KEY",
-            value = "\"$firebaseApiKey\""
-        )
-        buildConfigField(
-            type = "String",
-            name = "PROJECT_ID",
-            value = "\"$firebaseProjectId\""
-        )
     }
     packaging {
         resources {
@@ -154,11 +133,6 @@ android {
 compose.desktop {
     application {
         mainClass = "com.ralphmarondev.keepsafe.MainKt"
-
-        jvmArgs(
-            "-DFIREBASE_API_KEY=$firebaseApiKey",
-            "-DFIREBASE_PROJECT_ID=$firebaseProjectId"
-        )
 
         nativeDistributions {
             targetFormats(TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Dmg)

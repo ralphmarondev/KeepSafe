@@ -37,3 +37,6 @@ node_modules/
 
 # KMP cache (optional)
 .kmp-cache
+
+# Firebase
+composeApp/google-services.json
