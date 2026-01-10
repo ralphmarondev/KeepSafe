@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -190,7 +191,10 @@ private fun RegisterScreen(
             contentPadding = PaddingValues(16.dp)
         ) {
             item {
-                OutlinedCard {
+                OutlinedCard(
+                    modifier = Modifier
+                        .widthIn(max = 500.dp)
+                ) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -352,6 +356,7 @@ private fun RegisterAdminAccountScreen(
         supportingText = state.usernameSupportingText,
         placeHolderText = "admin",
         labelText = "Username",
+        suffixText = "@keepsafe.com",
         leadingIconImageVector = Icons.Outlined.PermIdentity
     )
     PasswordField(
@@ -461,7 +466,7 @@ private fun SummaryScreen(
             overflow = TextOverflow.Ellipsis
         )
         Text(
-            text = state.username + "@myfamily.com",
+            text = state.email,
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Normal),
             color = MaterialTheme.colorScheme.primary,
             maxLines = 2,

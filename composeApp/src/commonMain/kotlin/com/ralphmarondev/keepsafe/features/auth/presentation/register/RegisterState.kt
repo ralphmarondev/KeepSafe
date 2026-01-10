@@ -4,6 +4,7 @@ data class RegisterState(
     val familyId: String = "",
     val familyName: String = "",
     val username: String = "",
+    val email: String = "",
     val password: String = "",
     val confirmPassword: String = "",
 

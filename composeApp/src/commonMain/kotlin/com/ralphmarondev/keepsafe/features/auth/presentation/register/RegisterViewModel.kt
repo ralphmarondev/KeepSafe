@@ -71,7 +71,8 @@ class RegisterViewModel(
                             "Username must be at least 5 characters."
                         } else {
                             ""
-                        }
+                        },
+                        email = action.username.lowercase() + "@keepsafe.com"
                     )
                 }
             }
