@@ -1,9 +1,9 @@
 package com.ralphmarondev.keepsafe
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Menu
@@ -16,19 +16,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import io.github.alexzhirkevich.compottie.Compottie
-import io.github.alexzhirkevich.compottie.LottieCompositionSpec
-import io.github.alexzhirkevich.compottie.rememberLottieComposition
-import io.github.alexzhirkevich.compottie.rememberLottiePainter
-import keepsafe.composeapp.generated.resources.Res
+import androidx.compose.ui.unit.dp
+import com.ralphmarondev.keepsafe.core.presentation.components.LottieAnimation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
-
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -66,18 +61,10 @@ fun App() {
                 .padding(innerPadding),
             contentAlignment = Alignment.Center
         ) {
-            val composition by rememberLottieComposition {
-                LottieCompositionSpec.JsonString(
-                    Res.readBytes("files/error_404.json").decodeToString()
-                )
-            }
-
-            Image(
-                painter = rememberLottiePainter(
-                    composition = composition,
-                    iterations = Compottie.IterateForever
-                ),
-                contentDescription = null
+            LottieAnimation(
+                animation = "error_404.json",
+                modifier = Modifier
+                    .size(200.dp)
             )
         }
     }
