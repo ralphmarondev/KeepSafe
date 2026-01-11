@@ -17,6 +17,6 @@ actual val appModule: Module = module {
             File(prefsDir, AppPreferences.DATA_STORE_FILE_NAME).absolutePath
         }
     }
-    single<HttpClientEngine> { OkHttp.create() }
     single { DatabaseFactory() }
+    single<HttpClientEngine> { OkHttp.create() }
 }
