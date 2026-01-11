@@ -10,4 +10,7 @@ sealed interface Routes {
 
     @Serializable
     data object Register : Routes
+
+    @Serializable
+    data object Download : Routes
 }
