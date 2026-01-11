@@ -14,8 +14,6 @@ import com.ralphmarondev.keepsafe.features.download.data.repository.DownloadRepo
 import com.ralphmarondev.keepsafe.features.download.domain.repository.DownloadRepository
 import com.ralphmarondev.keepsafe.features.members.data.repository.MemberRepositoryImpl
 import com.ralphmarondev.keepsafe.features.members.domain.repository.MemberRepository
-import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.engine.okhttp.OkHttp
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -31,7 +29,6 @@ actual val appModule: Module = module {
         }
     }
     single { DatabaseFactory(androidApplication()) }
-    single<HttpClientEngine> { OkHttp.create() }
 
     single { FirebaseAuth.getInstance() }
     single { FirebaseFirestore.getInstance() }
