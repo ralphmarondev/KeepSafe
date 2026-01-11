@@ -739,6 +739,7 @@ private fun AccountScreen(
                 focusManager.moveFocus(FocusDirection.Next)
             }
         ),
+        labelText = "Password",
         isError = !state.isValidPassword && state.password.isNotEmpty(),
         supportingText = state.passwordSupportingText
     )
