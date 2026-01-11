@@ -12,6 +12,7 @@ import com.ralphmarondev.keepsafe.core.domain.model.Role
 import com.ralphmarondev.keepsafe.core.domain.model.User
 import com.ralphmarondev.keepsafe.features.members.domain.repository.MemberRepository
 import kotlinx.coroutines.flow.first
+import java.io.File
 
 actual class MemberRepositoryImpl(
     private val userDao: UserDao,
@@ -48,13 +49,6 @@ actual class MemberRepositoryImpl(
                 user = newMember,
                 uid = firebaseUser.uid
             )
-
-//            val localPhotoPath = newMember.photoUri?.let { uri ->
-//                val bitmap = PhotoStorage.loadBitmapFromUri(context, uri)
-//                bitmap?.let {
-//                    PhotoStorage.saveBitmap(context, it, "${firebaseUser.uid}.jpg")
-//                }
-//            }
 
             val userEntity = newMember.copy(
                 uid = firebaseUser.uid,

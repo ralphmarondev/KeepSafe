@@ -20,8 +20,7 @@ sealed interface NewMemberAction {
     data class CurrentAddressChange(val currentAddress: String) : NewMemberAction
     data class PermanentAddressChange(val permanentAddress: String) : NewMemberAction
     data class PhoneNumberChange(val phoneNumber: String) : NewMemberAction
-
-    //    data class PhotoUrlChange(val photoUrl: Uri?) : NewMemberAction
+    data class PickPhoto(val imagePath: String) : NewMemberAction
     data class BloodTypeChange(val bloodType: String) : NewMemberAction
     data class AllergiesChange(val allergies: String) : NewMemberAction
     data class MedicalConditionsChange(val medicalConditions: String) : NewMemberAction

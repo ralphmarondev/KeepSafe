@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.core.data.network.firebase
 
+import android.net.Uri
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.ralphmarondev.keepsafe.core.data.local.database.entities.UserEntity
@@ -7,6 +8,7 @@ import com.ralphmarondev.keepsafe.core.domain.model.Result
 import com.ralphmarondev.keepsafe.core.domain.model.Role
 import com.ralphmarondev.keepsafe.core.domain.model.User
 import kotlinx.coroutines.tasks.await
+import java.io.File
 
 class FirebaseService(
     private val fireStore: FirebaseFirestore,
@@ -110,16 +112,19 @@ class FirebaseService(
     ): Result<User> {
         return try {
             var uploadedPhotoUrl: String? = null
-//            if (user.photoUri != null) {
-//                val storageRef = storage.reference
-//                    .child("families")
-//                    .child(user.familyId)
-//                    .child("members")
-//                    .child("$uid.jpg")
-//
-//                storageRef.putFile(user.photoUri).await()
-//                uploadedPhotoUrl = storageRef.downloadUrl.await().toString()
-//            }
+            user.photoUrl?.let { path ->
+                val file = File(path)
+                if (file.exists()) {
+                    val storageRef = storage.reference
+                        .child("families")
+                        .child(user.familyId)
+                        .child("members")
+                        .child("$uid.jpg")
+
+                    storageRef.putFile(Uri.fromFile(file)).await()
+                    uploadedPhotoUrl = storageRef.downloadUrl.await().toString()
+                }
+            }
 
             val userData = mapOf(
                 "uid" to uid,

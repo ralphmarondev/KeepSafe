@@ -16,7 +16,6 @@ data class NewMemberState(
     val currentAddress: String = "",
     val permanentAddress: String = "",
     val phoneNumber: String = "",
-//    val photoUrl: Uri? = null,
     val photoUrl: String? = null,
     val bloodType: String = "",
     val allergies: String = "",

@@ -31,7 +31,6 @@ data class User(
     val permanentAddress: String = "",
     val phoneNumber: String = "",
     val photoUrl: String? = null,
-//    val photoUri: Uri? = null,
 
     // health info
     val bloodType: String = "",

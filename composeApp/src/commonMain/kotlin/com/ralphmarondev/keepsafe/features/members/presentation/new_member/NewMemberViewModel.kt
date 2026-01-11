@@ -106,10 +106,6 @@ class NewMemberViewModel(
                 _state.update { it.copy(phoneNumber = action.phoneNumber) }
             }
 
-//            is NewMemberAction.PhotoUrlChange -> {
-//                _state.update { it.copy(photoUrl = action.photoUrl) }
-//            }
-
             is NewMemberAction.ReligionChange -> {
                 _state.update { it.copy(religion = action.religion) }
             }
@@ -159,6 +155,12 @@ class NewMemberViewModel(
                     )
                 }
             }
+
+            is NewMemberAction.PickPhoto -> {
+                viewModelScope.launch {
+                    _state.update { it.copy(photoUrl = action.imagePath) }
+                }
+            }
         }
     }
 
@@ -185,7 +187,7 @@ class NewMemberViewModel(
                 currentAddress = _state.value.currentAddress,
                 permanentAddress = _state.value.permanentAddress,
                 phoneNumber = _state.value.phoneNumber,
-//                photoUri = _state.value.photoUrl,
+                photoUrl = _state.value.photoUrl,
                 bloodType = _state.value.bloodType,
                 allergies = _state.value.allergies,
                 emergencyContact = _state.value.emergencyContact,

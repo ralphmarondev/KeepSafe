@@ -45,7 +45,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -63,6 +62,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.ralphmarondev.keepsafe.core.common.SelectImageButton
 import com.ralphmarondev.keepsafe.core.presentation.components.NormalTextField
 import com.ralphmarondev.keepsafe.core.presentation.components.PasswordField
 import com.ralphmarondev.keepsafe.core.presentation.theme.LocalThemeState
@@ -808,15 +808,11 @@ private fun ImageScreen(
                 .border(1.dp, MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(16.dp))
                 .clip(RoundedCornerShape(16.dp))
         )
-        TextButton(
-            onClick = { },
+        SelectImageButton(
+            text = "Upload Image",
+            onClick = { action(NewMemberAction.PickPhoto(it)) },
             modifier = Modifier.padding(4.dp)
-        ) {
-            Text(
-                text = "Upload Image",
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
+        )
     }
 
     Button(
