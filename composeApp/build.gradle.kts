@@ -79,6 +79,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.sqlite.bundled)
             implementation(libs.androidx.room.runtime)
+            implementation(libs.bundles.compottie)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
