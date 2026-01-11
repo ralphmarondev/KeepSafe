@@ -21,7 +21,7 @@ class LoginViewModel(
         when (action) {
             is LoginAction.FamilyIdChange -> {
                 _state.update { current ->
-                    val isValid = action.familyId.length >= 8 && action.familyId.isNotEmpty()
+                    val isValid = action.familyId.trim().length >= 8 && action.familyId.isNotBlank()
                     current.copy(
                         familyId = action.familyId,
                         isValidFamilyId = isValid,
@@ -36,7 +36,7 @@ class LoginViewModel(
 
             is LoginAction.EmailChange -> {
                 _state.update { current ->
-                    val isValid = action.email.contains("@") && action.email.isNotEmpty()
+                    val isValid = action.email.contains("@") && action.email.isNotBlank()
                     current.copy(
                         email = action.email,
                         isValidEmail = isValid,
@@ -51,7 +51,7 @@ class LoginViewModel(
 
             is LoginAction.PasswordChange -> {
                 _state.update { current ->
-                    val isValid = action.password.length >= 8 && action.password.isNotEmpty()
+                    val isValid = action.password.trim().length >= 8 && action.password.isNotBlank()
                     current.copy(
                         password = action.password,
                         isValidPassword = isValid,
@@ -78,56 +78,59 @@ class LoginViewModel(
 
     private fun login() {
         viewModelScope.launch {
-            val familyId = _state.value.familyId.trim()
-            val email = _state.value.email.trim()
-            val password = _state.value.password.trim()
+            try {
+                _state.update { it.copy(isLoggingIn = true, errorMessage = null) }
 
-            if (!_state.value.isValidEmail || !_state.value.isValidPassword || !_state.value.isValidFamilyId) {
+                if (!_state.value.isValidEmail || !_state.value.isValidPassword || !_state.value.isValidFamilyId) {
+                    _state.update {
+                        it.copy(
+                            familyIdSupportingText = if (!_state.value.isValidFamilyId) "Please enter a valid family id" else it.emailSupportingText,
+                            emailSupportingText = if (!_state.value.isValidEmail) "Please enter a valid email address" else it.emailSupportingText,
+                            passwordSupportingText = if (!_state.value.isValidPassword) "Password must be at least 8 characters" else it.passwordSupportingText,
+                            errorMessage = "Invalid credentials."
+                        )
+                    }
+                    return@launch
+                }
+
+                val result = repository.login(
+                    familyId = _state.value.familyId.trim(),
+                    email = _state.value.email.trim(),
+                    password = _state.value.password.trim()
+                )
+
+                delay(2000)
+                when (result) {
+                    is Result.Success -> {
+                        _state.update {
+                            it.copy(
+                                isLoggingIn = false,
+                                isLoggedIn = true
+                            )
+                        }
+                    }
+
+                    is Result.Error -> {
+                        _state.update {
+                            it.copy(
+                                isLoggingIn = false,
+                                errorMessage = result.message ?: "Login failed. Please try again."
+                            )
+                        }
+                    }
+
+                    Result.Loading -> {
+                        _state.update {
+                            it.copy(isLoggingIn = true)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
                 _state.update {
                     it.copy(
-                        isError = true,
-                        familyIdSupportingText = if (!_state.value.isValidFamilyId) "Please enter a valid family id" else it.emailSupportingText,
-                        emailSupportingText = if (!_state.value.isValidEmail) "Please enter a valid email address" else it.emailSupportingText,
-                        passwordSupportingText = if (!_state.value.isValidPassword) "Password must be at least 8 characters" else it.passwordSupportingText
+                        isLoggingIn = false,
+                        errorMessage = e.message ?: "Login failed. Please try again."
                     )
-                }
-                return@launch
-            }
-
-            _state.update { it.copy(isLoggingIn = true, isError = false) }
-            delay(2000)
-
-            val result = repository.login(
-                familyId = familyId,
-                email = email,
-                password = password
-            )
-            when (result) {
-                is Result.Success -> {
-                    _state.update {
-                        it.copy(
-                            isLoggingIn = false,
-                            isLoggedIn = true,
-                            isError = false,
-                            errorMessage = null
-                        )
-                    }
-                }
-
-                is Result.Error -> {
-                    _state.update {
-                        it.copy(
-                            isLoggingIn = false,
-                            isError = true,
-                            errorMessage = result.message ?: "Login failed. Please try again."
-                        )
-                    }
-                }
-
-                Result.Loading -> {
-                    _state.update {
-                        it.copy(isLoggingIn = true)
-                    }
                 }
             }
         }

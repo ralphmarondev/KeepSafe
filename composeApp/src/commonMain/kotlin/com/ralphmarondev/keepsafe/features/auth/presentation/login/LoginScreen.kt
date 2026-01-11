@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -41,7 +42,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.ralphmarondev.keepsafe.core.presentation.components.NormalTextField
 import com.ralphmarondev.keepsafe.core.presentation.components.PasswordField
+import com.ralphmarondev.keepsafe.core.presentation.theme.KeepSafeTheme
 import com.ralphmarondev.keepsafe.core.presentation.theme.LocalThemeState
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -85,8 +88,8 @@ private fun LoginScreen(
     val snackbarState = remember { SnackbarHostState() }
 
     LaunchedEffect(state.errorMessage) {
-        if (state.isError && !state.errorMessage.isNullOrEmpty()) {
-            snackbarState.showSnackbar(message = state.errorMessage)
+        state.errorMessage?.let { message ->
+            snackbarState.showSnackbar(message = message)
         }
     }
 
@@ -129,7 +132,10 @@ private fun LoginScreen(
             contentPadding = PaddingValues(16.dp)
         ) {
             item {
-                OutlinedCard {
+                OutlinedCard(
+                    modifier = Modifier
+                        .widthIn(max = 500.dp)
+                ) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -145,7 +151,7 @@ private fun LoginScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.secondary
                         )
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
                         NormalTextField(
                             value = state.familyId,
@@ -160,7 +166,7 @@ private fun LoginScreen(
                                     focusManager.moveFocus(FocusDirection.Next)
                                 }
                             ),
-                            isError = !state.isValidFamilyId && state.familyId.isNotEmpty(),
+                            isError = !state.isValidFamilyId,
                             supportingText = state.familyIdSupportingText,
                             leadingIconImageVector = Icons.Outlined.AccountTree,
                             labelText = "Family ID",
@@ -179,7 +185,7 @@ private fun LoginScreen(
                                     focusManager.moveFocus(FocusDirection.Next)
                                 }
                             ),
-                            isError = !state.isValidEmail && state.email.isNotEmpty(),
+                            isError = !state.isValidEmail,
                             supportingText = state.emailSupportingText,
                             leadingIconImageVector = Icons.Outlined.Email,
                             labelText = "Email",
@@ -198,7 +204,7 @@ private fun LoginScreen(
                                     focusManager.clearFocus()
                                 }
                             ),
-                            isError = !state.isValidPassword && state.password.isNotEmpty(),
+                            isError = !state.isValidPassword,
                             supportingText = state.passwordSupportingText,
                             labelText = "Password"
                         )

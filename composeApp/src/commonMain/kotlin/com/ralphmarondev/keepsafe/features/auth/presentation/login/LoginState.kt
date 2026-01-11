@@ -7,12 +7,11 @@ data class LoginState(
     val familyIdSupportingText: String = "",
     val emailSupportingText: String = "",
     val passwordSupportingText: String = "",
-    val isValidFamilyId: Boolean = false,
-    val isValidEmail: Boolean = false,
-    val isValidPassword: Boolean = false,
+    val isValidFamilyId: Boolean = true,
+    val isValidEmail: Boolean = true,
+    val isValidPassword: Boolean = true,
     val isLoggingIn: Boolean = false,
     val isLoggedIn: Boolean = false,
-    val isError: Boolean = false,
     val errorMessage: String? = null,
     val register: Boolean = false
 )
