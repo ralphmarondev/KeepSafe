@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 fun NormalTextField(
@@ -41,16 +42,24 @@ fun NormalTextField(
         placeholder = {
             Text(
                 text = placeHolderText,
-                color = MaterialTheme.colorScheme.secondary
+                color = MaterialTheme.colorScheme.secondary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         },
         label = {
-            Text(text = labelText)
+            Text(
+                text = labelText,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
         },
         suffix = {
             Text(
                 text = suffixText,
-                color = MaterialTheme.colorScheme.secondary
+                color = MaterialTheme.colorScheme.secondary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         },
         singleLine = true,
@@ -78,7 +87,9 @@ fun NormalTextField(
         supportingText = {
             Text(
                 text = supportingText,
-                color = MaterialTheme.colorScheme.error
+                color = MaterialTheme.colorScheme.error,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
         },
         keyboardActions = keyboardActions,

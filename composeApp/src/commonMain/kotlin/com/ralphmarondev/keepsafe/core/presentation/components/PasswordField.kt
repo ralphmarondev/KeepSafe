@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 fun PasswordField(
@@ -45,11 +46,17 @@ fun PasswordField(
         placeholder = {
             Text(
                 text = "••••••••",
-                color = MaterialTheme.colorScheme.secondary
+                color = MaterialTheme.colorScheme.secondary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         },
         label = {
-            Text(text = labelText)
+            Text(
+                text = labelText,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
         },
         singleLine = true,
         leadingIcon = {
@@ -81,7 +88,9 @@ fun PasswordField(
         supportingText = {
             Text(
                 text = supportingText,
-                color = MaterialTheme.colorScheme.error
+                color = MaterialTheme.colorScheme.error,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
         },
         keyboardActions = keyboardActions,
