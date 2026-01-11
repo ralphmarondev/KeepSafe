@@ -13,4 +13,13 @@ sealed interface Routes {
 
     @Serializable
     data object Download : Routes
+
+    @Serializable
+    data object MemberList : Routes
+
+    @Serializable
+    data class MemberDetail(val email: String) : Routes
+
+    @Serializable
+    data object NewMember : Routes
 }

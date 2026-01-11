@@ -6,9 +6,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.ralphmarondev.keepsafe.features.auth.presentation.login.LoginScreenRoot
 import com.ralphmarondev.keepsafe.features.auth.presentation.register.RegisterScreenRoot
 import com.ralphmarondev.keepsafe.features.download.presentation.DownloadScreenRoot
+import com.ralphmarondev.keepsafe.features.members.presentation.member_details.MemberDetailScreenRoot
+import com.ralphmarondev.keepsafe.features.members.presentation.member_list.MemberListScreenRoot
+import com.ralphmarondev.keepsafe.features.members.presentation.new_member.NewMemberScreenRoot
 
 @Composable
 fun AppNavigation(
@@ -48,7 +52,48 @@ fun AppNavigation(
         composable<Routes.Download> {
             DownloadScreenRoot(
                 onDownloadCompleted = {
-                    Log.d("Navigation", "Download completed")
+                    navController.navigate(Routes.MemberList) {
+                        popUpTo(Routes.Download) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+        composable<Routes.MemberList> {
+            MemberListScreenRoot(
+                onFamilyMemberClick = { email ->
+                    navController.navigate(Routes.MemberDetail(email)) {
+                        launchSingleTop = true
+                    }
+                },
+                onAccountClick = {
+                    Log.d("Navigation", "Navigating to account feature.")
+                },
+                onNotificationClick = {
+                    Log.d("Navigation", "Navigating to notification feature.")
+                },
+                onAddNewFamilyMemberClick = {
+                    navController.navigate(Routes.NewMember) {
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+        composable<Routes.MemberDetail> {
+            val email = it.toRoute<Routes.MemberDetail>().email
+            MemberDetailScreenRoot(
+                email = email,
+                navigateBack = {
+                    navController.navigateUp()
+                }
+            )
+        }
+        composable<Routes.NewMember> {
+            NewMemberScreenRoot(
+                navigateBack = {
+                    navController.navigateUp()
                 }
             )
         }
