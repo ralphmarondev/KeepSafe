@@ -11,14 +11,18 @@ actual class AuthRepositoryImpl :
         email: String,
         password: String
     ): Result<User> {
-        TODO("Not yet implemented")
+        val user = User(
+            familyId = familyId,
+            email = email
+        )
+        return Result.Success(user)
     }
 
     actual override suspend fun register(user: User): Result<User> {
-        TODO("Not yet implemented")
+        return Result.Success(user)
     }
 
     actual override suspend fun isFamilyIdTaken(familyId: String): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 }

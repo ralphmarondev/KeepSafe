@@ -1,6 +1,5 @@
 package com.ralphmarondev.keepsafe.features.auth.presentation.register
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,6 +39,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
@@ -75,7 +75,7 @@ fun RegisterScreenRoot(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 private fun RegisterScreen(
     state: RegisterState,
@@ -83,13 +83,13 @@ private fun RegisterScreen(
     toggleTheme: () -> Unit,
     isDarkTheme: Boolean
 ) {
-    BackHandler(enabled = true) {
-        if (state.currentPage > 0) {
-            action(RegisterAction.DecrementCurrentPage)
-        } else {
-            action(RegisterAction.ShowNavigateBackDialog)
-        }
-    }
+//    BackHandler(enabled = true) {
+//        if (state.currentPage > 0) {
+//            action(RegisterAction.DecrementCurrentPage)
+//        } else {
+//            action(RegisterAction.ShowNavigateBackDialog)
+//        }
+//    }
 
     val snackbarState = remember { SnackbarHostState() }
 

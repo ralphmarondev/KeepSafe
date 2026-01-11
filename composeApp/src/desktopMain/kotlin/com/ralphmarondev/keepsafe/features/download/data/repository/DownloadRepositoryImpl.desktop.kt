@@ -6,6 +6,6 @@ import com.ralphmarondev.keepsafe.features.download.domain.repository.DownloadRe
 actual class DownloadRepositoryImpl :
     DownloadRepository {
     actual override suspend fun syncMembers(): List<User> {
-        TODO("Not yet implemented")
+        return emptyList()
     }
 }
