@@ -9,7 +9,7 @@ fun main() {
             onCloseRequest = ::exitApplication,
             title = "KeepSafe",
         ) {
-            App()
+
         }
     }
 }
