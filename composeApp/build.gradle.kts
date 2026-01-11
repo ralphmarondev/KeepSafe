@@ -47,7 +47,6 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.koin.androidx.workmanager)
-            implementation(libs.lottie.android)
             implementation(libs.firebase.auth)
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play.services.auth)
