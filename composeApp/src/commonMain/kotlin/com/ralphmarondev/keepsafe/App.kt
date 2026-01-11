@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -8,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
+import com.ralphmarondev.keepsafe.core.presentation.components.Splash
 import com.ralphmarondev.keepsafe.core.presentation.theme.KeepSafeTheme
 import com.ralphmarondev.keepsafe.core.presentation.theme.LocalThemeState
 import com.ralphmarondev.keepsafe.core.presentation.theme.ThemeProvider
@@ -28,8 +30,8 @@ fun App(preferences: AppPreferences) {
             var startDestination by remember { mutableStateOf<Routes?>(null) }
 
             LaunchedEffect(Unit) {
-                delay(2000)
                 val isAuthenticated = preferences.isAuthenticated.first()
+                delay(2000)
 
                 startDestination = when {
                     isAuthenticated -> Routes.MemberList
@@ -37,8 +39,14 @@ fun App(preferences: AppPreferences) {
                 }
             }
 
-            startDestination?.let {
-                AppNavigation(startDestination = it)
+            Crossfade(
+                targetState = startDestination,
+                label = "splashToApp"
+            ) { state ->
+                when (state) {
+                    null -> Splash()
+                    else -> AppNavigation(startDestination = state)
+                }
             }
         }
     }
