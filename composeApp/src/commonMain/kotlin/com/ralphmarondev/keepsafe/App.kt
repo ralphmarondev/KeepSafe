@@ -12,6 +12,7 @@ import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.core.presentation.components.Splash
 import com.ralphmarondev.keepsafe.core.presentation.theme.KeepSafeTheme
 import com.ralphmarondev.keepsafe.core.presentation.theme.LocalThemeState
+import com.ralphmarondev.keepsafe.core.presentation.theme.SystemBarsEffect
 import com.ralphmarondev.keepsafe.core.presentation.theme.ThemeProvider
 import com.ralphmarondev.keepsafe.navigation.AppNavigation
 import com.ralphmarondev.keepsafe.navigation.Routes
@@ -39,6 +40,7 @@ fun App(preferences: AppPreferences) {
                 }
             }
 
+            SystemBarsEffect()
             Crossfade(
                 targetState = startDestination,
                 label = "splashToApp"
