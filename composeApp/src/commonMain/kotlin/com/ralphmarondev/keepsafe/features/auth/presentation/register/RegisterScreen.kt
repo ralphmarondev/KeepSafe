@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -17,8 +17,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountTree
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.PermIdentity
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -47,6 +47,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ralphmarondev.keepsafe.core.common.Environment
+import com.ralphmarondev.keepsafe.core.presentation.components.BackHandler
 import com.ralphmarondev.keepsafe.core.presentation.components.NormalTextField
 import com.ralphmarondev.keepsafe.core.presentation.components.PasswordField
 import com.ralphmarondev.keepsafe.core.presentation.theme.LocalThemeState
@@ -83,18 +85,20 @@ private fun RegisterScreen(
     toggleTheme: () -> Unit,
     isDarkTheme: Boolean
 ) {
-//    BackHandler(enabled = true) {
-//        if (state.currentPage > 0) {
-//            action(RegisterAction.DecrementCurrentPage)
-//        } else {
-//            action(RegisterAction.ShowNavigateBackDialog)
-//        }
-//    }
+    if (Environment.isAndroid) {
+        BackHandler(enabled = true) {
+            if (state.currentPage > 0) {
+                action(RegisterAction.DecrementCurrentPage)
+            } else {
+                action(RegisterAction.ShowNavigateBackDialog)
+            }
+        }
+    }
 
     val snackbarState = remember { SnackbarHostState() }
 
     LaunchedEffect(state.errorMessage) {
-        if (state.isError && !state.errorMessage.isNullOrEmpty()) {
+        state.errorMessage?.let {
             snackbarState.showSnackbar(message = state.errorMessage)
         }
     }
@@ -196,7 +200,10 @@ private fun RegisterScreen(
             contentPadding = PaddingValues(16.dp)
         ) {
             item {
-                OutlinedCard {
+                OutlinedCard(
+                    modifier = Modifier
+                        .widthIn(max = 500.dp)
+                ) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -248,7 +255,7 @@ private fun RegisterFamilyProfileScreen(
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.secondary
     )
-    Spacer(modifier = Modifier.height(12.dp))
+    Spacer(modifier = Modifier.height(16.dp))
 
     NormalTextField(
         value = state.familyName,
@@ -339,11 +346,11 @@ private fun RegisterAdminAccountScreen(
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.secondary
     )
-    Spacer(modifier = Modifier.height(12.dp))
+    Spacer(modifier = Modifier.height(16.dp))
 
     NormalTextField(
-        value = state.username,
-        onValueChange = { action(RegisterAction.UsernameChange(it)) },
+        value = state.email,
+        onValueChange = { action(RegisterAction.EmailChange(it)) },
         modifier = Modifier
             .fillMaxWidth(),
         keyboardOptions = KeyboardOptions(
@@ -354,11 +361,11 @@ private fun RegisterAdminAccountScreen(
                 focusManager.moveFocus(FocusDirection.Next)
             }
         ),
-        isError = !state.isValidUsername,
-        supportingText = state.usernameSupportingText,
-        placeHolderText = "admin",
-        labelText = "Username",
-        leadingIconImageVector = Icons.Outlined.PermIdentity
+        isError = !state.isValidEmail,
+        supportingText = state.emailSupportingText,
+        placeHolderText = "you@keepsafe.com",
+        labelText = "Email",
+        leadingIconImageVector = Icons.Outlined.Email
     )
     PasswordField(
         value = state.password,
@@ -426,7 +433,7 @@ private fun SummaryScreen(
         color = MaterialTheme.colorScheme.secondary
     )
 
-    Spacer(modifier = Modifier.width(16.dp))
+    Spacer(modifier = Modifier.height(16.dp))
     Column(modifier = Modifier.padding(vertical = 4.dp)) {
         Text(
             text = "Family ID:",
@@ -461,7 +468,7 @@ private fun SummaryScreen(
     }
     Column(modifier = Modifier.padding(vertical = 4.dp)) {
         Text(
-            text = "Admin Username:",
+            text = "Admin Email:",
             style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
             color = MaterialTheme.colorScheme.secondary,
             maxLines = 1,

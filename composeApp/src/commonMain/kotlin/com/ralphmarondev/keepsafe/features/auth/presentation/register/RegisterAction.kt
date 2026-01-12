@@ -3,7 +3,7 @@ package com.ralphmarondev.keepsafe.features.auth.presentation.register
 sealed interface RegisterAction {
     data class FamilyIdChange(val familyId: String) : RegisterAction
     data class FamilyNameChange(val familyName: String) : RegisterAction
-    data class UsernameChange(val username: String) : RegisterAction
+    data class EmailChange(val email: String) : RegisterAction
     data class PasswordChange(val password: String) : RegisterAction
     data class ConfirmPasswordChange(val confirmPassword: String) : RegisterAction
     data object Register : RegisterAction

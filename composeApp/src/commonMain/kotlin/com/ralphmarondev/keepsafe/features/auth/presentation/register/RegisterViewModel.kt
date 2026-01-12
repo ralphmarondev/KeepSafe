@@ -61,18 +61,17 @@ class RegisterViewModel(
                 }
             }
 
-            is RegisterAction.UsernameChange -> {
+            is RegisterAction.EmailChange -> {
                 _state.update { current ->
-                    val isValid = action.username.isNotEmpty() && action.username.length >= 5
+                    val isValid = action.email.contains("@") && action.email.isNotBlank()
                     current.copy(
-                        username = action.username,
-                        isValidUsername = isValid,
-                        usernameSupportingText = if (!isValid) {
-                            "Username must be at least 5 characters."
+                        email = action.email.lowercase(),
+                        isValidEmail = isValid,
+                        emailSupportingText = if (!isValid) {
+                            "Please enter valid email address."
                         } else {
                             ""
-                        },
-                        email = action.username.trim().lowercase() + "@keepsafe.com"
+                        }
                     )
                 }
             }
@@ -149,39 +148,26 @@ class RegisterViewModel(
                         }
                         if (isValidFamilyId && isValidFamilyName) {
                             _state.update { it.copy(currentPage = it.currentPage + 1) }
-                        } else {
-                            _state.update {
-                                it.copy(
-                                    isError = true,
-                                    errorMessage = if (!isValidFamilyId && !isValidFamilyName) {
-                                        "Invalid family Id and family name."
-                                    } else if (isValidFamilyId) {
-                                        _state.value.familyIdSupportingText
-                                    } else {
-                                        _state.value.familyNameSupportingText
-                                    }
-                                )
-                            }
                         }
                     }
 
                     1 -> {
-                        val username = _state.value.username.trim()
-                        val password = _state.value.password.trim()
-                        val confirmPassword = _state.value.confirmPassword.trim()
+                        val email = _state.value.email
+                        val password = _state.value.password
+                        val confirmPassword = _state.value.confirmPassword
 
-                        val isValidUsername = username.isNotEmpty() && username.length >= 5
-                        val isValidPassword = password.isNotEmpty() && password.length >= 8
-                        val isValidConfirmPassword = confirmPassword.isNotEmpty() &&
+                        val isValidEmail = email.contains("@") && email.isNotBlank()
+                        val isValidPassword = password.isNotBlank() && password.length >= 8
+                        val isValidConfirmPassword = confirmPassword.isNotBlank() &&
                                 confirmPassword == password
 
                         _state.update {
                             it.copy(
-                                isValidUsername = isValidUsername,
+                                isValidEmail = isValidEmail,
                                 isValidPassword = isValidPassword,
                                 isValidConfirmPassword = isValidConfirmPassword,
-                                usernameSupportingText = if (!isValidUsername) {
-                                    "Username must be at least 5 characters."
+                                emailSupportingText = if (!isValidEmail) {
+                                    "Please enter valid email address."
                                 } else {
                                     ""
                                 },
@@ -197,15 +183,8 @@ class RegisterViewModel(
                                 }
                             )
                         }
-                        if (isValidUsername && isValidPassword && isValidConfirmPassword) {
+                        if (isValidEmail && isValidPassword && isValidConfirmPassword) {
                             _state.update { it.copy(currentPage = it.currentPage + 1) }
-                        } else {
-                            _state.update {
-                                it.copy(
-                                    isError = true,
-                                    errorMessage = "Invalid credentials."
-                                )
-                            }
                         }
                     }
 
@@ -227,17 +206,22 @@ class RegisterViewModel(
 
     private fun register() {
         viewModelScope.launch {
-            _state.update { it.copy(isRegistering = true, isRegistered = false) }
+            _state.update {
+                it.copy(
+                    isRegistering = true,
+                    isRegistered = false,
+                    errorMessage = null
+                )
+            }
 
             val user = User(
                 familyId = _state.value.familyId.trim(),
                 familyName = _state.value.familyName.trim(),
-                username = _state.value.username.trim(),
+                email = _state.value.email.trim(),
                 password = _state.value.password.trim(),
                 role = Role.FAMILY_ADMIN.name,
                 active = true,
-                firstName = "Family Admin",
-                email = _state.value.email.trim()
+                firstName = "Family Admin"
             )
 
             val result = repository.register(user)
@@ -248,7 +232,6 @@ class RegisterViewModel(
             } else {
                 _state.update {
                     it.copy(
-                        isError = true,
                         isRegistering = false,
                         errorMessage = "Registering family failed."
                     )
