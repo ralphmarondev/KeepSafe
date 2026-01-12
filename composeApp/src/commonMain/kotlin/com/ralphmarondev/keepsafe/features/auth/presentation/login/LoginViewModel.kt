@@ -79,24 +79,34 @@ class LoginViewModel(
     private fun login() {
         viewModelScope.launch {
             try {
-                _state.update { it.copy(isLoggingIn = true, errorMessage = null) }
+                val familyId = _state.value.familyId.trim()
+                val email = _state.value.email.trim()
+                val password = _state.value.password.trim()
 
-                if (!_state.value.isValidEmail || !_state.value.isValidPassword || !_state.value.isValidFamilyId) {
+                val isValidFamilyId = familyId.length >= 8 && familyId.isNotBlank()
+                val isValidEmail = email.contains("@") && email.isNotBlank()
+                val isValidPassword = password.trim().length >= 8 && password.isNotBlank()
+
+                if (!isValidFamilyId || !isValidEmail || !isValidPassword) {
                     _state.update {
                         it.copy(
-                            familyIdSupportingText = if (!_state.value.isValidFamilyId) "Please enter a valid family id" else it.emailSupportingText,
-                            emailSupportingText = if (!_state.value.isValidEmail) "Please enter a valid email address" else it.emailSupportingText,
-                            passwordSupportingText = if (!_state.value.isValidPassword) "Password must be at least 8 characters" else it.passwordSupportingText,
-                            errorMessage = "Invalid credentials."
+                            isValidFamilyId = isValidFamilyId,
+                            familyIdSupportingText = if (!isValidFamilyId) "Family Id must be at least 8 characters." else "",
+                            isValidEmail = isValidEmail,
+                            emailSupportingText = if (!isValidEmail) "Please enter valid email address." else "",
+                            isValidPassword = isValidPassword,
+                            passwordSupportingText = if (!isValidPassword) "Password must be at least 8 characters." else ""
                         )
                     }
                     return@launch
                 }
 
+                _state.update { it.copy(isLoggingIn = true, errorMessage = null) }
+
                 val result = repository.login(
-                    familyId = _state.value.familyId.trim(),
-                    email = _state.value.email.trim(),
-                    password = _state.value.password.trim()
+                    familyId = familyId,
+                    email = email,
+                    password = password
                 )
 
                 delay(2000)
