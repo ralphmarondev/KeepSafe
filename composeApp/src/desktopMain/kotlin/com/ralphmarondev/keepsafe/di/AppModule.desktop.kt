@@ -4,6 +4,7 @@ import com.ralphmarondev.keepsafe.core.data.local.database.DatabaseFactory
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.keepsafe.core.data.network.HttpClientFactory
 import com.ralphmarondev.keepsafe.core.data.network.firebase.FirebaseAuthentication
+import com.ralphmarondev.keepsafe.core.data.network.firebase.FirebaseService
 import com.ralphmarondev.keepsafe.features.auth.data.repository.AuthRepositoryImpl
 import com.ralphmarondev.keepsafe.features.auth.domain.repository.AuthRepository
 import com.ralphmarondev.keepsafe.features.download.data.repository.DownloadRepositoryImpl
@@ -31,6 +32,7 @@ actual val appModule: Module = module {
     single<HttpClientEngine> { OkHttp.create() }
     single { HttpClientFactory.create(get()) }
     single { FirebaseAuthentication(get()) }
+    single { FirebaseService(get()) }
 
     singleOf(::AuthRepositoryImpl).bind<AuthRepository>()
     singleOf(::DownloadRepositoryImpl).bind<DownloadRepository>()
