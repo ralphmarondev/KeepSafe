@@ -1,5 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,6 +12,13 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     alias(libs.plugins.googleGmsGoogleServices)
+}
+
+val localProps = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        file.inputStream().use { load(it) }
+    }
 }
 
 kotlin {
@@ -132,6 +140,11 @@ android {
 compose.desktop {
     application {
         mainClass = "com.ralphmarondev.keepsafe.MainKt"
+
+        jvmArgs(
+            "-DFIREBASE_API_KEY=${localProps["FIREBASE_API_KEY"]}",
+            "-DFIREBASE_PROJECT_ID=${localProps["FIREBASE_PROJECT_ID"]}"
+        )
 
         nativeDistributions {
             targetFormats(TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Dmg)
