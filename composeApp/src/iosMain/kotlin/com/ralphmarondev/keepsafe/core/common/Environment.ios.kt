@@ -1,6 +1,6 @@
 package com.ralphmarondev.keepsafe.core.common
 
-actual class Environment {
+actual object Environment {
     actual val platform: Platform
         get() = TODO("Not yet implemented")
     actual val desktop: Desktop

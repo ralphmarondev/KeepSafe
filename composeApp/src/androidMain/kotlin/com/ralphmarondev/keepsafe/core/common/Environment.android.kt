@@ -3,7 +3,7 @@ package com.ralphmarondev.keepsafe.core.common
 import java.util.Locale
 import java.util.TimeZone
 
-actual class Environment {
+actual object Environment {
     actual val platform: Platform = Platform.Android
     actual val desktop: Desktop = Desktop.Unknown
     actual val isAndroid: Boolean = true

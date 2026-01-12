@@ -3,7 +3,7 @@ package com.ralphmarondev.keepsafe.core.common
 import java.util.Locale
 import java.util.TimeZone
 
-actual class Environment {
+actual object Environment {
 
     private val os = System.getProperty("os.name")?.lowercase() ?: ""
 

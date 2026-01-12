@@ -13,7 +13,7 @@ enum class Desktop {
     Unknown
 }
 
-expect class Environment {
+expect object Environment {
     val platform: Platform
     val desktop: Desktop
 
