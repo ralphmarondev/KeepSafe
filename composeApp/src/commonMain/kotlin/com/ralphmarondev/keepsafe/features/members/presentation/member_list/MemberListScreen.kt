@@ -1,12 +1,10 @@
 package com.ralphmarondev.keepsafe.features.members.presentation.member_list
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,17 +15,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.FilterList
-import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -43,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ralphmarondev.keepsafe.core.presentation.components.NormalTextField
 import com.ralphmarondev.keepsafe.core.presentation.theme.LocalThemeState
 import com.ralphmarondev.keepsafe.features.members.presentation.components.AddMemberCard
 import com.ralphmarondev.keepsafe.features.members.presentation.components.MemberCard
@@ -109,8 +101,6 @@ private fun MemberListScreen(
     toggleTheme: () -> Unit,
     isDarkTheme: Boolean
 ) {
-    val isMemberListEmpty = state.members.isEmpty() && !state.isLoading
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -165,23 +155,19 @@ private fun MemberListScreen(
             isRefreshing = state.isRefreshing,
             onRefresh = { action(MemberListAction.Refresh) }
         ) {
-            Crossfade(
-                targetState = isMemberListEmpty
-            ) { isEmpty ->
-                when (isEmpty) {
-                    true -> {
-                        EmptyMemberList(
-                            state = state,
-                            action = action
-                        )
-                    }
+            when (state.members.isEmpty() && !state.isLoading) {
+                true -> {
+                    EmptyMemberList(
+                        state = state,
+                        action = action
+                    )
+                }
 
-                    false -> {
-                        MemberListContent(
-                            state = state,
-                            action = action
-                        )
-                    }
+                false -> {
+                    MemberListContent(
+                        state = state,
+                        action = action
+                    )
                 }
             }
         }
@@ -253,94 +239,29 @@ private fun MemberListContent(
     state: MemberListState,
     action: (MemberListAction) -> Unit
 ) {
-    Column(
+    LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            NormalTextField(
-                value = state.searchQuery,
-                onValueChange = { action(MemberListAction.Search(it)) },
-                modifier = Modifier
-                    .weight(1f),
-                leadingIconImageVector = Icons.Outlined.Search,
-                placeHolderText = "Search..."
-            )
-            IconButton(
-                onClick = { },
-                modifier = Modifier
-                    .height(56.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.FilterList,
-                    contentDescription = "Sort members",
-                    tint = MaterialTheme.colorScheme.secondary
-                )
-            }
-        }
-
-        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Family Members",
-                color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.bodyLarge
-            )
-
-            Row {
-                IconButton(onClick = {}) {
-                    Icon(
-                        imageVector = Icons.Outlined.GridView,
-                        contentDescription = "Grid View",
-                        tint = MaterialTheme.colorScheme.secondary
-                    )
-                }
-                IconButton(onClick = {}) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Outlined.List,
-                        contentDescription = "List View",
-                        tint = MaterialTheme.colorScheme.secondary
-                    )
-                }
-            }
-        }
-
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            item {
-                AnimatedVisibility(visible = state.isCurrentUserAdmin) {
-                    AddMemberCard(
-                        onClick = { action(MemberListAction.NavigateToNewFamilyMember) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    )
-                }
-            }
-            items(items = state.members) { member ->
-                MemberCard(
-                    member = member,
+        item {
+            AnimatedVisibility(visible = state.isCurrentUserAdmin) {
+                AddMemberCard(
+                    onClick = { action(MemberListAction.NavigateToNewFamilyMember) },
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    onClick = { action(MemberListAction.NavigateToDetails(member.email)) }
+                        .fillMaxWidth()
                 )
             }
-            item { Spacer(modifier = Modifier.height(100.dp)) }
         }
+        items(items = state.members) { member ->
+            MemberCard(
+                member = member,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = { action(MemberListAction.NavigateToDetails(member.email)) }
+            )
+        }
+        item { Spacer(modifier = Modifier.height(100.dp)) }
     }
 }
