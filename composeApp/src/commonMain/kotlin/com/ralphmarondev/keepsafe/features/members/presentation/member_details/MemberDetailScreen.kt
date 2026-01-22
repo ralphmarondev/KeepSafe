@@ -16,9 +16,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,7 +28,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -81,11 +82,19 @@ private fun MemberDetailScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
                     Text(
                         text = "Details"
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { action(MemberDetailAction.NavigateBack) }) {
+                        Icon(
+                            imageVector = Icons.Outlined.ArrowBackIosNew,
+                            contentDescription = "Navigate back"
+                        )
+                    }
                 },
                 actions = {
                     IconButton(
@@ -109,7 +118,8 @@ private fun MemberDetailScreen(
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     titleContentColor = MaterialTheme.colorScheme.primary,
-                    actionIconContentColor = MaterialTheme.colorScheme.primary
+                    actionIconContentColor = MaterialTheme.colorScheme.primary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
@@ -123,7 +133,7 @@ private fun MemberDetailScreen(
             item {
                 MemberHeader(
                     name = "${state.member.firstName} ${state.member.lastName}",
-                    role = state.member.role,
+                    role = state.member.role.replace("_", " "),
                     photoPath = state.member.photoUrl ?: ""
                 )
             }
@@ -258,6 +268,7 @@ private fun InfoOutlinedSection(
             items.filter { !it.second.isNullOrBlank() }.forEach { (label, value) ->
                 Row(
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(vertical = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
