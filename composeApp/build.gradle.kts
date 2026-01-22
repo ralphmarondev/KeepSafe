@@ -28,16 +28,6 @@ kotlin {
         }
     }
 
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
-
     jvm("desktop")
 
     room {
@@ -95,9 +85,6 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.slf4j.simple)
-        }
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
         }
         all {
             languageSettings {
