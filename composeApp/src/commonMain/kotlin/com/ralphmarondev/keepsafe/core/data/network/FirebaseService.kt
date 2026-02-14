@@ -13,4 +13,6 @@ expect class FirebaseService {
     suspend fun register(user: User): Result<User>
 
     suspend fun isFamilyIdTaken(familyId: String): Boolean
+
+    suspend fun syncAndSave()
 }

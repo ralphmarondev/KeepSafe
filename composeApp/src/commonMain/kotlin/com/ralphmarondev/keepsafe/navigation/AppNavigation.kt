@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ralphmarondev.keepsafe.features.auth.presentation.login.LoginScreenRoot
 import com.ralphmarondev.keepsafe.features.auth.presentation.register.RegisterScreenRoot
+import com.ralphmarondev.keepsafe.features.download.presentation.DownloadScreenRoot
 
 @Composable
 fun AppNavigation(
@@ -29,10 +30,8 @@ fun AppNavigation(
         composable<Routes.Login> {
             LoginScreenRoot(
                 onLoginSuccess = {
-                    navController.navigate(Routes.Home) {
-                        popUpTo(Routes.Login) {
-                            inclusive = true
-                        }
+                    navController.navigate(Routes.Download) {
+                        popUpTo(0) { inclusive = true }
                         launchSingleTop = true
                     }
                 },
@@ -47,12 +46,23 @@ fun AppNavigation(
             RegisterScreenRoot(
                 navigateToLogin = {
                     navController.navigate(Routes.Login) {
+                        popUpTo(0) { inclusive = true }
                         launchSingleTop = true
                     }
                 }
             )
         }
-        composable<Routes.Home> {
+        composable<Routes.Download> {
+            DownloadScreenRoot(
+                onDownloadComplete = {
+                    navController.navigate(Routes.MemberList) {
+                        popUpTo(0) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+        composable<Routes.MemberList> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
