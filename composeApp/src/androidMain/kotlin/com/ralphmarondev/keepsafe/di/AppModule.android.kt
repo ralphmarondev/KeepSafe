@@ -6,7 +6,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.ralphmarondev.keepsafe.core.data.local.database.DatabaseFactory
 import com.ralphmarondev.keepsafe.core.data.local.preferences.AppPreferences
+import com.ralphmarondev.keepsafe.core.data.network.FirebaseAuthManager
 import com.ralphmarondev.keepsafe.core.data.network.FirebaseService
+import com.ralphmarondev.keepsafe.core.data.network.FirebaseStoreManager
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -26,4 +28,6 @@ actual val appModule: Module = module {
     single { FirebaseFirestore.getInstance() }
     single { FirebaseStorage.getInstance() }
     singleOf(::FirebaseService)
+    singleOf(::FirebaseAuthManager)
+    singleOf(::FirebaseStoreManager)
 }

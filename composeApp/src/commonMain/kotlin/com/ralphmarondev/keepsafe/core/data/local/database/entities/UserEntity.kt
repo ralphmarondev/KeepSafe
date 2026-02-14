@@ -2,6 +2,7 @@ package com.ralphmarondev.keepsafe.core.data.local.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ralphmarondev.keepsafe.core.domain.model.Role
 
 @Entity(tableName = "users")
 data class UserEntity(
@@ -9,10 +10,12 @@ data class UserEntity(
     val id: Long = 0,
     val uid: String = "",
     val familyId: String = "",
+    val familyName: String = "",
     val username: String = "",
     val email: String = "",
-    val role: String = "",
-    val rank: Long = 0, // order in showing to ui
+    val password: String = "", // only used on registration
+    val role: String = Role.FAMILY_MEMBER.name,
+    val rank: Long = 0,
 
     // personal info
     val firstName: String = "",
@@ -36,7 +39,6 @@ data class UserEntity(
     val medicalConditions: String = "",
     val emergencyContact: String = "",
 
-    val createDate: Long = 0, //System.currentTimeMillis(),
-    val lastUpdateDate: Long = 0, // System.currentTimeMillis(),
-    val isActive: Boolean = false
+    val createDate: Long = 0,
+    val lastUpdateDate: Long = 0,
 )

@@ -5,10 +5,13 @@ import com.ralphmarondev.keepsafe.core.domain.model.User
 
 fun UserEntity.toDomain(): User {
     return User(
+        id = id,
         uid = uid,
         familyId = familyId,
+        familyName = familyName,
         username = username,
         email = email,
+        password = password,
         role = role,
         rank = rank,
         firstName = firstName,
@@ -29,17 +32,21 @@ fun UserEntity.toDomain(): User {
         allergies = allergies,
         medicalConditions = medicalConditions,
         emergencyContact = emergencyContact,
-        active = isActive
+        createDate = createDate,
+        lastUpdateDate = lastUpdateDate
     )
 }
 
 
 fun User.toEntity(): UserEntity {
     return UserEntity(
+        id = id,
         uid = uid,
         familyId = familyId,
+        familyName = familyName,
         username = username,
         email = email,
+        password = password,
         role = role,
         rank = rank,
         firstName = firstName,
@@ -60,6 +67,7 @@ fun User.toEntity(): UserEntity {
         allergies = allergies,
         medicalConditions = medicalConditions,
         emergencyContact = emergencyContact,
-        isActive = active
+        createDate = createDate,
+        lastUpdateDate = lastUpdateDate
     )
 }

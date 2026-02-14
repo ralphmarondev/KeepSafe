@@ -34,7 +34,7 @@ fun App(preferences: AppPreferences) {
                 delay(2000)
 
                 startDestination = when {
-                    isAuthenticated -> Routes.Home
+                    isAuthenticated -> Routes.MemberList
                     else -> Routes.Login
                 }
             }

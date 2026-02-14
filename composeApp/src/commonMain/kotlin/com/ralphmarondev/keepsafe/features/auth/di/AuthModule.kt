@@ -9,7 +9,7 @@ import org.koin.dsl.module
 
 val authModule = module {
     single<AuthRepository> {
-        AuthRepositoryImpl(get())
+        AuthRepositoryImpl(get(), get(), get())
     }
 
     viewModelOf(::LoginViewModel)

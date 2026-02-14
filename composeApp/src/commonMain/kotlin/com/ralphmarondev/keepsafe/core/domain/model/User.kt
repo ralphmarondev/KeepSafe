@@ -6,15 +6,15 @@ enum class Role {
 }
 
 data class User(
+    val id: Long = 0,
     val uid: String = "",
     val familyId: String = "",
     val familyName: String = "",
     val username: String = "",
     val email: String = "",
     val password: String = "", // only used on registration
-    val role: String = Role.FAMILY_ADMIN.name,
-    val rank: Long = 0, // order in showing to ui
-    val active: Boolean = false, // currently logged in user
+    val role: String = Role.FAMILY_MEMBER.name,
+    val rank: Long = 0,
 
     // personal info
     val firstName: String = "",
@@ -36,5 +36,8 @@ data class User(
     val bloodType: String = "",
     val allergies: String = "",
     val medicalConditions: String = "",
-    val emergencyContact: String = ""
+    val emergencyContact: String = "",
+
+    val createDate: Long = 0,
+    val lastUpdateDate: Long = 0,
 )
