@@ -1,48 +1,147 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+# 🛡️ KeepSafe
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+**KeepSafe** is a personal family member management system built with **Kotlin Multiplatform** and **Compose Multiplatform**.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+It helps you securely organize and manage family records using a shared UI across platforms, with Firebase support on Android.
 
-### Build and Run Android Application
-
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
-
-### Build and Run Desktop (JVM) Application
-
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
-
-### Build and Run iOS Application
-
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+> ⚠️ Intended for **personal use**.
+> Anyone interested can fork the project, configure Firebase, and compile their own version.
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## ✨ Features
+
+* 📱 **Android** - full functionality with Firebase
+* 🖥️ **Desktop (JVM)** - shared UI preview
+* 🍎 **iOS** - entry point included (requires macOS)
+* 🔄 Shared Compose UI & business logic
+* ☁️ Firebase integration (Android)
+
+---
+
+## ⚠️ Platform Support
+
+| Platform  | Status         | Notes                  |
+| --------- | -------------- | ---------------------- |
+| 📱 Android | ✅ Full support | Firebase SDK available |
+| 🖥️ Desktop | 🟡 UI only      | Firebase not supported |
+| 🍎 iOS     | ⚠️ Untested     | Requires macOS & Xcode |
+
+> iOS builds cannot be tested on Windows environments.
+
+---
+
+## 🛠️ Tech Stack
+
+* 🧩 Kotlin Multiplatform
+* 🎨 Compose Multiplatform
+* ⚙️ Gradle 9
+* ☁️ Firebase (Android)
+
+---
+
+## 📂 Project Structure
+
+### Root (Gradle 9 Layout)
+
+```
+root
+├── androidApp      📱 Android application
+├── composeApp      🔄 Shared multiplatform module
+├── iosApp          🍎 iOS entry point
+├── build.gradle.kts
+└── settings.gradle.kts
+```
+
+---
+
+### Shared Module Structure
+
+```
+composeApp/src
+├── commonMain    🔄 Shared UI & logic
+├── androidMain   📱 Android-specific code
+├── iosMain       🍎 iOS-specific code
+└── desktopMain   🖥️ Desktop-specific code
+```
+
+### Source Set Purpose
+
+* 🔄 **commonMain** → shared UI, models, business logic
+* 📱 **androidMain** → Firebase & Android integrations
+* 🍎 **iosMain** → Apple APIs & platform code
+* 🖥️ **desktopMain** → desktop-only implementations
+
+---
+
+## 🚀 Build & Run
+
+### 📱 Android
+
+**Windows**
+
+```bash
+.\gradlew.bat :androidApp:assembleDebug
+```
+
+**macOS/Linux**
+
+```bash
+./gradlew :androidApp:assembleDebug
+```
+
+---
+
+### 🖥️ Desktop (UI Preview)
+
+**Windows**
+
+```bash
+.\gradlew.bat :composeApp:run
+```
+
+**macOS/Linux**
+
+```bash
+./gradlew :composeApp:run
+```
+
+---
+
+### 🍎 iOS
+
+> ⚠️ Requires macOS and Xcode.
+
+1. Open `/iosApp` in Xcode
+2. Build and run the project
+
+---
+
+## 🔧 Firebase Setup (Optional)
+
+To enable Firebase:
+
+1. Create a Firebase project
+2. Add configuration files:
+
+   * `androidApp/google-services.json`
+   * `iosApp/GoogleService-Info.plist`
+3. Rebuild the project
+
+---
+
+## 📌 Notes
+
+* 🏠 Designed for personal/family use
+* 🖥️ Desktop version is for UI preview only
+* 🍎 iOS support included but untested on Windows
+* 🔐 Users must provide their own Firebase configuration
+
+---
+
+## 📚 Learn More
+
+🔗 Kotlin Multiplatform
+[https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)
+
+---
