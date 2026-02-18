@@ -4,14 +4,14 @@ import com.ralphmarondev.keepsafe.features.auth.data.repository.AuthRepositoryIm
 import com.ralphmarondev.keepsafe.features.auth.domain.repository.AuthRepository
 import com.ralphmarondev.keepsafe.features.auth.presentation.login.LoginViewModel
 import com.ralphmarondev.keepsafe.features.auth.presentation.register.RegisterViewModel
-import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val authModule = module {
-    single<AuthRepository> {
-        AuthRepositoryImpl(get(), get(), get())
-    }
+    singleOf(::AuthRepositoryImpl).bind<AuthRepository>()
 
-    viewModelOf(::LoginViewModel)
-    viewModelOf(::RegisterViewModel)
+    factoryOf(::LoginViewModel)
+    factoryOf(::RegisterViewModel)
 }

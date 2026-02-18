@@ -220,7 +220,6 @@ class RegisterViewModel(
                 email = _state.value.email.trim(),
                 password = _state.value.password.trim(),
                 role = Role.FAMILY_ADMIN.name,
-                active = true,
                 firstName = "Family Admin"
             )
 
