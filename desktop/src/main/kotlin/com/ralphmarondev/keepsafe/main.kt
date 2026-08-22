@@ -41,9 +41,9 @@ fun main() {
         Firebase.initialize(
             context = Application(),
             options = FirebaseOptions(
-                apiKey = "AIzaSyAArsxLQeJ95FTrOAUUVE8ilIiWrsBhuIc",
-                applicationId = "1:383829514849:android:c0a896f16f4c71a9cbe820",
-                projectId = "keepsafe-1737a"
+                apiKey = BuildConfig.FIREBASE_API_KEY,
+                applicationId = BuildConfig.FIREBASE_APP_ID,
+                projectId = BuildConfig.FIREBASE_PROJECT_ID
             )
         )
 
@@ -60,7 +60,7 @@ fun main() {
         ) {
             LaunchedEffect(Unit) {
                 val sampleAccount = Account(
-                    username = "desktop",
+                    username = "desktop2",
                     password = "password123"
                 )
 

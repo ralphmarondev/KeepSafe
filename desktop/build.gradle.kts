@@ -1,9 +1,38 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.buildConfig)
+}
+
+val localProperties: Properties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        load(file.inputStream())
+    }
+}
+
+buildConfig {
+    packageName("com.ralphmarondev.keepsafe")
+
+    buildConfigField(
+        "String",
+        "FIREBASE_API_KEY",
+        "\"${localProperties.getProperty("FIREBASE_API_KEY", "")}\""
+    )
+    buildConfigField(
+        "String",
+        "FIREBASE_APP_ID",
+        "\"${localProperties.getProperty("FIREBASE_APP_ID", "")}\""
+    )
+    buildConfigField(
+        "String",
+        "FIREBASE_PROJECT_ID",
+        "\"${localProperties.getProperty("FIREBASE_PROJECT_ID", "")}\""
+    )
 }
 
 dependencies {
