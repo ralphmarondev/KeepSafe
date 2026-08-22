@@ -4,25 +4,21 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed interface Route {
+    // Auth Routes
+    @Serializable
+    data object Auth : Route
 
     @Serializable
-    sealed interface Auth : Route {
-        @Serializable
-        data object Root : Auth
-
-        @Serializable
-        data object Login : Auth
-
-        @Serializable
-        data object Register : Auth
-    }
+    data object Login : Route
 
     @Serializable
-    sealed interface Main : Route {
-        @Serializable
-        data object Root : Main
+    data object Register : Route
 
-        @Serializable
-        data object Dashboard : Main
-    }
+
+    // Main Routes
+    @Serializable
+    data object Main : Route
+
+    @Serializable
+    data object Dashboard : Route
 }

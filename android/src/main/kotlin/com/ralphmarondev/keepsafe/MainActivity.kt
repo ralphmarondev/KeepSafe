@@ -33,9 +33,9 @@ class MainActivity : ComponentActivity() {
                 LaunchedEffect(Unit) {
                     val isAuthenticated = preferences.familyCode.first().isNullOrBlank()
                     startDestination = if (isAuthenticated) {
-                        Route.Auth.Root
+                        Route.Auth
                     } else {
-                        Route.Main.Root
+                        Route.Main
                     }
                 }
 

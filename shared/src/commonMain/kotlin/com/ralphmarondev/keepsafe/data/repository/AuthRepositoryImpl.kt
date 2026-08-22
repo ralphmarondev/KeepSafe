@@ -11,13 +11,13 @@ class AuthRepositoryImpl : AuthRepository {
         password: String,
         familyCode: String
     ): Result<Member> {
-        TODO("Not yet implemented")
+        return Result.Success(Member(familyCode = familyCode))
     }
 
     override suspend fun register(
         family: Family,
         member: Member
     ): Result<Family> {
-        TODO("Not yet implemented")
+        return Result.Success(family)
     }
 }

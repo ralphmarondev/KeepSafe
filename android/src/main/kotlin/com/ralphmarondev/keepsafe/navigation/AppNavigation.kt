@@ -10,36 +10,36 @@ import com.ralphmarondev.keepsafe.feature.auth.presentation.login.LoginScreenRoo
 
 @Composable
 fun AppNavigation(
-    startDestination: Route = Route.Auth.Root,
+    startDestination: Route = Route.Auth,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        navigation<Route.Auth.Root>(
-            startDestination = Route.Auth.Login
+        navigation<Route.Auth>(
+            startDestination = Route.Login
         ) {
-            composable<Route.Auth.Login> {
+            composable<Route.Login> {
                 LoginScreenRoot(
                     onSuccess = {
-                        navController.navigate(Route.Main.Root) {
-                            popUpTo(Route.Auth.Root) { inclusive = true }
+                        navController.navigate(Route.Main) {
+                            popUpTo(Route.Auth) { inclusive = true }
                             launchSingleTop = true
                         }
                     },
                     onRegister = {}
                 )
             }
-            composable<Route.Auth.Register> {
+            composable<Route.Register> {
 
             }
         }
 
-        navigation<Route.Main.Root>(
-            startDestination = Route.Main.Dashboard
+        navigation<Route.Main>(
+            startDestination = Route.Dashboard
         ) {
-            composable<Route.Main.Dashboard> {
+            composable<Route.Dashboard> {
 
             }
         }
