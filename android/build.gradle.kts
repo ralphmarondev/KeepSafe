@@ -12,21 +12,11 @@ kotlin {
     }
 }
 dependencies {
-    implementation(platform(libs.firebase.bom))
     implementation(project(":shared"))
-
+    implementation(platform(libs.firebase.bom))
     implementation(libs.androidx.activity.compose)
-    implementation(libs.compose.runtime)
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.components.resources)
-    implementation(libs.compose.uiToolingPreview)
-    implementation(libs.androidx.lifecycle.viewmodelCompose)
-    implementation(libs.androidx.lifecycle.runtimeCompose)
-    implementation(libs.compose.uiToolingPreview)
     implementation(libs.bundles.koin)
-    implementation(libs.navigation.compose)
+    implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)
 }
 

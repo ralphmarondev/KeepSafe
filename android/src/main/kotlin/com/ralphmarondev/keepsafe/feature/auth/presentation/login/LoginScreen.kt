@@ -1,17 +1,16 @@
 package com.ralphmarondev.keepsafe.feature.auth.presentation.login
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -26,29 +25,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ralphmarondev.keepsafe.core.presentation.component.KButton
-import com.ralphmarondev.keepsafe.core.presentation.component.KOutlinedButton
-import com.ralphmarondev.keepsafe.core.presentation.component.KTextField
+import com.ralphmarondev.keepsafe.presentation.theme.LocalThemeState
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun LoginScreenRoot(
-    onLoginSuccessful: () -> Unit,
-    onRegisterClick: () -> Unit
+    onSuccess: () -> Unit,
+    onRegister: () -> Unit
 ) {
     val viewModel: LoginViewModel = koinViewModel()
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(state.navigateToRegister) {
         if (state.navigateToRegister) {
-            onRegisterClick()
+            onRegister()
         }
     }
 
     LaunchedEffect(state.isLoggedIn) {
         if (state.isLoggedIn) {
-            onLoginSuccessful()
+            onSuccess()
         }
     }
 
@@ -64,6 +62,7 @@ private fun LoginScreen(
     state: LoginState,
     action: (LoginAction) -> Unit
 ) {
+    val themeState = LocalThemeState.current
     val focusManager = LocalFocusManager.current
     val hostState = remember { SnackbarHostState() }
 
@@ -81,6 +80,18 @@ private fun LoginScreen(
                 title = {
                     Text(text = "Login")
                 },
+                actions = {
+                    IconButton(onClick = themeState::toggleTheme) {
+                        val imageVector = when (themeState.darkMode.value) {
+                            true -> Icons.Outlined.LightMode
+                            false -> Icons.Outlined.DarkMode
+                        }
+                        Icon(
+                            imageVector = imageVector,
+                            contentDescription = "Toggle theme"
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -97,57 +108,13 @@ private fun LoginScreen(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 32.dp)
         ) {
             item {
-                OutlinedCard(
-                    modifier = Modifier.widthIn(max = 500.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = "Welcome Back",
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Text(
-                            text = "Log in to your account to continue.",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        KTextField(
-                            value = state.familyId,
-                            onValueChange = { action(LoginAction.FamilyIdChange(it)) },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        KTextField(
-                            value = state.email,
-                            onValueChange = { action(LoginAction.EmailChange(it)) },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        KTextField(
-                            value = state.password,
-                            onValueChange = { action(LoginAction.PasswordChange(it)) },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        KButton(
-                            onClick = { action(LoginAction.Login) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                        )
-
-                        KOutlinedButton(
-                            onClick = { action(LoginAction.Register) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                        )
-                    }
-                }
+                Text(
+                    text = "Login Screen",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(16.dp),
+                    textAlign = TextAlign.Center
+                )
             }
         }
     }

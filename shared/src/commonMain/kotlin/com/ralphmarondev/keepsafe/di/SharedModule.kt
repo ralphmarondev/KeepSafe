@@ -11,6 +11,8 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val sharedModule = module {
+    includes(platformModule)
+
     single<FirebaseAuth> { Firebase.auth }
     single<FirebaseFirestore> { Firebase.firestore }
 
