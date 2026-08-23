@@ -11,33 +11,23 @@ class AuthService(
 ) {
     suspend fun register(account: Account): Result<Account> {
         return try {
-            val formattedEmail = if (account.username.contains("@")) {
-                account.username
-            } else {
-                "${account.username}@keepsafe.com"
-            }
+            val formattedEmail = "${account.username}@keepsafe.com"
 
             val existingUserQuery = firestore.collection("users")
                 .where { "username" equalTo account.username }
                 .get()
 
             if (existingUserQuery.documents.isNotEmpty()) {
-                return Result.Error("Username '${account.username}' is already taken.")
+                return Result.Error(message = "Username '${account.username}' is already taken.")
             }
 
             val authResult = auth.createUserWithEmailAndPassword(formattedEmail, account.password)
             val uid = authResult.user?.uid
-                ?: return Result.Error("Failed to create user in Firebase Auth.")
-
+                ?: return Result.Error(message = "Failed to create user in Firebase Auth.")
             val createdAccount = account.copy(
                 uid = uid,
                 password = ""
             )
-
-            firestore.collection("users")
-                .document(uid)
-                .set(createdAccount)
-
             Result.Success(createdAccount)
         } catch (e: Exception) {
             Result.Error(message = e.message ?: "Registration failed", throwable = e)

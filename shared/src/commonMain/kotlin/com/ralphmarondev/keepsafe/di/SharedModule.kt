@@ -1,7 +1,8 @@
 package com.ralphmarondev.keepsafe.di
 
 import com.ralphmarondev.keepsafe.data.network.firebase.AuthService
-import com.ralphmarondev.keepsafe.data.network.firebase.FirestoreService
+import com.ralphmarondev.keepsafe.data.network.firebase.FamilyService
+import com.ralphmarondev.keepsafe.data.network.firebase.MemberService
 import com.ralphmarondev.keepsafe.data.repository.AuthRepositoryImpl
 import com.ralphmarondev.keepsafe.domain.repository.AuthRepository
 import dev.gitlive.firebase.Firebase
@@ -20,7 +21,8 @@ val sharedModule = module {
     single<FirebaseFirestore> { Firebase.firestore }
 
     singleOf(::AuthService)
-    singleOf(::FirestoreService)
+    singleOf(::FamilyService)
+    singleOf(::MemberService)
 
     singleOf(::AuthRepositoryImpl).bind<AuthRepository>()
 }
