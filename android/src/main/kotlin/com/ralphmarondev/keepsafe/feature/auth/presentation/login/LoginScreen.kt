@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ralphmarondev.keepsafe.core.presentation.component.KButton
 import com.ralphmarondev.keepsafe.presentation.theme.LocalThemeState
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -94,7 +95,8 @@ private fun LoginScreen(
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         },
@@ -115,6 +117,11 @@ private fun LoginScreen(
                     modifier = Modifier.padding(16.dp),
                     textAlign = TextAlign.Center
                 )
+                KButton(
+                    onClick = { action(LoginAction.Register) }
+                ) {
+                    Text(text = "Register")
+                }
             }
         }
     }

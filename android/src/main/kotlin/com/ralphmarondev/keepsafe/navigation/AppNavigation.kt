@@ -15,7 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.ralphmarondev.keepsafe.feature.auth.presentation.RegisterScreenRoot
+import com.ralphmarondev.keepsafe.feature.auth.presentation.register.RegisterScreenRoot
 import com.ralphmarondev.keepsafe.feature.auth.presentation.login.LoginScreenRoot
 
 @Composable
@@ -28,7 +28,7 @@ fun AppNavigation(
         startDestination = startDestination
     ) {
         navigation<Route.Auth>(
-            startDestination = Route.Login
+            startDestination = Route.Register
         ) {
             composable<Route.Login> {
                 LoginScreenRoot(
