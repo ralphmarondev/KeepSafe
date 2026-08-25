@@ -212,6 +212,17 @@ private fun FamilyInformation(
                 modifier = Modifier.padding(12.dp)
             )
         }
+        Spacer(modifier = Modifier.height(12.dp))
+        KOutlinedButton(
+            onClick = { action(RegisterAction.Login) },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = "Already have an Account",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(12.dp)
+            )
+        }
     }
 }
 
