@@ -1,22 +1,14 @@
 package com.ralphmarondev.keepsafe.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.ralphmarondev.keepsafe.feature.auth.presentation.register.RegisterScreenRoot
 import com.ralphmarondev.keepsafe.feature.auth.presentation.login.LoginScreenRoot
+import com.ralphmarondev.keepsafe.feature.auth.presentation.register.RegisterScreenRoot
+import com.ralphmarondev.keepsafe.feature.family.presentation.member_list.MemberListScreenRoot
 
 @Composable
 fun AppNavigation(
@@ -65,22 +57,12 @@ fun AppNavigation(
         }
 
         navigation<Route.Main>(
-            startDestination = Route.Dashboard
+            startDestination = Route.MemberList
         ) {
-            composable<Route.Dashboard> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Dashboard",
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
+            composable<Route.MemberList> {
+                MemberListScreenRoot(
+                    profile = {}
+                )
             }
         }
     }

@@ -20,5 +20,5 @@ sealed interface Route {
     data object Main : Route
 
     @Serializable
-    data object Dashboard : Route
+    data object MemberList : Route
 }
