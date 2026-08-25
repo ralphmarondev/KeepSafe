@@ -28,11 +28,11 @@ class LoginViewModel(
     }
 
     private fun familyCodeChange(code: String) {
-        _state.update { it.copy(familyCode = code) }
+        _state.update { it.copy(familyCode = code.uppercase()) }
     }
 
     private fun usernameChange(username: String) {
-        _state.update { it.copy(username = username) }
+        _state.update { it.copy(username = username.lowercase()) }
     }
 
     private fun passwordChange(password: String) {
@@ -58,8 +58,8 @@ class LoginViewModel(
                         passwordErrorMessage = null
                     )
                 }
-                val familyCode = _state.value.familyCode.trim()
-                val username = _state.value.username.trim()
+                val familyCode = _state.value.familyCode.trim().uppercase()
+                val username = _state.value.username.trim().lowercase()
                 val password = _state.value.password.trim()
                 var isValid = true
 
