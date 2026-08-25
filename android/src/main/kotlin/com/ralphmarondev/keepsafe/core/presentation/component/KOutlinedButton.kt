@@ -21,7 +21,9 @@ fun KOutlinedButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(8.dp),
-    colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
+    colors: ButtonColors = ButtonDefaults.outlinedButtonColors(
+        contentColor = MaterialTheme.colorScheme.secondary
+    ),
     elevation: ButtonElevation? = null,
     border: BorderStroke = BorderStroke(0.1.dp, MaterialTheme.colorScheme.secondary),
     contentPadding: PaddingValues = PaddingValues(),
