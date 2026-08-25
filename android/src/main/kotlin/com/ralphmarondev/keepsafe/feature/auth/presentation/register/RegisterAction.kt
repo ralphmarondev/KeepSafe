@@ -4,7 +4,6 @@ sealed interface RegisterAction {
     data object Register : RegisterAction
     data object Login : RegisterAction
     data class ChangePage(val page: RegistrationPage) : RegisterAction
-    data class FamilyCodeChange(val code: String) : RegisterAction
     data class FamilyNameChange(val name: String) : RegisterAction
     data class FirstNameChange(val firstName: String) : RegisterAction
     data class LastNameChange(val lastName: String) : RegisterAction

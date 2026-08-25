@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.ralphmarondev.keepsafe.core.presentation.component.KButton
@@ -137,19 +138,19 @@ private fun FamilyInformation(
         )
         Text(
             text = "Please provide family name.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.secondary
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.secondary,
+            fontWeight = FontWeight.Normal
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         KTextField(
             value = state.familyCode,
-            onValueChange = { action(RegisterAction.FamilyCodeChange(it)) },
+            onValueChange = { },
             modifier = Modifier
                 .widthIn(max = 500.dp)
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .fillMaxWidth(),
             label = "Family Code",
             placeholder = "FAM-0001",
             singleLine = true,
@@ -158,7 +159,17 @@ private fun FamilyInformation(
             ),
             keyboardActions = KeyboardActions(
                 onNext = { focusManager.moveFocus(FocusDirection.Next) }
-            )
+            ),
+            readOnly = true,
+            isError = state.familyCodeError,
+            supportingText = {
+                state.familyCodeErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
         )
 
         KTextField(
@@ -166,8 +177,7 @@ private fun FamilyInformation(
             onValueChange = { action(RegisterAction.FamilyNameChange(it)) },
             modifier = Modifier
                 .widthIn(max = 500.dp)
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .fillMaxWidth(),
             label = "Family Name",
             placeholder = "Number One",
             singleLine = true,
@@ -179,7 +189,16 @@ private fun FamilyInformation(
                     focusManager.clearFocus()
                     action(RegisterAction.ChangePage(RegistrationPage.MemberInformation))
                 }
-            )
+            ),
+            isError = state.familyNameError,
+            supportingText = {
+                state.familyNameErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -211,19 +230,19 @@ private fun MemberInformation(
         )
         Text(
             text = "Please provide first member information.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.secondary
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.secondary,
+            fontWeight = FontWeight.Normal
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         KTextField(
             value = state.firstName,
             onValueChange = { action(RegisterAction.FirstNameChange(it)) },
             modifier = Modifier
                 .widthIn(max = 500.dp)
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .fillMaxWidth(),
             label = "First Name",
             placeholder = "Enter first name",
             singleLine = true,
@@ -232,7 +251,16 @@ private fun MemberInformation(
             ),
             keyboardActions = KeyboardActions(
                 onNext = { focusManager.moveFocus(FocusDirection.Next) }
-            )
+            ),
+            isError = state.firstNameError,
+            supportingText = {
+                state.firstNameErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
         )
 
         KTextField(
@@ -240,8 +268,7 @@ private fun MemberInformation(
             onValueChange = { action(RegisterAction.MiddleNameChange(it)) },
             modifier = Modifier
                 .widthIn(max = 500.dp)
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .fillMaxWidth(),
             label = "Middle Name",
             placeholder = "Enter middle name",
             singleLine = true,
@@ -250,7 +277,16 @@ private fun MemberInformation(
             ),
             keyboardActions = KeyboardActions(
                 onNext = { focusManager.moveFocus(FocusDirection.Next) }
-            )
+            ),
+            isError = state.middleNameError,
+            supportingText = {
+                state.middleNameErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
         )
 
         KTextField(
@@ -258,8 +294,7 @@ private fun MemberInformation(
             onValueChange = { action(RegisterAction.LastNameChange(it)) },
             modifier = Modifier
                 .widthIn(max = 500.dp)
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .fillMaxWidth(),
             label = "Last Name",
             placeholder = "Enter last name",
             singleLine = true,
@@ -268,7 +303,16 @@ private fun MemberInformation(
             ),
             keyboardActions = KeyboardActions(
                 onNext = { focusManager.moveFocus(FocusDirection.Next) }
-            )
+            ),
+            isError = state.lastNameError,
+            supportingText = {
+                state.lastNameErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
         )
 
         KTextField(
@@ -276,8 +320,7 @@ private fun MemberInformation(
             onValueChange = { action(RegisterAction.MaidenNameChange(it)) },
             modifier = Modifier
                 .widthIn(max = 500.dp)
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .fillMaxWidth(),
             label = "Maiden Name",
             placeholder = "Enter maiden name",
             singleLine = true,
@@ -289,7 +332,16 @@ private fun MemberInformation(
                     focusManager.clearFocus()
                     action(RegisterAction.ChangePage(RegistrationPage.AccountInformation))
                 }
-            )
+            ),
+            isError = state.maidenNameError,
+            supportingText = {
+                state.maidenNameErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -332,19 +384,19 @@ fun AccountInformation(
         )
         Text(
             text = "This is used for authentication.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.secondary
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.secondary,
+            fontWeight = FontWeight.Normal
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         KTextField(
             value = state.username,
             onValueChange = { action(RegisterAction.UsernameChange(it)) },
             modifier = Modifier
                 .widthIn(max = 500.dp)
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .fillMaxWidth(),
             label = "Username",
             placeholder = "Enter username",
             singleLine = true,
@@ -353,7 +405,16 @@ fun AccountInformation(
             ),
             keyboardActions = KeyboardActions(
                 onNext = { focusManager.moveFocus(FocusDirection.Next) }
-            )
+            ),
+            isError = state.usernameError,
+            supportingText = {
+                state.usernameErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
         )
 
         KPasswordField(
@@ -361,8 +422,7 @@ fun AccountInformation(
             onValueChange = { action(RegisterAction.PasswordChange(it)) },
             modifier = Modifier
                 .widthIn(max = 500.dp)
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+                .fillMaxWidth(),
             label = "Password",
             placeholder = "Enter password",
             singleLine = true,
@@ -371,7 +431,16 @@ fun AccountInformation(
             ),
             keyboardActions = KeyboardActions(
                 onNext = { focusManager.moveFocus(FocusDirection.Next) }
-            )
+            ),
+            isError = state.passwordError,
+            supportingText = {
+                state.passwordErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
         )
 
         KPasswordField(
@@ -392,7 +461,16 @@ fun AccountInformation(
                     focusManager.clearFocus()
                     action(RegisterAction.Register)
                 }
-            )
+            ),
+            isError = state.confirmPasswordError,
+            supportingText = {
+                state.confirmPasswordErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(16.dp))

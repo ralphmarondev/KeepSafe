@@ -1,18 +1,24 @@
 package com.ralphmarondev.keepsafe.feature.auth.presentation.register
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class RegisterViewModel : ViewModel() {
 
     private val _state = MutableStateFlow(RegisterState())
     val state = _state.asStateFlow()
 
+    init {
+        generateFamilyCode()
+    }
+
     fun onAction(action: RegisterAction) {
         when (action) {
-            is RegisterAction.FamilyCodeChange -> familyCodeChange(action.code)
             is RegisterAction.FamilyNameChange -> familyNameChange(action.name)
             is RegisterAction.FirstNameChange -> firstNameChange(action.firstName)
             is RegisterAction.MiddleNameChange -> middleNameChange(action.middleName)
@@ -27,8 +33,10 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
-    private fun familyCodeChange(familyCode: String) {
-        _state.update { it.copy(familyCode = familyCode) }
+    private fun generateFamilyCode() {
+        viewModelScope.launch {
+            _state.update { it.copy(familyCode = "FAM-0001") }
+        }
     }
 
     private fun familyNameChange(familyName: String) {
@@ -52,7 +60,7 @@ class RegisterViewModel : ViewModel() {
     }
 
     private fun usernameChange(username: String) {
-        _state.update { it.copy(username = username) }
+        _state.update { it.copy(username = username.lowercase()) }
     }
 
     private fun passwordChange(password: String) {
@@ -64,7 +72,93 @@ class RegisterViewModel : ViewModel() {
     }
 
     private fun changePage(page: RegistrationPage) {
-        _state.update { it.copy(page = page) }
+        when (page) {
+            RegistrationPage.FamilyInformation -> familyInformation()
+            RegistrationPage.MemberInformation -> memberInformation()
+            RegistrationPage.AccountInformation -> accountInformation()
+        }
+    }
+
+    private fun familyInformation() {
+        _state.update { it.copy(page = RegistrationPage.FamilyInformation) }
+    }
+
+    private fun memberInformation() {
+        val familyCode = _state.value.familyCode.trim()
+        val familyName = _state.value.familyName.trim()
+        var isValid = true
+
+        _state.update {
+            it.copy(
+                familyCodeError = false,
+                familyCodeErrorMessage = null,
+                familyNameError = false,
+                familyNameErrorMessage = null
+            )
+        }
+
+        if (familyCode.isBlank()) {
+            isValid = false
+            _state.update {
+                it.copy(
+                    familyCodeError = true,
+                    familyCodeErrorMessage = "Invalid family code."
+                )
+            }
+        }
+        if (familyName.isBlank()) {
+            isValid = false
+            _state.update {
+                it.copy(
+                    familyNameError = true,
+                    familyNameErrorMessage = "Invalid family name."
+                )
+            }
+        }
+
+        if (isValid) {
+            _state.update { it.copy(page = RegistrationPage.MemberInformation) }
+            return
+        }
+    }
+
+    private fun accountInformation() {
+        val firstName = _state.value.firstName.trim()
+        val lastName = _state.value.lastName.trim()
+        var isValid = true
+
+        _state.update {
+            it.copy(
+                firstNameError = false,
+                firstNameErrorMessage = null,
+                lastNameError = false,
+                lastNameErrorMessage = null
+            )
+        }
+
+        if (firstName.isBlank()) {
+            isValid = false
+            _state.update {
+                it.copy(
+                    firstNameError = true,
+                    firstNameErrorMessage = "First name is required."
+                )
+            }
+        }
+        if (lastName.isBlank()) {
+            isValid = false
+            _state.update {
+                it.copy(
+                    lastNameError = true,
+                    lastNameErrorMessage = "Last name is required."
+                )
+            }
+        }
+
+        if (isValid) {
+            _state.update { it.copy(page = RegistrationPage.AccountInformation) }
+            return
+        }
     }
 
     private fun login() {
@@ -72,6 +166,65 @@ class RegisterViewModel : ViewModel() {
     }
 
     private fun register() {
+        viewModelScope.launch {
+            val username = _state.value.username.trim().lowercase()
+            val password = _state.value.password.trim()
+            val confirmPassword = _state.value.confirmPassword.trim()
+            var isValid = true
 
+            _state.update {
+                it.copy(
+                    usernameError = false,
+                    usernameErrorMessage = null,
+                    passwordError = false,
+                    passwordErrorMessage = null,
+                    confirmPasswordError = false,
+                    confirmPasswordErrorMessage = null
+                )
+            }
+
+            if (username.isBlank()) {
+                isValid = false
+                _state.update {
+                    it.copy(
+                        usernameError = true,
+                        usernameErrorMessage = "Username cannot be empty."
+                    )
+                }
+            } else if (!username.matches(Regex("^[a-z0-9]+$"))) {
+                isValid = false
+                _state.update {
+                    it.copy(
+                        usernameError = true,
+                        usernameErrorMessage = "Username can only contain letters and numbers."
+                    )
+                }
+            }
+
+            if (password.isBlank()) {
+                isValid = false
+                _state.update {
+                    it.copy(
+                        passwordError = true,
+                        passwordErrorMessage = "Password cannot be empty."
+                    )
+                }
+            }
+
+            if (password != confirmPassword) {
+                isValid = false
+                _state.update {
+                    it.copy(
+                        confirmPasswordError = true,
+                        confirmPasswordErrorMessage = "Password not matched."
+                    )
+                }
+            }
+
+            if (isValid) {
+                _state.update { it.copy(isRegistered = true) }
+                Log.d("Register", "Registration successful. Username: $username")
+            }
+        }
     }
 }
