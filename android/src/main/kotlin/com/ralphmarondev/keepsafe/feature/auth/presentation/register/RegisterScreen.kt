@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.LightMode
@@ -24,6 +26,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.ralphmarondev.keepsafe.core.presentation.component.KButton
 import com.ralphmarondev.keepsafe.core.presentation.component.KOutlinedButton
@@ -122,6 +127,8 @@ private fun FamilyInformation(
     state: RegisterState,
     action: (RegisterAction) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     Column {
         Text(
             text = "Register Family",
@@ -144,7 +151,14 @@ private fun FamilyInformation(
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             label = "Family Code",
-            placeholder = "FAM-0001"
+            placeholder = "FAM-0001",
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Next) }
+            )
         )
 
         KTextField(
@@ -155,7 +169,17 @@ private fun FamilyInformation(
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             label = "Family Name",
-            placeholder = "Number One"
+            placeholder = "Number One",
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                    action(RegisterAction.ChangePage(RegistrationPage.MemberInformation))
+                }
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -165,8 +189,8 @@ private fun FamilyInformation(
         ) {
             Text(
                 text = "Proceed",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(vertical = 4.dp)
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(12.dp)
             )
         }
     }
@@ -177,6 +201,8 @@ private fun MemberInformation(
     state: RegisterState,
     action: (RegisterAction) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     Column {
         Text(
             text = "Add First Member",
@@ -199,18 +225,32 @@ private fun MemberInformation(
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             label = "First Name",
-            placeholder = "Enter first name"
+            placeholder = "Enter first name",
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Next) }
+            )
         )
 
         KTextField(
-            value = "${state.middleName}",
+            value = state.middleName,
             onValueChange = { action(RegisterAction.MiddleNameChange(it)) },
             modifier = Modifier
                 .widthIn(max = 500.dp)
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             label = "Middle Name",
-            placeholder = "Enter middle name"
+            placeholder = "Enter middle name",
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Next) }
+            )
         )
 
         KTextField(
@@ -221,18 +261,35 @@ private fun MemberInformation(
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             label = "Last Name",
-            placeholder = "Enter last name"
+            placeholder = "Enter last name",
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Next) }
+            )
         )
 
         KTextField(
-            value = "${state.maidenName}",
+            value = state.maidenName,
             onValueChange = { action(RegisterAction.MaidenNameChange(it)) },
             modifier = Modifier
                 .widthIn(max = 500.dp)
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             label = "Maiden Name",
-            placeholder = "Enter maiden name"
+            placeholder = "Enter maiden name",
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                    action(RegisterAction.ChangePage(RegistrationPage.AccountInformation))
+                }
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -242,19 +299,19 @@ private fun MemberInformation(
         ) {
             Text(
                 text = "Proceed",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(vertical = 4.dp)
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(12.dp)
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         KOutlinedButton(
             onClick = { action(RegisterAction.ChangePage(RegistrationPage.FamilyInformation)) },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "Previous",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(vertical = 4.dp)
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(12.dp)
             )
         }
     }
@@ -265,6 +322,8 @@ fun AccountInformation(
     state: RegisterState,
     action: (RegisterAction) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     Column {
         Text(
             text = "Create an account",
@@ -287,7 +346,14 @@ fun AccountInformation(
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             label = "Username",
-            placeholder = "Enter username"
+            placeholder = "Enter username",
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Next) }
+            )
         )
 
         KPasswordField(
@@ -298,7 +364,14 @@ fun AccountInformation(
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             label = "Password",
-            placeholder = "Enter password"
+            placeholder = "Enter password",
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Next) }
+            )
         )
 
         KPasswordField(
@@ -309,7 +382,17 @@ fun AccountInformation(
                 .fillMaxWidth()
                 .padding(vertical = 4.dp),
             label = "Confirm password",
-            placeholder = "Re-enter password"
+            placeholder = "Re-enter password",
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                    action(RegisterAction.Register)
+                }
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -319,19 +402,19 @@ fun AccountInformation(
         ) {
             Text(
                 text = "Register",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(vertical = 4.dp)
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(12.dp)
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         KOutlinedButton(
             onClick = { action(RegisterAction.ChangePage(RegistrationPage.MemberInformation)) },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "Previous",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(vertical = 4.dp)
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(12.dp)
             )
         }
     }

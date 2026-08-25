@@ -13,8 +13,8 @@ data class RegisterState(
     // member info
     val firstName: String = "",
     val lastName: String = "",
-    val middleName: String? = null,
-    val maidenName: String? = null,
+    val middleName: String = "",
+    val maidenName: String = "",
     // account
     val username: String = "",
     val password: String = "",
