@@ -24,7 +24,9 @@ fun KTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = TextStyle(color = MaterialTheme.colorScheme.secondary),
+    textStyle: TextStyle = MaterialTheme.typography.bodyLarge.copy(
+        color = MaterialTheme.colorScheme.secondary
+    ),
     label: String? = null,
     placeholder: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
