@@ -1,6 +1,5 @@
 package com.ralphmarondev.keepsafe.feature.auth.presentation.register
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ralphmarondev.keepsafe.core.presentation.component.KButton
 import com.ralphmarondev.keepsafe.core.presentation.component.KOutlinedButton
+import com.ralphmarondev.keepsafe.core.presentation.component.KPasswordField
 import com.ralphmarondev.keepsafe.core.presentation.component.KTextField
 import com.ralphmarondev.keepsafe.presentation.theme.LocalThemeState
 import org.koin.compose.viewmodel.koinViewModel
@@ -96,8 +96,18 @@ private fun RegisterScreen(
             contentPadding = PaddingValues(16.dp)
         ) {
             item {
-                AnimatedVisibility(state.page == RegistrationPage.FamilyInformation) {
-                    FamilyInformation(
+                when (state.page) {
+                    RegistrationPage.FamilyInformation -> FamilyInformation(
+                        state = state,
+                        action = action
+                    )
+
+                    RegistrationPage.MemberInformation -> MemberInformation(
+                        state = state,
+                        action = action
+                    )
+
+                    RegistrationPage.AccountInformation -> AccountInformation(
                         state = state,
                         action = action
                     )
@@ -239,6 +249,83 @@ private fun MemberInformation(
         Spacer(modifier = Modifier.height(8.dp))
         KOutlinedButton(
             onClick = { action(RegisterAction.ChangePage(RegistrationPage.FamilyInformation)) },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = "Previous",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun AccountInformation(
+    state: RegisterState,
+    action: (RegisterAction) -> Unit
+) {
+    Column {
+        Text(
+            text = "Create an account",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Text(
+            text = "This is used for authentication.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.secondary
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        KTextField(
+            value = state.username,
+            onValueChange = { action(RegisterAction.UsernameChange(it)) },
+            modifier = Modifier
+                .widthIn(max = 500.dp)
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            label = "Username",
+            placeholder = "Enter username"
+        )
+
+        KPasswordField(
+            value = state.password,
+            onValueChange = { action(RegisterAction.PasswordChange(it)) },
+            modifier = Modifier
+                .widthIn(max = 500.dp)
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            label = "Password",
+            placeholder = "Enter password"
+        )
+
+        KPasswordField(
+            value = state.confirmPassword,
+            onValueChange = { action(RegisterAction.ConfirmPasswordChange(it)) },
+            modifier = Modifier
+                .widthIn(max = 500.dp)
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            label = "Confirm password",
+            placeholder = "Re-enter password"
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+        KButton(
+            onClick = { action(RegisterAction.Register) },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = "Register",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        KOutlinedButton(
+            onClick = { action(RegisterAction.ChangePage(RegistrationPage.MemberInformation)) },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
