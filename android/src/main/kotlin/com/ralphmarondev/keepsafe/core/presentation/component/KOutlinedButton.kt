@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonElevation
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,9 +21,9 @@ fun KOutlinedButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(8.dp),
-    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    colors: ButtonColors = ButtonDefaults.outlinedButtonColors(),
     elevation: ButtonElevation? = null,
-    border: BorderStroke? = null,
+    border: BorderStroke = BorderStroke(0.1.dp, MaterialTheme.colorScheme.secondary),
     contentPadding: PaddingValues = PaddingValues(),
     interactionSource: MutableInteractionSource? = null,
     content: @Composable (RowScope.() -> Unit)
