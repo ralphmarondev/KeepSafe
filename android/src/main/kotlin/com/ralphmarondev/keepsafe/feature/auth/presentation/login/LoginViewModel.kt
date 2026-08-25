@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.feature.auth.presentation.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.domain.model.Result
@@ -18,24 +19,28 @@ class LoginViewModel(
 
     fun onAction(action: LoginAction) {
         when (action) {
-            is LoginAction.FamilyIdChange -> familyIdChange(action.id)
-            is LoginAction.EmailChange -> emailChange(action.email)
+            is LoginAction.FamilyCodeChange -> familyCodeChange(action.code)
+            is LoginAction.UsernameChange -> usernameChange(action.username)
             is LoginAction.PasswordChange -> passwordChange(action.password)
-            LoginAction.Login -> login()
             LoginAction.Register -> register()
+            LoginAction.Login -> login()
         }
     }
 
-    private fun familyIdChange(id: String) {
-        _state.update { it.copy(familyId = id) }
+    private fun familyCodeChange(code: String) {
+        _state.update { it.copy(familyCode = code) }
     }
 
-    private fun emailChange(email: String) {
-        _state.update { it.copy(email = email) }
+    private fun usernameChange(username: String) {
+        _state.update { it.copy(username = username) }
     }
 
     private fun passwordChange(password: String) {
         _state.update { it.copy(password = password) }
+    }
+
+    private fun register() {
+        _state.update { it.copy(navigateToRegister = true) }
     }
 
     private fun login() {
@@ -45,38 +50,73 @@ class LoginViewModel(
                     it.copy(
                         isLoggingIn = true,
                         isLoggedIn = false,
-                        isError = false,
-                        showMessage = false,
-                        message = null
+                        familyCodeError = false,
+                        familyCodeErrorMessage = null,
+                        usernameError = false,
+                        usernameErrorMessage = null,
+                        passwordError = false,
+                        passwordErrorMessage = null
                     )
                 }
-                val email = _state.value.email.trim()
+                val familyCode = _state.value.familyCode.trim()
+                val username = _state.value.username.trim()
                 val password = _state.value.password.trim()
-                val familyId = _state.value.familyId.trim()
+                var isValid = true
+
+                if (familyCode.isBlank()) {
+                    isValid = false
+                    _state.update {
+                        it.copy(
+                            familyCodeError = true,
+                            familyCodeErrorMessage = "Family code cannot be empty."
+                        )
+                    }
+                }
+
+                if (username.isBlank()) {
+                    isValid = false
+                    _state.update {
+                        it.copy(
+                            usernameError = true,
+                            usernameErrorMessage = "Username cannot be empty."
+                        )
+                    }
+                }
+
+                if (password.isBlank()) {
+                    isValid = false
+                    _state.update {
+                        it.copy(
+                            passwordError = true,
+                            passwordErrorMessage = "Password cannot be empty."
+                        )
+                    }
+                }
+
+                if (!isValid) {
+                    return@launch
+                }
 
                 val result = repository.login(
-                    username = email,
+                    username = "$username@keepsafe.com",
                     password = password,
-                    familyCode = familyId
+                    familyCode = familyCode
                 )
 
                 when (result) {
                     is Result.Success -> {
-                        _state.update {
-                            it.copy(
-                                isLoggedIn = true,
-                                showMessage = true,
-                                message = "Login successful!"
-                            )
-                        }
+                        _state.update { it.copy(isLoggedIn = true) }
                     }
 
                     is Result.Error -> {
                         _state.update {
                             it.copy(
-                                isError = true,
-                                showMessage = true,
-                                message = result.message
+                                familyCodeError = true,
+                                familyCodeErrorMessage = "Invalid credentials.",
+                                usernameError = true,
+                                usernameErrorMessage = "Invalid credentials",
+                                passwordError = true,
+                                passwordErrorMessage = "Invalid credentials."
                             )
                         }
                     }
@@ -84,18 +124,19 @@ class LoginViewModel(
             } catch (e: Exception) {
                 _state.update {
                     it.copy(
-                        isError = true,
-                        showMessage = true,
-                        message = e.message
+                        familyCodeError = true,
+                        familyCodeErrorMessage = "Invalid credentials.",
+                        usernameError = true,
+                        usernameErrorMessage = "Invalid credentials",
+                        passwordError = true,
+                        passwordErrorMessage = "Invalid credentials."
                     )
                 }
+                Log.e("Login", "Login failed. Error: ${e.message}")
+                e.printStackTrace()
             } finally {
                 _state.update { it.copy(isLoggingIn = false) }
             }
         }
-    }
-
-    private fun register() {
-        _state.update { it.copy(navigateToRegister = true) }
     }
 }
