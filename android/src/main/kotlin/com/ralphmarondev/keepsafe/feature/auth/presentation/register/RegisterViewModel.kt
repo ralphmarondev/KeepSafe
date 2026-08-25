@@ -42,7 +42,7 @@ class RegisterViewModel(
 
     private fun generateFamilyCode() {
         viewModelScope.launch {
-            _state.update { it.copy(familyCode = "FAM-0001") }
+            _state.update { it.copy(familyCode = "FAM-${authRepository.generateFamilyCode()}") }
         }
     }
 
