@@ -33,4 +33,8 @@ class AuthRepositoryImpl(
     override suspend fun isUsernameTaken(username: String): Boolean {
         return authService.isUsernameTaken(username)
     }
+
+    override suspend fun generateFamilyCode(): String {
+        return authService.generateFamilyCode()
+    }
 }

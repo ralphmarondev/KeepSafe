@@ -53,6 +53,10 @@ class AuthService(
                     .collection("members")
                     .document(uid)
 
+                val counterReference = firestore
+                    .collection("familyCodes")
+                    .document("counter")
+
                 Log.d("AuthService", "Writing user")
                 set(userReference, createdAccount)
 
@@ -61,6 +65,15 @@ class AuthService(
 
                 Log.d("AuthService", "Writing member")
                 set(memberReference, createdMember)
+
+                set(
+                    counterReference,
+                    mapOf(
+                        "lastCode" to family.code
+                            .removePrefix("FAM-")
+                            .toLong()
+                    )
+                )
 
                 Log.d("AuthService", "Transaction writes prepared.")
             }
@@ -74,7 +87,7 @@ class AuthService(
                         ignoreCase = true
                     ) == true
                 ) {
-                    "Username is already tkane."
+                    "Username is already taken."
                 } else {
                     e.message ?: "Registration failed."
                 }, throwable = e
@@ -94,6 +107,27 @@ class AuthService(
         } catch (e: Exception) {
             e.printStackTrace()
             false
+        }
+    }
+
+    suspend fun generateFamilyCode(): String {
+        return try {
+            val counterReference = firestore
+                .collection("familyCodes")
+                .document("counter")
+
+            val snapshot = counterReference.get()
+            val lastCode = if (snapshot.exists) {
+                snapshot.get<Long>("lastCode").toInt()
+            } else {
+                0
+            }
+            (lastCode + 1)
+                .toString()
+                .padStart(4, '0')
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
         }
     }
 }
