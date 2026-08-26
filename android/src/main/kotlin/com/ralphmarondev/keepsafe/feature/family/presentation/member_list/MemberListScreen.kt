@@ -63,7 +63,7 @@ private fun MemberListScreen(
             TopAppBar(
                 title = {
                     AnimatedVisibility(state.family.name.isNotBlank()) {
-                        Text(text = state.family.name)
+                        Text(text = "${state.family.name} Family")
                     }
                 },
                 actions = {
