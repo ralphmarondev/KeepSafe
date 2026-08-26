@@ -15,7 +15,11 @@ class AuthRepositoryImpl(
         password: String,
         familyCode: String
     ): Result<Member> {
-        return Result.Success(Member(familyCode = familyCode))
+        return authService.login(
+            username = username,
+            password = password,
+            familyCode = familyCode
+        )
     }
 
     override suspend fun register(

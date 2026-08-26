@@ -1,6 +1,5 @@
 package com.ralphmarondev.keepsafe.data.network.firebase
 
-import android.util.Log
 import com.ralphmarondev.keepsafe.domain.model.Account
 import com.ralphmarondev.keepsafe.domain.model.Family
 import com.ralphmarondev.keepsafe.domain.model.Member
@@ -12,6 +11,45 @@ class AuthService(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
 ) {
+    suspend fun login(
+        username: String,
+        password: String,
+        familyCode: String
+    ): Result<Member> {
+        return try {
+            val formattedEmail = "${username}@keepsafe.com"
+
+            val authResult = auth.signInWithEmailAndPassword(
+                email = formattedEmail,
+                password = password
+            )
+            val uid = authResult.user?.uid
+                ?: return Result.Error(message = "Failed to authenticate user.")
+
+            val memberReference = firestore
+                .collection("members")
+                .document(uid)
+            val memberSnapshot = memberReference.get()
+
+            if (!memberSnapshot.exists) {
+                return Result.Error(message = "Member account was not found.")
+            }
+
+            val member = memberSnapshot.data<Member>()
+            if (member.familyCode != familyCode) {
+                return Result.Error(message = "Invalid family code.")
+            }
+
+            Result.Success(member)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.Error(
+                message = "Invalid credentials.",
+                throwable = e
+            )
+        }
+    }
+
     suspend fun register(
         account: Account,
         family: Family,
