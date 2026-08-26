@@ -15,8 +15,9 @@ class AppPreferences(
 ) {
     companion object {
         val DARK_MODE = booleanPreferencesKey("dark_mode")
-        val EMAIL = stringPreferencesKey("email")
+        val USERNAME = stringPreferencesKey("username")
         val FAMILY_CODE = stringPreferencesKey("family_code")
+        val FAMILY_NAME = stringPreferencesKey("family_name")
 
         const val DATASTORE_FILENAME = "keepsafe.preferences_pb"
 
@@ -34,15 +35,21 @@ class AppPreferences(
 
     val isDarkMode: Flow<Boolean> = dataStore.data.map { it[DARK_MODE] == true }
 
-    suspend fun setEmail(email: String) {
-        dataStore.edit { it[EMAIL] = email }
+    suspend fun setUsername(username: String) {
+        dataStore.edit { it[USERNAME] = username }
     }
 
-    val email: Flow<String> = dataStore.data.map { it[EMAIL] ?: "" }
+    val username: Flow<String> = dataStore.data.map { it[USERNAME] ?: "" }
 
     suspend fun setFamilyCode(code: String) {
         dataStore.edit { it[FAMILY_CODE] = code }
     }
 
     val familyCode: Flow<String?> = dataStore.data.map { it[FAMILY_CODE] }
+
+    suspend fun setFamilyName(name: String) {
+        dataStore.edit { it[FAMILY_NAME] = name }
+    }
+
+    val familyName: Flow<String?> = dataStore.data.map { it[FAMILY_NAME] }
 }
