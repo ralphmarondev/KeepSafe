@@ -7,12 +7,18 @@ import dev.gitlive.firebase.firestore.FirebaseFirestore
 class MemberService(
     private val firestore: FirebaseFirestore
 ) {
+    private val membersCollection = firestore
+        .collection("members")
+
     suspend fun createMember(member: Member): Result<Member> {
         return try {
-            val docRef = firestore.collection("members").document
-            val newMember = member.copy(uid = docRef.id)
-            docRef.set(newMember)
-            Result.Success(newMember)
+            if (member.uid.isBlank()) {
+                return Result.Error(message = "Member UID cannot be empty.")
+            }
+
+            val memberReference = membersCollection.document(member.uid)
+            memberReference.set(member)
+            Result.Success(member)
         } catch (e: Exception) {
             Result.Error(message = e.message ?: "Failed to create member.", throwable = e)
         }
@@ -23,15 +29,15 @@ class MemberService(
             if (memberUid.isBlank()) {
                 return Result.Error(message = "Member UID cannot be empty.")
             }
-            val document = firestore.collection("members")
+            val document = membersCollection
                 .document(memberUid)
                 .get()
-            if (document.exists) {
-                val member: Member = document.data()
-                Result.Success(member)
-            } else {
-                Result.Error("Member not found.")
+
+            if (!document.exists) {
+                return Result.Error(message = "Member not found.")
             }
+            val member = document.data<Member>()
+            Result.Success(member)
         } catch (e: Exception) {
             Result.Error(message = e.message ?: "Failed to fetch member.", throwable = e)
         }
@@ -42,7 +48,7 @@ class MemberService(
             if (familyCode.isBlank()) {
                 return Result.Error("Family code cannot be empty.")
             }
-            val querySnapshot = firestore.collection("members")
+            val querySnapshot = membersCollection
                 .where { "familyCode" equalTo familyCode }
                 .get()
 
