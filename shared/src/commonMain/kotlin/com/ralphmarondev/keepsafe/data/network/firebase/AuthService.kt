@@ -37,10 +37,7 @@ class AuthService(
                 familyCode = family.code
             )
 
-            Log.d("AuthService", "Auth user created: $uid")
-            Log.d("AuthService", "Starting Firestore transaction")
             firestore.runTransaction {
-                Log.d("AuthService", "Inside Firestore transaction")
                 val userReference = firestore
                     .collection("users")
                     .document(uid)
@@ -57,13 +54,8 @@ class AuthService(
                     .collection("familyCodes")
                     .document("counter")
 
-                Log.d("AuthService", "Writing user")
                 set(userReference, createdAccount)
-
-                Log.d("AuthService", "Writing family")
                 set(familyReference, family)
-
-                Log.d("AuthService", "Writing member")
                 set(memberReference, createdMember)
 
                 set(
@@ -74,10 +66,7 @@ class AuthService(
                             .toLong()
                     )
                 )
-
-                Log.d("AuthService", "Transaction writes prepared.")
             }
-            Log.d("AuthService", "Firestore transaction completed.")
             Result.Success(family)
         } catch (e: Exception) {
             e.printStackTrace()
