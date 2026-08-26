@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.data.repository
 
+import com.ralphmarondev.keepsafe.data.local.preference.AppPreferences
 import com.ralphmarondev.keepsafe.data.network.firebase.AuthService
 import com.ralphmarondev.keepsafe.domain.model.Account
 import com.ralphmarondev.keepsafe.domain.model.Family
@@ -8,6 +9,7 @@ import com.ralphmarondev.keepsafe.domain.model.Result
 import com.ralphmarondev.keepsafe.domain.repository.AuthRepository
 
 class AuthRepositoryImpl(
+    private val preferences: AppPreferences,
     private val authService: AuthService
 ) : AuthRepository {
     override suspend fun login(
@@ -15,11 +17,16 @@ class AuthRepositoryImpl(
         password: String,
         familyCode: String
     ): Result<Member> {
-        return authService.login(
+        val result = authService.login(
             username = username,
             password = password,
             familyCode = familyCode
         )
+
+        if (result.isSuccess) {
+            preferences.setFamilyCode(familyCode)
+        }
+        return result
     }
 
     override suspend fun register(
@@ -27,11 +34,16 @@ class AuthRepositoryImpl(
         member: Member,
         account: Account
     ): Result<Family> {
-        return authService.register(
+        val result = authService.register(
             family = family,
             member = member,
             account = account
         )
+
+        if (result.isSuccess) {
+            preferences.setFamilyCode(family.code)
+        }
+        return result
     }
 
     override suspend fun isUsernameTaken(username: String): Boolean {
