@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -61,7 +62,11 @@ fun AppNavigation(
         ) {
             composable<Route.MemberList> {
                 MemberListScreenRoot(
-                    profile = {}
+                    profile = {},
+                    newMember = {},
+                    memberDetail = { memberUid ->
+                        Log.d("Navigation", "Member uid: $memberUid")
+                    }
                 )
             }
         }

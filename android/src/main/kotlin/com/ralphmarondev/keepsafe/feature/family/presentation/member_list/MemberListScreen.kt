@@ -12,6 +12,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,13 +33,29 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MemberListScreenRoot(
-    profile: () -> Unit
+    profile: () -> Unit,
+    newMember: () -> Unit,
+    memberDetail: (String) -> Unit
 ) {
     val viewModel: MemberListViewModel = koinViewModel()
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.onAction(MemberListAction.LoadMembers)
+    }
+
+    LaunchedEffect(state.navigateToNewMember) {
+        if (state.navigateToNewMember) {
+            newMember()
+            viewModel.onAction(MemberListAction.ClearNavigation)
+        }
+    }
+
+    LaunchedEffect(state.navigateToMemberDetail) {
+        if (state.navigateToMemberDetail && state.selectedMember.uid.isNotBlank()) {
+            memberDetail(state.selectedMember.uid)
+            viewModel.onAction(MemberListAction.ClearNavigation)
+        }
     }
 
     LaunchedEffect(state.navigateToProfile) {
@@ -82,6 +100,16 @@ private fun MemberListScreen(
                     actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { action(MemberListAction.NewMember) }
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Add,
+                    contentDescription = "Add New Member"
+                )
+            }
         }
     ) { innerPadding ->
         PullToRefreshBox(
