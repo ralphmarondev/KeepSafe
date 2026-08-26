@@ -98,7 +98,7 @@ class LoginViewModel(
                 }
 
                 val result = repository.login(
-                    username = "$username@keepsafe.com",
+                    username = username,
                     password = password,
                     familyCode = familyCode
                 )
