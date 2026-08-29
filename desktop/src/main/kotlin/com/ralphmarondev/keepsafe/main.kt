@@ -1,18 +1,12 @@
 package com.ralphmarondev.keepsafe
 
 import android.app.Application
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.google.firebase.FirebasePlatform
-import com.ralphmarondev.keepsafe.di.sharedModule
+import com.ralphmarondev.keepsafe.di.appModule
+import com.ralphmarondev.keepsafe.navigation.AppNavigation
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseOptions
 import dev.gitlive.firebase.initialize
@@ -41,7 +35,7 @@ fun main() {
         )
 
         startKoin {
-            modules(sharedModule)
+            modules(appModule)
         }
 
         Window(
@@ -49,18 +43,7 @@ fun main() {
             title = "Keepsafe",
         ) {
             MaterialTheme {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Keepsafe",
-                        style = MaterialTheme.typography.headlineLarge,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
+                AppNavigation()
             }
         }
     }
