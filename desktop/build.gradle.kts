@@ -41,6 +41,7 @@ dependencies {
 
     implementation(compose.desktop.currentOs)
     implementation(libs.kotlinx.coroutinesSwing)
+    implementation(libs.bundles.koin)
 }
 
 compose.desktop {
