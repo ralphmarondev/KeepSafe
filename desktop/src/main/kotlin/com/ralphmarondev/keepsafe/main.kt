@@ -1,17 +1,23 @@
 package com.ralphmarondev.keepsafe
 
 import android.app.Application
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.google.firebase.FirebasePlatform
+import com.ralphmarondev.keepsafe.data.local.preference.AppPreferences
 import com.ralphmarondev.keepsafe.di.appModule
-import com.ralphmarondev.keepsafe.navigation.AppNavigation
+import com.ralphmarondev.keepsafe.feature.auth.presentation.login.LoginScreenRoot
+import com.ralphmarondev.keepsafe.presentation.theme.KeepsafeTheme
+import com.ralphmarondev.keepsafe.presentation.theme.LocalThemeState
+import com.ralphmarondev.keepsafe.presentation.theme.ThemeProvider
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseOptions
 import dev.gitlive.firebase.initialize
+import org.koin.compose.KoinContext
+import org.koin.compose.koinInject
 import org.koin.core.context.startKoin
 
+@Suppress("DEPRECATION")
 fun main() {
     application {
         FirebasePlatform.initializeFirebasePlatform(object : FirebasePlatform() {
@@ -42,8 +48,16 @@ fun main() {
             onCloseRequest = ::exitApplication,
             title = "Keepsafe",
         ) {
-            MaterialTheme {
-                AppNavigation()
+            KoinContext {
+                val preferences: AppPreferences = koinInject()
+
+                ThemeProvider(preferences = preferences) {
+                    val themeState = LocalThemeState.current
+
+                    KeepsafeTheme(darkTheme = themeState.darkMode.value) {
+                        LoginScreenRoot()
+                    }
+                }
             }
         }
     }
