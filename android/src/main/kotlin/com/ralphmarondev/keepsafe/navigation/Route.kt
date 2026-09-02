@@ -21,4 +21,11 @@ sealed interface Route {
 
     @Serializable
     data object MemberList : Route
+
+    // Account Routes
+    @Serializable
+    data object Account : Route
+
+    @Serializable
+    data object Overview : Route
 }

@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.ralphmarondev.keepsafe.feature.account.presentation.overview.OverviewScreenRoot
 import com.ralphmarondev.keepsafe.feature.auth.presentation.login.LoginScreenRoot
 import com.ralphmarondev.keepsafe.feature.auth.presentation.register.RegisterScreenRoot
 import com.ralphmarondev.keepsafe.feature.family.presentation.member_list.MemberListScreenRoot
@@ -62,10 +63,29 @@ fun AppNavigation(
         ) {
             composable<Route.MemberList> {
                 MemberListScreenRoot(
-                    profile = {},
+                    profile = {
+                        navController.navigate(Route.Account) {
+                            launchSingleTop = true
+                        }
+                    },
                     newMember = {},
                     memberDetail = { memberUid ->
                         Log.d("Navigation", "Member uid: $memberUid")
+                    }
+                )
+            }
+        }
+
+        navigation<Route.Account>(
+            startDestination = Route.Overview
+        ) {
+            composable<Route.Overview> {
+                OverviewScreenRoot(
+                    onLogout = {
+                        navController.navigate(Route.Auth) {
+                            popUpTo(Route.Main) { inclusive = true }
+                            launchSingleTop = true
+                        }
                     }
                 )
             }
