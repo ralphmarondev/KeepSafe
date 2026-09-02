@@ -2,6 +2,7 @@ package com.ralphmarondev.keepsafe.data.repository
 
 import com.ralphmarondev.keepsafe.data.local.preference.AppPreferences
 import com.ralphmarondev.keepsafe.data.network.firebase.MemberService
+import com.ralphmarondev.keepsafe.domain.model.Account
 import com.ralphmarondev.keepsafe.domain.model.Family
 import com.ralphmarondev.keepsafe.domain.model.Member
 import com.ralphmarondev.keepsafe.domain.model.Result
@@ -37,6 +38,25 @@ class MemberRepositoryImpl(
         } catch (e: Exception) {
             e.printStackTrace()
             Result.Error(message = "Failed retrieving family information.", throwable = e)
+        }
+    }
+
+    override suspend fun create(
+        member: Member,
+        account: Account
+    ): Result<Member> {
+        return try {
+            val code = preferences.familyCode.first()
+                ?: return Result.Error(message = "Family code not found.")
+
+            memberService.createMember(
+                familyCode = code,
+                member = member,
+                account = account
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.Error(message = "Failed to create new member.")
         }
     }
 }
