@@ -76,7 +76,9 @@ private fun LoginScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {},
+                title = {
+                    Text(text = "Login")
+                },
                 actions = {
                     IconButton(onClick = themeState::toggleTheme) {
                         val imageVector = when (themeState.darkMode.value) {
@@ -91,6 +93,7 @@ private fun LoginScreen(
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
                     actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
@@ -104,14 +107,9 @@ private fun LoginScreen(
         ) {
             item {
                 Text(
-                    text = "Welcome Back",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = "Please enter your credentials to continue.",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.secondary,
+                    text = "Welcome back! Please enter your family code and account details to continue.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.Normal
                 )
 

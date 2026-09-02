@@ -84,7 +84,15 @@ private fun RegisterScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {},
+                title = {
+                    Text(
+                        text = when (state.page) {
+                            RegistrationPage.FamilyInformation -> "Register Family"
+                            RegistrationPage.MemberInformation -> "Add First Member"
+                            RegistrationPage.AccountInformation -> "Create Account"
+                        }
+                    )
+                },
                 actions = {
                     IconButton(onClick = themeState::toggleTheme) {
                         val imageVector = when (themeState.darkMode.value) {
@@ -216,14 +224,9 @@ private fun FamilyInformation(
 
     Column {
         Text(
-            text = "Register Family",
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = "Please provide family name.",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.secondary,
+            text = "Enter your family details to set up your account workspace.",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontWeight = FontWeight.Normal
         )
 
@@ -292,14 +295,9 @@ private fun MemberInformation(
 
     Column {
         Text(
-            text = "Add First Member",
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = "Please provide first member information.",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.secondary,
+            text = "Please enter the personal details for the primary family account owner.",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontWeight = FontWeight.Normal
         )
 
@@ -446,14 +444,9 @@ fun AccountInformation(
 
     Column {
         Text(
-            text = "Create an account",
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = "This is used for authentication.",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.secondary,
+            text = "Set up your primary login credentials below.",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontWeight = FontWeight.Normal
         )
 
