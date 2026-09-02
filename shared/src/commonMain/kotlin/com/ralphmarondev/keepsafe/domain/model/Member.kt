@@ -9,5 +9,6 @@ data class Member(
     val firstName: String = "",
     val lastName: String = "",
     val middleName: String = "",
-    val maidenName: String = ""
+    val maidenName: String = "",
+    val imagePath: String? = null
 )
