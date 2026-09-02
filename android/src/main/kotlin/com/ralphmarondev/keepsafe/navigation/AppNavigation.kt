@@ -12,6 +12,7 @@ import com.ralphmarondev.keepsafe.feature.auth.presentation.login.LoginScreenRoo
 import com.ralphmarondev.keepsafe.feature.auth.presentation.register.RegisterScreenRoot
 import com.ralphmarondev.keepsafe.feature.family.presentation.member_detail.MemberDetailScreenRoot
 import com.ralphmarondev.keepsafe.feature.family.presentation.member_list.MemberListScreenRoot
+import com.ralphmarondev.keepsafe.feature.family.presentation.new_member.NewMemberScreenRoot
 
 @Composable
 fun AppNavigation(
@@ -69,7 +70,11 @@ fun AppNavigation(
                             launchSingleTop = true
                         }
                     },
-                    newMember = {},
+                    newMember = {
+                        navController.navigate(Route.NewMember) {
+                            launchSingleTop = true
+                        }
+                    },
                     memberDetail = { memberUid ->
                         navController.navigate(Route.MemberDetail(memberUid)) {
                             launchSingleTop = true
@@ -80,6 +85,13 @@ fun AppNavigation(
             composable<Route.MemberDetail> {
                 val uid = it.toRoute<Route.MemberDetail>().uid
                 MemberDetailScreenRoot(uid)
+            }
+            composable<Route.NewMember> {
+                NewMemberScreenRoot(
+                    onSuccess = {
+                        navController.navigateUp()
+                    }
+                )
             }
         }
 

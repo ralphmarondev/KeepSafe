@@ -25,6 +25,9 @@ sealed interface Route {
     @Serializable
     data class MemberDetail(val uid: String) : Route
 
+    @Serializable
+    data object NewMember : Route
+
     // Account Routes
     @Serializable
     data object Account : Route
