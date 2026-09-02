@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.data.network.firebase
 
+import com.ralphmarondev.keepsafe.domain.enums.Role
 import com.ralphmarondev.keepsafe.domain.model.Account
 import com.ralphmarondev.keepsafe.domain.model.Family
 import com.ralphmarondev.keepsafe.domain.model.Member
@@ -82,7 +83,8 @@ class AuthService(
 
             val createdAccount = account.copy(
                 uid = firebaseUid,
-                password = ""
+                password = "",
+                role = Role.ADMIN
             )
 
             val createdMember = member.copy(
