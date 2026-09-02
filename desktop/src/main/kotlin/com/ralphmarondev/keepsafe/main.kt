@@ -6,7 +6,7 @@ import androidx.compose.ui.window.application
 import com.google.firebase.FirebasePlatform
 import com.ralphmarondev.keepsafe.data.local.preference.AppPreferences
 import com.ralphmarondev.keepsafe.di.appModule
-import com.ralphmarondev.keepsafe.feature.auth.presentation.login.LoginScreenRoot
+import com.ralphmarondev.keepsafe.navigation.AppNavigation
 import com.ralphmarondev.keepsafe.presentation.theme.KeepsafeTheme
 import com.ralphmarondev.keepsafe.presentation.theme.LocalThemeState
 import com.ralphmarondev.keepsafe.presentation.theme.ThemeProvider
@@ -55,7 +55,7 @@ fun main() {
                     val themeState = LocalThemeState.current
 
                     KeepsafeTheme(darkTheme = themeState.darkMode.value) {
-                        LoginScreenRoot()
+                        AppNavigation()
                     }
                 }
             }
