@@ -19,6 +19,14 @@ data class NewMemberState(
     val maidenNameError: Boolean = false,
     val maidenNameErrorMessage: String? = null,
 
+    val birthday: String = "",
+    val birthdayError: Boolean = false,
+    val birthdayErrorMessage: String? = null,
+
+    val contactNumber: String = "",
+    val contactNumberError: Boolean = false,
+    val contactNumberErrorMessage: String? = null,
+
     // account
     val username: String = "",
     val usernameError: Boolean = false,
