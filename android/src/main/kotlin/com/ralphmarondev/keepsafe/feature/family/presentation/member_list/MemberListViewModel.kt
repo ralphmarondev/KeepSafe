@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.feature.family.presentation.member_list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.keepsafe.domain.model.Member
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 class MemberListViewModel(
     private val memberRepository: MemberRepository
@@ -35,16 +37,24 @@ class MemberListViewModel(
 
     private fun loadMembers(isRefreshing: Boolean = false) {
         viewModelScope.launch {
+            _state.update { it.copy(isRefreshing = isRefreshing) }
+
             val result = memberRepository.getFamilyInformation()
             if (result.isSuccess) {
                 val family = (result as Result.Success).data
                 _state.update { it.copy(family = family) }
             }
             if (isRefreshing) {
-                delay(500)
+                Log.d("MemberList", "Refresh delay...")
+                delay(1000.milliseconds)
             }
             val members = memberRepository.getMembers()
-            _state.update { it.copy(members = members) }
+            _state.update {
+                it.copy(
+                    members = members,
+                    isRefreshing = false
+                )
+            }
         }
     }
 
