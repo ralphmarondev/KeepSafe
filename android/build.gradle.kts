@@ -17,6 +17,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.bundles.koin)
+    implementation(libs.android.lottie.animation)
     implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)
 }
