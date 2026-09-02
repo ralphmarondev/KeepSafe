@@ -23,23 +23,37 @@ class AuthService(
                 email = formattedEmail,
                 password = password
             )
-            val uid = authResult.user?.uid
-                ?: return Result.Error(message = "Failed to authenticate user.")
+
+            authResult.user?.uid
+                ?: return Result.Error(
+                    message = "Failed to authenticate user."
+                )
+
+            val accountReference = firestore
+                .collection("accounts")
+                .document(formattedEmail)
+
+            if (!accountReference.get().exists) {
+                return Result.Error(
+                    message = "Account was not found."
+                )
+            }
 
             val memberReference = firestore
+                .collection("families")
+                .document(familyCode)
                 .collection("members")
-                .document(uid)
+                .document(formattedEmail)
+
             val memberSnapshot = memberReference.get()
 
             if (!memberSnapshot.exists) {
-                return Result.Error(message = "Member account was not found.")
+                return Result.Error(
+                    message = "Member account was not found in this family."
+                )
             }
 
             val member = memberSnapshot.data<Member>()
-            if (member.familyCode != familyCode) {
-                return Result.Error(message = "Invalid family code.")
-            }
-
             Result.Success(member)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -61,24 +75,25 @@ class AuthService(
                 formattedEmail,
                 account.password
             )
-            val uid = authResult.user?.uid
-                ?: return Result.Error(message = "Failed to create user in Firebase Auth.")
+            val firebaseUid = authResult.user?.uid
+                ?: return Result.Error(
+                    message = "Failed to create user in Firebase Auth."
+                )
 
             val createdAccount = account.copy(
-                uid = uid,
-                password = "",
-                memberUid = uid
+                uid = firebaseUid,
+                password = ""
             )
 
             val createdMember = member.copy(
-                uid = uid,
+                uid = firebaseUid,
                 familyCode = family.code
             )
 
             firestore.runTransaction {
                 val userReference = firestore
-                    .collection("users")
-                    .document(uid)
+                    .collection("accounts")
+                    .document(formattedEmail)
 
                 val familyReference = firestore
                     .collection("families")
@@ -86,7 +101,7 @@ class AuthService(
 
                 val memberReference = firestore
                     .collection("members")
-                    .document(uid)
+                    .document(firebaseUid)
 
                 val counterReference = firestore
                     .collection("familyCodes")
@@ -124,13 +139,13 @@ class AuthService(
 
     suspend fun isUsernameTaken(username: String): Boolean {
         return try {
-            val result = firestore
-                .collection("users")
-                .where {
-                    "username" equalTo username
-                }.get()
+            val formattedEmail = "${username}@keepsafe.com"
 
-            result.documents.isNotEmpty()
+            val accountReference = firestore
+                .collection("accounts")
+                .document(formattedEmail)
+
+            accountReference.get().exists
         } catch (e: Exception) {
             e.printStackTrace()
             false
