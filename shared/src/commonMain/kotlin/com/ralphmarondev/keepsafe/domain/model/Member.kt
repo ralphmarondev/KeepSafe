@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.domain.model
 
+import com.ralphmarondev.keepsafe.domain.enums.RelationshipToHead
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,5 +11,8 @@ data class Member(
     val lastName: String = "",
     val middleName: String = "",
     val maidenName: String = "",
-    val imagePath: String? = null
+    val birthday: String = "",
+    val contactNumber: String = "",
+    val imagePath: String = "",
+    val relationToHead: RelationshipToHead = RelationshipToHead.SELF
 )
