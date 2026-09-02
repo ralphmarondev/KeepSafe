@@ -6,10 +6,12 @@ import org.koin.dsl.module
 import java.io.File
 
 actual val platformModule: Module = module {
-    AppPreferences.create {
-        val userHome = System.getProperty("user.home")
-        val prefsDir = File(userHome, ".keepsafe")
-        prefsDir.mkdirs()
-        File(prefsDir, AppPreferences.DATASTORE_FILENAME).absolutePath
+    single {
+        AppPreferences.create {
+            val userHome = System.getProperty("user.home")
+            val prefsDir = File(userHome, ".keepsafe")
+            prefsDir.mkdirs()
+            File(prefsDir, AppPreferences.DATASTORE_FILENAME).absolutePath
+        }
     }
 }
