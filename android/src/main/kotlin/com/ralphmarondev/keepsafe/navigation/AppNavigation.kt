@@ -1,15 +1,16 @@
 package com.ralphmarondev.keepsafe.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.ralphmarondev.keepsafe.feature.account.presentation.overview.OverviewScreenRoot
 import com.ralphmarondev.keepsafe.feature.auth.presentation.login.LoginScreenRoot
 import com.ralphmarondev.keepsafe.feature.auth.presentation.register.RegisterScreenRoot
+import com.ralphmarondev.keepsafe.feature.family.presentation.member_detail.MemberDetailScreenRoot
 import com.ralphmarondev.keepsafe.feature.family.presentation.member_list.MemberListScreenRoot
 
 @Composable
@@ -70,9 +71,15 @@ fun AppNavigation(
                     },
                     newMember = {},
                     memberDetail = { memberUid ->
-                        Log.d("Navigation", "Member uid: $memberUid")
+                        navController.navigate(Route.MemberDetail(memberUid)) {
+                            launchSingleTop = true
+                        }
                     }
                 )
+            }
+            composable<Route.MemberDetail> {
+                val uid = it.toRoute<Route.MemberDetail>().uid
+                MemberDetailScreenRoot(uid)
             }
         }
 
