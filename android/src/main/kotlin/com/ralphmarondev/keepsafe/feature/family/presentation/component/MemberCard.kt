@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.ralphmarondev.keepsafe.R
+import com.ralphmarondev.keepsafe.domain.enums.RelationshipToHead
 import com.ralphmarondev.keepsafe.domain.model.Member
 
 @Composable
@@ -39,8 +40,14 @@ fun MemberCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             val imageModel = when {
-                member.imagePath.isBlank() -> R.drawable.first_child
-                else -> member.imagePath
+                member.imagePath.isBlank() -> R.drawable.keepsafe
+                else -> when (member.relationToHead) {
+                    RelationshipToHead.SELF -> R.drawable.father
+                    RelationshipToHead.SPOUSE -> R.drawable.mother
+                    RelationshipToHead.FIRST_CHILD -> R.drawable.first_child
+                    RelationshipToHead.SECOND_CHILD -> R.drawable.second_child
+                    RelationshipToHead.THIRD_CHILD -> R.drawable.third_child
+                }
             }
 
             Image(
