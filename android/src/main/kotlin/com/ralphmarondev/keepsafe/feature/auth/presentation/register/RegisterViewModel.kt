@@ -37,6 +37,7 @@ class RegisterViewModel(
             is RegisterAction.ChangePage -> changePage(action.page)
             RegisterAction.Login -> login()
             RegisterAction.Register -> register()
+            RegisterAction.DismissDialog -> dismissDialog()
         }
     }
 
@@ -172,6 +173,10 @@ class RegisterViewModel(
         _state.update { it.copy(login = true) }
     }
 
+    private fun dismissDialog() {
+        _state.update { it.copy(showDialog = false, isFinished = true) }
+    }
+
     private fun register() {
         viewModelScope.launch {
             try {
@@ -260,7 +265,7 @@ class RegisterViewModel(
 
                     when (result) {
                         is Result.Success -> {
-                            _state.update { it.copy(isRegistered = true) }
+                            _state.update { it.copy(isRegistered = true, showDialog = true) }
                         }
 
                         is Result.Error -> {

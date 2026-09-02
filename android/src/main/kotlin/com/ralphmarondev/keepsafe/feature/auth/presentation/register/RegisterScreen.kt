@@ -14,11 +14,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -31,6 +33,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.ralphmarondev.keepsafe.core.presentation.component.KButton
 import com.ralphmarondev.keepsafe.core.presentation.component.KOutlinedButton
 import com.ralphmarondev.keepsafe.core.presentation.component.KPasswordField
@@ -46,8 +49,8 @@ fun RegisterScreenRoot(
     val viewModel: RegisterViewModel = koinViewModel()
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(state.isRegistered) {
-        if (state.isRegistered) {
+    LaunchedEffect(state.isFinished) {
+        if (state.isFinished && state.isRegistered) {
             onSuccess()
         }
     }
@@ -120,6 +123,35 @@ private fun RegisterScreen(
                 }
             }
         }
+
+        if (state.showDialog) {
+            AlertDialog(
+                onDismissRequest = { action(RegisterAction.DismissDialog) },
+                properties = DialogProperties(
+                    dismissOnClickOutside = false,
+                    dismissOnBackPress = false
+                ),
+                title = {
+                    Text(text = "Success")
+                },
+                text = {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    ) {
+                        Text(text = "Registration successful... [show lottie]")
+                    }
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = { action(RegisterAction.DismissDialog) }
+                    ) {
+                        Text(text = "Proceed")
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -144,33 +176,6 @@ private fun FamilyInformation(
         )
 
         Spacer(modifier = Modifier.height(12.dp))
-
-        KTextField(
-            value = state.familyCode,
-            onValueChange = { },
-            modifier = Modifier
-                .widthIn(max = 500.dp)
-                .fillMaxWidth(),
-            label = "Family Code",
-            placeholder = "FAM-0001",
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = { focusManager.moveFocus(FocusDirection.Next) }
-            ),
-            readOnly = true,
-            isError = state.familyCodeError,
-            supportingText = {
-                state.familyCodeErrorMessage?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            }
-        )
 
         KTextField(
             value = state.familyName,

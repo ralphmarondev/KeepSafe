@@ -49,5 +49,8 @@ data class RegisterState(
     val showMessage: Boolean = false,
     val isLoading: Boolean = false,
     val isRegistered: Boolean = false,
-    val page: RegistrationPage = RegistrationPage.FamilyInformation
+    val page: RegistrationPage = RegistrationPage.FamilyInformation,
+
+    val isFinished: Boolean = false,
+    val showDialog: Boolean = false
 )

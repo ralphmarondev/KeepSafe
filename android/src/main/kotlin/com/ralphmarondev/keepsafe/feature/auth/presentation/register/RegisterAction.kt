@@ -12,4 +12,5 @@ sealed interface RegisterAction {
     data class UsernameChange(val username: String) : RegisterAction
     data class PasswordChange(val password: String) : RegisterAction
     data class ConfirmPasswordChange(val confirmPassword: String) : RegisterAction
+    data object DismissDialog : RegisterAction
 }
