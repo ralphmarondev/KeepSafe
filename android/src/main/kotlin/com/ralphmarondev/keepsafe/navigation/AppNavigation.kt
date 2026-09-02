@@ -24,7 +24,7 @@ fun AppNavigation(
         startDestination = startDestination
     ) {
         navigation<Route.Auth>(
-            startDestination = Route.Register
+            startDestination = Route.Login
         ) {
             composable<Route.Login> {
                 LoginScreenRoot(
