@@ -31,6 +31,10 @@ class AuthRepositoryImpl(
         return result
     }
 
+    override suspend fun logout(): Result<Unit> {
+        return authService.logout()
+    }
+
     override suspend fun register(
         family: Family,
         member: Member,

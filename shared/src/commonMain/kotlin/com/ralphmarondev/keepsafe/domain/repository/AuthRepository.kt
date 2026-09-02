@@ -10,4 +10,5 @@ interface AuthRepository {
     suspend fun register(family: Family, member: Member, account: Account): Result<Family>
     suspend fun isUsernameTaken(username: String): Boolean
     suspend fun generateFamilyCode(): String
+    suspend fun logout(): Result<Unit>
 }

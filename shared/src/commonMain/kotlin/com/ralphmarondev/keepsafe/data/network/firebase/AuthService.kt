@@ -172,4 +172,17 @@ class AuthService(
             throw e
         }
     }
+
+    suspend fun logout(): Result<Unit> {
+        return try {
+            auth.signOut()
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.Error(
+                message = e.message ?: "Logout failed.",
+                throwable = e
+            )
+        }
+    }
 }
