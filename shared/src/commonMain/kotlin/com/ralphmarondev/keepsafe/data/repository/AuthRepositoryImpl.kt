@@ -32,7 +32,12 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun logout(): Result<Unit> {
-        return authService.logout()
+        val result = authService.logout()
+
+        if (result.isSuccess) {
+            preferences.logout()
+        }
+        return result
     }
 
     override suspend fun register(

@@ -52,4 +52,12 @@ class AppPreferences(
     }
 
     val familyName: Flow<String?> = dataStore.data.map { it[FAMILY_NAME] }
+
+    suspend fun logout() {
+        dataStore.edit {
+            it.remove(USERNAME)
+            it.remove(FAMILY_CODE)
+            it.remove(FAMILY_NAME)
+        }
+    }
 }
