@@ -1,5 +1,6 @@
 package com.ralphmarondev.keepsafe.feature.auth.presentation.register
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -19,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -27,14 +30,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import com.ralphmarondev.keepsafe.R
 import com.ralphmarondev.keepsafe.core.presentation.component.KButton
+import com.ralphmarondev.keepsafe.core.presentation.component.KLottie
 import com.ralphmarondev.keepsafe.core.presentation.component.KOutlinedButton
 import com.ralphmarondev.keepsafe.core.presentation.component.KPasswordField
 import com.ralphmarondev.keepsafe.core.presentation.component.KTextField
@@ -125,34 +132,79 @@ private fun RegisterScreen(
         }
 
         if (state.showDialog) {
-            AlertDialog(
-                onDismissRequest = { action(RegisterAction.DismissDialog) },
-                properties = DialogProperties(
-                    dismissOnClickOutside = false,
-                    dismissOnBackPress = false
-                ),
-                title = {
-                    Text(text = "Success")
-                },
-                text = {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    ) {
-                        Text(text = "Registration successful... [show lottie]")
-                    }
-                },
-                confirmButton = {
-                    TextButton(
-                        onClick = { action(RegisterAction.DismissDialog) }
-                    ) {
-                        Text(text = "Proceed")
-                    }
-                }
+            SuccessfulDialog(
+                familyCode = state.familyCode,
+                onDismissRequest = { action(RegisterAction.DismissDialog) }
             )
         }
     }
+}
+
+@Composable
+private fun SuccessfulDialog(
+    familyCode: String,
+    onDismissRequest: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(
+            dismissOnClickOutside = false,
+            dismissOnBackPress = false
+        ),
+        icon = {
+            KLottie(
+                animatedResId = R.raw.success,
+                size = 120.dp
+            )
+        },
+        title = {
+            Text(
+                text = "Family Created!",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = "Family Code",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.primaryContainer
+                ) {
+                    Text(
+                        text = familyCode,
+                        modifier = Modifier.padding(
+                            horizontal = 20.dp,
+                            vertical = 14.dp
+                        ),
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(
+                    text = "Continue",
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
+    )
 }
 
 @Composable

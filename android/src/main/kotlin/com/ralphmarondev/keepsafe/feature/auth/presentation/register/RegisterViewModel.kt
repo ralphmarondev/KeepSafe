@@ -265,7 +265,13 @@ class RegisterViewModel(
 
                     when (result) {
                         is Result.Success -> {
-                            _state.update { it.copy(isRegistered = true, showDialog = true) }
+                            _state.update {
+                                it.copy(
+                                    isRegistered = true,
+                                    familyCode = result.data.code,
+                                    showDialog = true
+                                )
+                            }
                         }
 
                         is Result.Error -> {
