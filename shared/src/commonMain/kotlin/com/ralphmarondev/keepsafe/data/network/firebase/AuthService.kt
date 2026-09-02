@@ -99,9 +99,9 @@ class AuthService(
                     .collection("families")
                     .document(family.code)
 
-                val memberReference = firestore
+                val memberReference = familyReference
                     .collection("members")
-                    .document(firebaseUid)
+                    .document(formattedEmail)
 
                 val counterReference = firestore
                     .collection("familyCodes")
