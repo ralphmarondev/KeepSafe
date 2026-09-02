@@ -41,6 +41,8 @@ kotlin {
 
             api(libs.datastore)
             api(libs.datastore.preferences)
+
+            api(libs.bundles.coil)
         }
         androidMain.dependencies {
             api(project.dependencies.platform(libs.firebase.bom))
