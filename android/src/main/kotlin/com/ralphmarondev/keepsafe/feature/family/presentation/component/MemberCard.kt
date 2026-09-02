@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.ralphmarondev.keepsafe.R
@@ -40,14 +41,15 @@ fun MemberCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             val imageModel = when {
-                member.imagePath.isBlank() -> R.drawable.keepsafe
-                else -> when (member.relationToHead) {
+                member.imagePath.isBlank() -> when (member.relationToHead) {
                     RelationshipToHead.SELF -> R.drawable.father
                     RelationshipToHead.SPOUSE -> R.drawable.mother
                     RelationshipToHead.FIRST_CHILD -> R.drawable.first_child
                     RelationshipToHead.SECOND_CHILD -> R.drawable.second_child
                     RelationshipToHead.THIRD_CHILD -> R.drawable.third_child
                 }
+
+                else -> member.imagePath
             }
 
             Image(
@@ -63,7 +65,9 @@ fun MemberCard(
                 text = "${member.firstName} ${member.lastName}",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Normal,
-                color = MaterialTheme.colorScheme.secondary
+                color = MaterialTheme.colorScheme.secondary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
