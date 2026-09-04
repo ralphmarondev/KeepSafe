@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
@@ -103,14 +104,18 @@ private fun LoginScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            contentPadding = PaddingValues(16.dp)
+            contentPadding = PaddingValues(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
                 Text(
                     text = "Welcome back! Please enter your family code and account details to continue.",
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Normal
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier
+                        .widthIn(max = 500.dp)
+                        .fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -199,7 +204,9 @@ private fun LoginScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 KButton(
                     onClick = { action(LoginAction.Login) },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .widthIn(max = 500.dp)
+                        .fillMaxWidth()
                 ) {
                     Text(
                         text = "Login",
@@ -210,7 +217,9 @@ private fun LoginScreen(
                 Spacer(modifier = Modifier.height(12.dp))
                 KOutlinedButton(
                     onClick = { action(LoginAction.Register) },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .widthIn(max = 500.dp)
+                        .fillMaxWidth()
                 ) {
                     Text(
                         text = "Register an Account",

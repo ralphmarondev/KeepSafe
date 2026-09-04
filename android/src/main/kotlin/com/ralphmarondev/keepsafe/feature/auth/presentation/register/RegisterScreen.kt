@@ -117,7 +117,8 @@ private fun RegisterScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            contentPadding = PaddingValues(16.dp)
+            contentPadding = PaddingValues(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
                 when (state.page) {
@@ -222,7 +223,11 @@ private fun FamilyInformation(
 ) {
     val focusManager = LocalFocusManager.current
 
-    Column {
+    Column(
+        modifier = Modifier
+            .widthIn(max = 500.dp)
+            .fillMaxWidth()
+    ) {
         Text(
             text = "Enter your family details to set up your account workspace.",
             style = MaterialTheme.typography.bodyLarge,
@@ -235,9 +240,7 @@ private fun FamilyInformation(
         KTextField(
             value = state.familyName,
             onValueChange = { action(RegisterAction.FamilyNameChange(it)) },
-            modifier = Modifier
-                .widthIn(max = 500.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             label = "Family Name",
             placeholder = "Number One",
             singleLine = true,
@@ -293,7 +296,11 @@ private fun MemberInformation(
 ) {
     val focusManager = LocalFocusManager.current
 
-    Column {
+    Column(
+        modifier = Modifier
+            .widthIn(max = 500.dp)
+            .fillMaxWidth()
+    ) {
         Text(
             text = "Please enter the personal details for the primary family account owner.",
             style = MaterialTheme.typography.bodyLarge,
@@ -306,9 +313,7 @@ private fun MemberInformation(
         KTextField(
             value = state.firstName,
             onValueChange = { action(RegisterAction.FirstNameChange(it)) },
-            modifier = Modifier
-                .widthIn(max = 500.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             label = "First Name",
             placeholder = "Enter first name",
             singleLine = true,
@@ -332,9 +337,7 @@ private fun MemberInformation(
         KTextField(
             value = state.middleName,
             onValueChange = { action(RegisterAction.MiddleNameChange(it)) },
-            modifier = Modifier
-                .widthIn(max = 500.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             label = "Middle Name",
             placeholder = "Enter middle name",
             singleLine = true,
@@ -358,9 +361,7 @@ private fun MemberInformation(
         KTextField(
             value = state.lastName,
             onValueChange = { action(RegisterAction.LastNameChange(it)) },
-            modifier = Modifier
-                .widthIn(max = 500.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             label = "Last Name",
             placeholder = "Enter last name",
             singleLine = true,
@@ -384,9 +385,7 @@ private fun MemberInformation(
         KTextField(
             value = state.maidenName,
             onValueChange = { action(RegisterAction.MaidenNameChange(it)) },
-            modifier = Modifier
-                .widthIn(max = 500.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             label = "Maiden Name",
             placeholder = "Enter maiden name",
             singleLine = true,
@@ -442,7 +441,11 @@ fun AccountInformation(
 ) {
     val focusManager = LocalFocusManager.current
 
-    Column {
+    Column(
+        modifier = Modifier
+            .widthIn(max = 500.dp)
+            .fillMaxWidth()
+    ) {
         Text(
             text = "Set up your primary login credentials below.",
             style = MaterialTheme.typography.bodyLarge,
@@ -455,9 +458,7 @@ fun AccountInformation(
         KTextField(
             value = state.username,
             onValueChange = { action(RegisterAction.UsernameChange(it)) },
-            modifier = Modifier
-                .widthIn(max = 500.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             label = "Username",
             placeholder = "Enter username",
             singleLine = true,
@@ -481,9 +482,7 @@ fun AccountInformation(
         KPasswordField(
             value = state.password,
             onValueChange = { action(RegisterAction.PasswordChange(it)) },
-            modifier = Modifier
-                .widthIn(max = 500.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             label = "Password",
             placeholder = "Enter password",
             singleLine = true,
@@ -507,10 +506,7 @@ fun AccountInformation(
         KPasswordField(
             value = state.confirmPassword,
             onValueChange = { action(RegisterAction.ConfirmPasswordChange(it)) },
-            modifier = Modifier
-                .widthIn(max = 500.dp)
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
+            modifier = Modifier.fillMaxWidth(),
             label = "Confirm password",
             placeholder = "Re-enter password",
             singleLine = true,
