@@ -25,6 +25,7 @@ class AuthRepositoryImpl(
 
         if (result.isSuccess) {
             val member = (result as Result.Success).data
+            preferences.setUsername(username)
             preferences.setFamilyCode(familyCode)
             preferences.setFamilyName(member.lastName)
         }
@@ -53,6 +54,7 @@ class AuthRepositoryImpl(
 
         if (result.isSuccess) {
             val familyResult = (result as Result.Success).data
+            preferences.setUsername(account.username)
             preferences.setFamilyCode(familyResult.code)
             preferences.setFamilyName(familyResult.name)
         }
