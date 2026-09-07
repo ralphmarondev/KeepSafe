@@ -3,6 +3,7 @@ package com.ralphmarondev.keepsafe.feature.auth.presentation.register
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ralphmarondev.keepsafe.domain.enums.RelationshipToHead
 import com.ralphmarondev.keepsafe.domain.model.Account
 import com.ralphmarondev.keepsafe.domain.model.Family
 import com.ralphmarondev.keepsafe.domain.model.Member
@@ -31,6 +32,9 @@ class RegisterViewModel(
             is RegisterAction.MiddleNameChange -> middleNameChange(action.middleName)
             is RegisterAction.LastNameChange -> lastNameChange(action.lastName)
             is RegisterAction.MaidenNameChange -> maidenNameChange(action.maidenName)
+            is RegisterAction.BirthdayChange -> birthdayChange(action.birthday)
+            is RegisterAction.ContactNumberChange -> contactNumberChange(action.contactNumber)
+            is RegisterAction.RelationToHeadChange -> relationToHead(action.relationToHead)
             is RegisterAction.UsernameChange -> usernameChange(action.username)
             is RegisterAction.PasswordChange -> passwordChange(action.password)
             is RegisterAction.ConfirmPasswordChange -> confirmPasswordChange(action.confirmPassword)
@@ -65,6 +69,18 @@ class RegisterViewModel(
 
     private fun maidenNameChange(maidenName: String) {
         _state.update { it.copy(maidenName = maidenName) }
+    }
+
+    private fun birthdayChange(birthday: String) {
+        _state.update { it.copy(birthday = birthday) }
+    }
+
+    private fun contactNumberChange(contactNumber: String) {
+        _state.update { it.copy(contactNumber = contactNumber) }
+    }
+
+    private fun relationToHead(relationToHead: RelationshipToHead) {
+        _state.update { it.copy(relationToHead = relationToHead) }
     }
 
     private fun usernameChange(username: String) {
@@ -251,7 +267,10 @@ class RegisterViewModel(
                         firstName = _state.value.firstName.trim(),
                         lastName = _state.value.lastName.trim(),
                         middleName = _state.value.middleName.trim(),
-                        maidenName = _state.value.maidenName.trim()
+                        maidenName = _state.value.maidenName.trim(),
+                        birthday = _state.value.birthday.trim(),
+                        contactNumber = _state.value.contactNumber.trim(),
+                        relationToHead = _state.value.relationToHead
                     )
                     val account = Account(
                         username = _state.value.username.trim(),

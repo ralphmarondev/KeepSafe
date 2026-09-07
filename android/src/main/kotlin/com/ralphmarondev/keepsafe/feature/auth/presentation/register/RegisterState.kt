@@ -1,5 +1,7 @@
 package com.ralphmarondev.keepsafe.feature.auth.presentation.register
 
+import com.ralphmarondev.keepsafe.domain.enums.RelationshipToHead
+
 enum class RegistrationPage {
     FamilyInformation,
     MemberInformation,
@@ -31,6 +33,18 @@ data class RegisterState(
     val maidenName: String = "",
     val maidenNameError: Boolean = false,
     val maidenNameErrorMessage: String? = null,
+
+    val birthday: String = "",
+    val birthdayError: Boolean = false,
+    val birthdayErrorMessage: String? = null,
+
+    val contactNumber: String = "",
+    val contactNumberError: Boolean = false,
+    val contactNumberErrorMessage: String? = null,
+
+    val relationToHead: RelationshipToHead = RelationshipToHead.SELF,
+    val relationToHeadError: Boolean = false,
+    val relationToHeadErrorMessage: String? = null,
     // account
     val username: String = "",
     val usernameError: Boolean = false,

@@ -17,9 +17,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,21 +35,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.ralphmarondev.keepsafe.R
 import com.ralphmarondev.keepsafe.core.presentation.component.KButton
+import com.ralphmarondev.keepsafe.core.presentation.component.KDatePicker
 import com.ralphmarondev.keepsafe.core.presentation.component.KLottie
 import com.ralphmarondev.keepsafe.core.presentation.component.KOutlinedButton
 import com.ralphmarondev.keepsafe.core.presentation.component.KPasswordField
 import com.ralphmarondev.keepsafe.core.presentation.component.KTextField
+import com.ralphmarondev.keepsafe.domain.enums.RelationshipToHead
 import com.ralphmarondev.keepsafe.presentation.theme.LocalThemeState
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -289,6 +300,7 @@ private fun FamilyInformation(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MemberInformation(
     state: RegisterState,
@@ -408,6 +420,83 @@ private fun MemberInformation(
                 }
             }
         )
+
+        KDatePicker(
+            value = state.birthday,
+            onDateSelected = { action(RegisterAction.BirthdayChange(it)) },
+            modifier = Modifier.fillMaxWidth(),
+            label = "Birthday",
+            placeholder = "Select birthday",
+            isError = state.birthdayError,
+            supportingText = {
+                state.birthdayErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        )
+
+        KTextField(
+            value = state.contactNumber,
+            onValueChange = { action(RegisterAction.ContactNumberChange(it)) },
+            modifier = Modifier.fillMaxWidth(),
+            label = "Contact Number",
+            placeholder = "Enter contact number",
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Phone,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                    action(RegisterAction.ChangePage(RegistrationPage.AccountInformation))
+                }
+            ),
+            isError = state.contactNumberError,
+            supportingText = {
+                state.contactNumberErrorMessage?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        )
+
+        var dropdownExpanded by remember { mutableStateOf(false) }
+        ExposedDropdownMenuBox(
+            expanded = dropdownExpanded,
+            onExpandedChange = { dropdownExpanded = !dropdownExpanded }
+        ) {
+            KTextField(
+                value = state.relationToHead.name,
+                onValueChange = {},
+                readOnly = true,
+                label = "Relationship to Head",
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = dropdownExpanded) },
+                modifier = Modifier
+                    .menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                    .fillMaxWidth()
+            )
+
+            ExposedDropdownMenu(
+                expanded = dropdownExpanded,
+                onDismissRequest = { dropdownExpanded = false }
+            ) {
+                RelationshipToHead.entries.forEach { relation ->
+                    DropdownMenuItem(
+                        text = { Text(text = relation.name) },
+                        onClick = {
+                            action(RegisterAction.RelationToHeadChange(relation))
+                            dropdownExpanded = false
+                        }
+                    )
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
         KButton(
