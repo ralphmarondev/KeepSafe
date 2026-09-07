@@ -1,8 +1,11 @@
 package com.ralphmarondev.keepsafe
 
 import android.app.Application
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 import com.google.firebase.FirebasePlatform
 import com.ralphmarondev.keepsafe.data.local.preference.AppPreferences
 import com.ralphmarondev.keepsafe.di.appModule
@@ -16,6 +19,7 @@ import dev.gitlive.firebase.initialize
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 import org.koin.core.context.startKoin
+import java.awt.Dimension
 
 @Suppress("DEPRECATION")
 fun main() {
@@ -44,10 +48,17 @@ fun main() {
             modules(appModule)
         }
 
+        val windowState = rememberWindowState(
+            size = DpSize(800.dp, 600.dp)
+        )
+
         Window(
             onCloseRequest = ::exitApplication,
             title = "Keepsafe",
+            state = windowState
         ) {
+            window.minimumSize = Dimension(800, 600)
+
             KoinContext {
                 val preferences: AppPreferences = koinInject()
 
