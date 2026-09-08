@@ -7,6 +7,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.google.firebase.FirebasePlatform
+import com.ralphmarondev.keepsafe.core.common.NotificationHelper
 import com.ralphmarondev.keepsafe.data.local.preference.AppPreferences
 import com.ralphmarondev.keepsafe.di.appModule
 import com.ralphmarondev.keepsafe.navigation.AppNavigation
@@ -23,6 +24,8 @@ import java.awt.Dimension
 
 @Suppress("DEPRECATION")
 fun main() {
+    NotificationHelper.initialize()
+
     application {
         FirebasePlatform.initializeFirebasePlatform(object : FirebasePlatform() {
             private val storage = mutableMapOf<String, String>()

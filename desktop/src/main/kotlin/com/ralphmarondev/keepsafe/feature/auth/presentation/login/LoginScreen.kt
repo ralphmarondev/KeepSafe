@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ralphmarondev.keepsafe.core.common.NotificationHelper
 
 @Composable
 fun LoginScreenRoot(
@@ -31,7 +32,15 @@ fun LoginScreenRoot(
             modifier = Modifier.padding(16.dp)
         )
 
-        Button(onClick = onRegister) {
+        Button(
+            onClick = {
+                NotificationHelper.show(
+                    title = "Keepsafe",
+                    message = "This is a sample desktop notification!"
+                )
+                onRegister()
+            }
+        ) {
             Text(text = "Register")
         }
     }
